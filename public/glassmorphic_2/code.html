@@ -178,25 +178,22 @@
             width: 72px; height: 32px; border-radius: 16px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); overflow: hidden;
             z-index: 1;
-            'TikTok': 'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg'
-        };
-
-        async function generateTasks() {
-            let tasks = [];
-            let vipInfo = { level: 0 };
-            
-            try {
-                let token = localStorage.getItem('userToken');
-                if (!token && window.parent) {
-                    try { token = window.parent.localStorage.getItem('userToken'); } catch(e) {}
-                }
-                
-                if (token) {
-                    // Fetch Tasks manually
-                    const resTasks = await fetch('/api/tasks?t=' + new Date().getTime(), {
-                        headers: { 'Authorization': 'Bearer ' + token }
-                    });
-                    if (resTasks.ok) {
+        }
+        .badge-42-glass {
+            position: absolute;
+            inset: 1.5px;
+            border-radius: 14.5px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+        .badge-42-border-wrap {
+            position: absolute;
+            inset: 0;
             border-radius: 16px;
             padding: 1.5px; /* Border thickness */
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -218,7 +215,7 @@
         .badge-42-glass .vip-txt { font-weight: 900; font-size: 11px; color: #ea580c; letter-spacing: 1px; line-height: 1; margin-bottom: 1px; margin-top: 2px; position: relative;}
         .badge-42-glass .b42-star { font-size: 10px; color: #fbbf24; font-variation-settings: 'FILL' 1; filter: drop-shadow(0 1px 2px rgba(234, 88, 12, 0.5)); margin: 0 -1px; }
         .star-row { display: flex; align-items: center; justify-content: center; position: relative; }
-        @keyframes spin-border { 100% { transform: rotate(360deg); } } } }
+        @keyframes spin-border { 100% { transform: rotate(360deg); } }
       </style>
 
 </head>
@@ -259,10 +256,18 @@
             'TikTok': 'https://www.vectorlogo.zone/logos/tiktok/tiktok-icon.svg'
         };
 
-        async function generateTasks() {
+        let isGeneratingTasks = false;
+        let lastTasksLoadedTime = 0;
+
+        async function generateTasks(force = false) {
+            const now = Date.now();
+            if (!force && (now - lastTasksLoadedTime < 1500)) return;
+            if (isGeneratingTasks) return;
+            isGeneratingTasks = true;
+
             let tasks = [];
             let vipInfo = { level: 0, userName: 'User Name', userPic: '' };
-window.vipLevelGlobal = 0;
+            window.vipLevelGlobal = 0;
             
             try {
                 let token = localStorage.getItem('userToken');
@@ -423,8 +428,8 @@ window.vipLevelGlobal = 0;
                                     <span class="material-symbols-outlined text-amber-300 text-[22px]">lock</span>
                                 </div>
                                 <div>
-                                    <h4 class="text-white font-black text-[13px] leading-tight">à¦«à§à¦°à¦¿ à¦ªà§à¦²à§à¦¯à¦¾à¦¨à§‡à¦° à¦®à§‡à§Ÿà¦¾à¦¦ à¦¶à§‡à¦· (à§¨ à¦¦à¦¿à¦¨ à¦¸à¦®à§à¦ªà¦¨à§à¦¨)</h4>
-                                    <p class="text-white/80 text-[11px] font-semibold mt-0.5">à¦Ÿà¦¾à¦¸à§à¦•à§‡à¦° à¦²à¦• à¦–à§à¦²à§‡ à¦†à¦¨à¦²à¦¿à¦®à¦¿à¦Ÿà§‡à¦¡ à¦†à§Ÿ à¦•à¦°à¦¤à§‡ VIP à¦†à¦ªà¦—à§à¦°à§‡à¦¡ à¦•à¦°à§à¦¨à¥¤</p>
+                                    <h4 class="text-white font-black text-[13px] leading-tight">ফ্রি প্ল্যানের মেয়াদ শেষ (২ দিন সম্পন্ন)</h4>
+                                    <p class="text-white/80 text-[11px] font-semibold mt-0.5">টাস্কের লক খুলে আনলিমিটেড আয় করতে VIP আপগ্রেড করুন।</p>
                                 </div>
                             </div>
                             <button onclick="goToVip()" class="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-black text-[11px] px-3.5 py-2 rounded-xl shadow-md shrink-0 active:scale-95 transition-transform flex items-center gap-1">
@@ -440,8 +445,8 @@ window.vipLevelGlobal = 0;
                                     <span class="material-symbols-outlined text-blue-300 text-[20px]">schedule</span>
                                 </div>
                                 <div>
-                                    <h4 class="text-white font-black text-[12px] leading-tight">à¦†à¦œà¦•à§‡à¦° à¦•à¦¾à¦œ à¦¸à¦®à§à¦ªà¦¨à§à¦¨!</h4>
-                                    <p class="text-white/70 text-[10px] font-semibold mt-0.5">à¦°à¦¾à¦¤ à§§à§¨:à§¦à§¦ à¦Ÿà¦¾à§Ÿ à¦¨à¦¤à§à¦¨ à¦•à¦¾à¦œ à¦†à¦¸à¦¬à§‡</p>
+                                    <h4 class="text-white font-black text-[12px] leading-tight">আজকের কাজ সম্পন্ন!</h4>
+                                    <p class="text-white/70 text-[10px] font-semibold mt-0.5">রাত ১২:০০ টায় নতুন কাজ আসবে</p>
                                 </div>
                             </div>
                             <div class="text-right">
@@ -497,22 +502,25 @@ window.vipLevelGlobal = 0;
                 }
                 
 
-document.getElementById('tasks-container').innerHTML = html;
+                document.getElementById('tasks-container').innerHTML = html;
                 if (typeof startMidnightCountdown === 'function') startMidnightCountdown();
 
     
-    // Update VIP header
-    const bnNums = ['à§¦','à§§','à§¨','à§©','à§ª','à§«','à§¬','à§­','à§®','à§¯'];
-    const toBnNum = (n) => String(n).split('').map(d => bnNums[d] || d).join('');
-    
-    document.getElementById('vip-level-display').innerText = vipInfo.level === 0 ? 'FREE PROFILE' : 'VIP LEVEL ' + vipInfo.level;
-    
-    // Using 0 as completed tasks for now
-        document.getElementById('task-progress-text').innerText = `${window.completedTasks}/${limit}`;
-    
-    let progressPercent = limit > 0 ? (window.completedTasks / limit) * 100 : 0;
-    document.getElementById('task-progress-bar').style.width = progressPercent + '%';
-}
+                // Update VIP header
+                const bnNums = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+                const toBnNum = (n) => String(n).split('').map(d => bnNums[d] || d).join('');
+                
+                document.getElementById('vip-level-display').innerText = vipInfo.level === 0 ? 'FREE PROFILE' : 'VIP LEVEL ' + vipInfo.level;
+                
+                document.getElementById('task-progress-text').innerText = `${window.completedTasks}/${limit}`;
+                
+                let progressPercent = limit > 0 ? (window.completedTasks / limit) * 100 : 0;
+                document.getElementById('task-progress-bar').style.width = progressPercent + '%';
+                lastTasksLoadedTime = Date.now();
+            } finally {
+                isGeneratingTasks = false;
+            }
+        }
 
 
     // Set username dynamically for the new VIP card
@@ -636,12 +644,10 @@ function startMidnightCountdown() {
         const nextMidnight = new Date(bdNow);
         nextMidnight.setHours(24, 0, 0, 0); // Next 12:00:00 AM
 
-        nextMidnight.setHours(24, 0, 0, 0); // Next 12:00:00 AM
-
         const diffMs = nextMidnight - bdNow;
         if (diffMs <= 0) {
-            timerEl.innerText = "à¦¨à¦¤à§à¦¨ à¦•à¦¾à¦œ à¦à¦¸à§‡à¦›à§‡! à¦²à§‹à¦¡ à¦¹à¦šà§à¦›à§‡...";
-            setTimeout(() => { if (typeof generateTasks === 'function') generateTasks(); else window.location.reload(); }, 1500);
+            timerEl.innerText = "নতুন কাজ এসেছে! লোড হচ্ছে...";
+            setTimeout(() => { if (typeof generateTasks === "function") generateTasks(true); else window.location.reload(); }, 1500);
             return;
         }
 
@@ -668,7 +674,7 @@ function goToVip() {
 
 async function startMultiTask(taskId, reward) {
     if (window.vipLevelGlobal === 0 && window.isFreeLocked) {
-        showTaskNotice('âš ï¸ à¦†à¦ªà¦¨à¦¾à¦° à¦«à§à¦°à¦¿ à¦ªà§à¦²à§à¦¯à¦¾à¦¨à§‡à¦° à§¨ à¦¦à¦¿à¦¨à§‡à¦° à¦•à¦¾à¦œ à¦¸à¦®à§à¦ªà¦¨à§à¦¨ à¦¹à§Ÿà§‡à¦›à§‡! à¦Ÿà¦¾à¦¸à§à¦• à¦†à¦¨à¦²à¦• à¦•à¦°à¦¤à§‡ VIP à¦ªà§à¦²à§à¦¯à¦¾à¦¨à§‡ à¦†à¦ªà¦—à§à¦°à§‡à¦¡ à¦•à¦°à§à¦¨à¥¤');
+        showTaskNotice('⚠️ আপনার ফ্রি প্ল্যানের ২ দিনের কাজ সম্পন্ন হয়েছে! টাস্ক আনলক করতে VIP প্ল্যানে আপগ্রেড করুন।');
         setTimeout(() => goToVip(), 1000);
         return;
     }
@@ -710,7 +716,7 @@ async function startMultiTask(taskId, reward) {
             let btn = document.getElementById('btn-task-' + taskId);
             if (btn) {
                 btn.disabled = true;
-                btn.innerHTML = '<span class="inline-block animate-spin mr-1">â³</span> à¦…à¦ªà§‡à¦•à§à¦·à¦¾...';
+                btn.innerHTML = '<span class="inline-block animate-spin mr-1">⏳</span> অপেক্ষা...';
                 btn.classList.add('opacity-75');
             }
 
@@ -804,9 +810,7 @@ window.addEventListener('message', (event) => {
         if (typeof generateTasks === 'function') generateTasks();
     }
 });
-window.addEventListener('focus', () => {
-    if (typeof generateTasks === 'function') generateTasks();
-});
+// Note: focus listener removed to prevent duplicate tasks reloading
 </script>
 </body>
 </html>
