@@ -265,11 +265,12 @@
             if (isGeneratingTasks) return;
             isGeneratingTasks = true;
 
-            let tasks = [];
-            let vipInfo = { level: 0, userName: 'User Name', userPic: '' };
-            window.vipLevelGlobal = 0;
-            
             try {
+                let tasks = [];
+                let vipInfo = { level: 0, userName: 'User Name', userPic: '' };
+                window.vipLevelGlobal = 0;
+                
+                try {
                 let token = localStorage.getItem('userToken');
                 if (!token && window.parent) {
                     try { token = window.parent.localStorage.getItem('userToken'); } catch(e) {}
