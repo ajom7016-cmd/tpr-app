@@ -1,0 +1,667 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bank Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@400,1,0,24" rel="stylesheet" />
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        body { font-family: 'Outfit', sans-serif; color: #1e293b; background-color: transparent; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        .header-btn { width: 48px; height: 48px; border-radius: 18px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 8px 20px rgba(0,0,0,0.04); transition: transform 0.2s; }
+        .header-btn:active { transform: scale(0.9); }
+        .bank-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 4px 15px rgba(0,0,0,0.02); border-radius: 14px; padding: 16px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden; }
+        .btn-add { width: 100%; padding: 14px; border-radius: 14px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white; font-size: 14px; font-weight: 700; border: none; box-shadow: 0 10px 25px rgba(234,88,12,0.3); display: flex; align-items: center; justify-content: center; gap: 8px; transition: transform 0.2s; }
+        .btn-add:active { transform: scale(0.98); }
+        
+        /* Modals */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); z-index: 50; display: none;  transition: opacity 0.3s; }
+        .bottom-sheet { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-radius: 30px 30px 0 0; z-index: 51; padding: 24px; max-height: 90vh; overflow-y: auto; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); display: none; }
+        .input-box { width: 100%; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px; font-size: 14px; font-weight: 600; outline: none; margin-bottom: 16px; }
+        .input-box:focus { border-color: #3b82f6; background: white; box-shadow: 0 0 0 4px rgba(59,130,246,0.1); }
+        select.input-box { appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2364748b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 16px top 50%; background-size: 12px auto; }
+        
+        .crypto-input-wrapper { position: relative; margin-bottom: 16px; }
+        .crypto-input { width: 100%; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px 50px 16px 16px; font-size: 14px; font-weight: 600; outline: none; font-family: monospace; }
+        .crypto-input:focus { border-color: #f59e0b; background: white; box-shadow: 0 0 0 4px rgba(245,158,11,0.1); }
+        .qr-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; border-radius: 7px; background: #e2e8f0; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #475569; transition: all 0.2s; }
+        .qr-btn:active { transform: translateY(-50%) scale(0.9); background: #cbd5e1; }
+
+        .pin-box { width: 45px; height: 55px; font-size: 24px; font-weight: 800; text-align: center; border: 2px solid #e2e8f0; border-radius: 12px; outline: none; background: #f8fafc; transition: all 0.2s; }
+        .pin-box:focus { border-color: #f97316; background: white; box-shadow: 0 4px 12px rgba(249,115,22,0.15); transform: translateY(-2px); }
+
+        .logo-box { width: 46px; height: 46px; border-radius: 14px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .logo-bkash { background: #E2136E; color: white; }
+        .logo-nagad { background: #ED1C24; color: white; }
+        .logo-binance { background: #FCD535; color: #1e293b; }
+        
+        #reader { width: 100%; border-radius: 14px; overflow: hidden; display: none; margin-bottom: 16px; }
+        #reader video { object-fit: cover; border-radius: 14px; }
+        
+        .error-shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
+    
+    
+
+
+    /* === ULTRA-FAST 0.15s NO-LAG GPU NATIVE ENTRANCE === */
+    @keyframes fastNativeEntrance {
+        0% { opacity: 0; transform: translateY(6px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    body {
+        animation: fastNativeEntrance 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        will-change: opacity, transform;
+    }
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="custom-global-scrollbar">
+  /* Smooth, native-feeling scrollbar */
+  ::-webkit-scrollbar { width: 7px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 7px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.4); }
+
+  /* Perfectly aligned scrollbar buttons (Gray Triangles) */
+  ::-webkit-scrollbar-button:single-button {
+    background-color: transparent;
+    display: block;
+    height: 14px;
+    width: 7px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 7px 7px;
+  }
+  
+  /* Top Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:decrement {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDE3IDE5LDE3IDEwLDUnIGZpbGw9JyM2NDZlNzgnLz48L3N2Zz4=");
+  }
+  
+  /* Bottom Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:increment {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDMgMTksMyAxMCwxNScgZmlsbD0nIzY0NmU3OCcvPjwvc3ZnPg==");
+  }
+</style>
+</head>
+<body class="pb-28 pt-2 relative overflow-x-hidden text-slate-800" style="overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch;" style="background: transparent !important; background-color: transparent !important;">
+    <!-- Back Button (Static) -->
+    <div class="mb-4 mt-2 ml-2 flex-none relative z-50">
+        <button class="text-slate-500 hover:text-slate-900 bg-white/70 hover:bg-white/95 backdrop-blur-xl rounded-full shadow-[0_4px_15px_rgba(0,0,0,0.08)] border border-white/80 flex items-center p-2 transition-all duration-300 hover:scale-110 active:scale-95" onclick="window.parent.loadPage('user_profile_premium_glass/code.html', null)">
+            <span class="material-symbols-outlined text-[20px] ml-[-2px]">arrow_back_ios_new</span>
+        </button>
+    </div>
+    
+
+    
+    
+
+    
+        <div class="max-w-[400px] w-full mx-auto relative z-10 flex-1 flex flex-col pt-6">
+        <div class="px-6 pb-4 relative z-10">
+            <div class="flex flex-col items-center justify-center mb-6 w-full">
+        <h1 class="text-[24px] font-black text-slate-800 tracking-tight text-center mb-1">Bank Details</h1>
+        <p class="text-[13px] font-bold text-slate-500 text-center">Add your bKash, Nagad or Bank account</p>
+    </div>
+
+            <div id="bank-list" class="flex-1 overflow-y-auto pr-2 -mr-2">
+                <!-- Rendered via JS -->
+            </div>
+        </div>
+<div class="mt-auto pt-6 shrink-0">
+            <button id="main-add-btn" class="btn-add" onclick="openAddModal()">
+                <span class="material-symbols-outlined">add_circle</span> Add Payment Method
+            </button>
+            <p class="text-center mt-4 text-[11px] font-bold text-slate-400 flex items-center justify-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">lock</span> Encrypted & Secured
+            </p>
+        </div>
+    </div>
+
+    <!-- Add Account Sheet -->
+    <div id="overlay" class="modal-overlay" onclick="closeAll()"></div>
+    <div id="add-sheet" class="bottom-sheet">
+        <h2 class="text-[18px] font-black text-slate-800 mb-6 flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500">account_balance</span> Add New Account</h2>
+        <select id="bank-provider" class="input-box">
+            <option value="" disabled selected>Select Provider / Method</option>
+            <option value="bKash">bKash</option>
+            <option value="Nagad">Nagad</option>
+            <option value="Binance">Binance (Crypto)</option>
+        </select>
+
+        <!-- Standard Mobile Input -->
+        <p id="bank-acc-error" class="text-red-500 text-[12px] font-bold ml-2 mb-3 hidden"></p>
+        <input type="tel" id="bank-acc" class="input-box hidden" placeholder="Enter 11-digit Mobile Number" autocomplete="off" maxlength="11">
+        
+        <!-- Binance Specific Inputs -->
+        <div id="crypto-fields" class="hidden">
+            <select id="crypto-coin" class="input-box">
+                <option value="USDT" selected>USDT (Tether)</option>
+                <option value="BUSD">BUSD</option>
+                <option value="BNB">BNB</option>
+                <option value="BTC">Bitcoin (BTC)</option>
+            </select>
+            
+            <select id="crypto-network" class="input-box">
+                <option value="" disabled selected>Select Network</option>
+                <option value="TRC20">Tron (TRC20)</option>
+                <option value="BEP20">BNB Smart Chain (BEP20)</option>
+                <option value="ERC20">Ethereum (ERC20)</option>
+            </select>
+            
+            <div id="reader"></div>
+
+            <p id="crypto-acc-error" class="text-red-500 text-[12px] font-bold ml-2 mb-3 hidden"></p>
+            <div class="crypto-input-wrapper">
+                <input type="text" id="crypto-acc" class="crypto-input" placeholder="Paste Crypto Address" autocomplete="off">
+                <div class="qr-btn" onclick="startScanner()">
+                    <span class="material-symbols-outlined text-[18px]">qr_code_scanner</span>
+                </div>
+            </div>
+            
+            <div id="crypto-warning" class="bg-amber-50 border border-amber-200 rounded-xl p-3 flex gap-2 mb-4 items-start transition-opacity duration-300">
+                <span class="material-symbols-outlined text-amber-500 text-[18px] shrink-0">warning</span>
+                <p class="text-[11px] font-semibold text-amber-700 leading-tight">Please ensure you select the correct network. Sending to the wrong network will result in permanent loss of funds.</p>
+            </div>
+        </div>
+
+        <button id="next-btn" class="btn-add hidden" onclick="verifyAuth()">Continue</button>
+    </div>
+
+    <!-- Verification Sheet -->
+    <div id="auth-sheet" class="bottom-sheet text-center">
+        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-white shadow-sm">
+            <span class="material-symbols-outlined text-orange-500 text-[32px]">security</span>
+        </div>
+        <h2 id="auth-title" class="text-[20px] font-black text-slate-800 mb-2">Security Verification</h2>
+        <p id="auth-subtitle" class="text-[13px] font-semibold text-slate-500 mb-6 px-4">Enter your code to authorize adding a new payment method.</p>
+        
+        <div id="pin-auth-view" class="hidden">
+            <div class="flex justify-center gap-2 mb-6" id="pin-container">
+                <input type="password" class="pin-box" maxlength="1" pattern="[0-9]*" inputmode="numeric">
+                <input type="password" class="pin-box" maxlength="1" pattern="[0-9]*" inputmode="numeric">
+                <input type="password" class="pin-box" maxlength="1" pattern="[0-9]*" inputmode="numeric">
+                <input type="password" class="pin-box" maxlength="1" pattern="[0-9]*" inputmode="numeric">
+                <input type="password" class="pin-box" maxlength="1" pattern="[0-9]*" inputmode="numeric">
+                <input type="password" class="pin-box" maxlength="1" pattern="[0-9]*" inputmode="numeric">
+            </div>
+        </div>
+
+        <div id="pwd-auth-view" class="hidden mb-6">
+            <input type="password" id="auth-pwd" class="input-box" placeholder="Enter Login Password" autocomplete="off">
+        </div>
+        
+        <p id="final-error" class="text-red-500 text-[12px] font-bold mb-4 hidden"></p>
+        <button id="save-bank-btn" class="btn-add" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);" onclick="submitBank()">Securely Add Account</button>
+    </div>
+
+    <script>
+        let currentProfile = null;
+        let authType = 'pwd'; 
+        let html5QrcodeScanner = null;
+        let savedBanks = [];
+
+        async function loadData() {
+            try {
+                const token = (() => { try { return window.parent.localStorage.getItem('userToken'); } catch(e) { return localStorage.getItem('userToken'); } })();
+                if(!token) return;
+
+                const [profileRes, banksRes] = await Promise.all([
+                    fetch('/api/profile?t=' + new Date().getTime(), { headers: { 'Authorization': `Bearer ${token}` } }),
+                    fetch('/api/banks?t=' + new Date().getTime(), { headers: { 'Authorization': `Bearer ${token}` } })
+                ]);
+
+                if(profileRes.ok) {
+                    currentProfile = await profileRes.json();
+                    authType = currentProfile.has_pin ? 'pin' : 'pwd';
+                }
+                
+                if(banksRes.ok) {
+                    savedBanks = await banksRes.json();
+                } else {
+                    savedBanks = [];
+                }
+                
+                renderBanks(savedBanks);
+            } catch(e) {
+                console.error(e);
+                const list = document.getElementById('bank-list');
+                list.innerHTML = '<div class="text-center text-rose-500 mt-4 text-[12px] font-bold">Failed to load.</div>';
+            }
+        }
+        loadData();
+
+        function renderBanks(banks) {
+            const list = document.getElementById('bank-list');
+            if(banks.length === 0) {
+                list.innerHTML = `
+<div class="flex flex-col items-center justify-center mt-12 mb-8">
+    
+    <div class="w-24 h-24 mb-4 opacity-40 mx-auto">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Wallet Icon -->
+            <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4" />
+            <path d="M3 5v14a2 2 0 0 0 2 2h16v-5" />
+            <path d="M18 12a2 2 0 0 0 0 4h4v-4h-4z" />
+        </svg>
+    </div>
+
+    <h3 class="text-[16px] font-black text-slate-700 tracking-tight mb-1">No Payment Methods</h3>
+    <p class="text-[12px] font-semibold text-slate-400 text-center">Add your first account to get started.</p>
+</div>
+`;
+                return;
+            }
+            
+            list.innerHTML = '';
+            banks.forEach(b => {
+                const isDefault = b.is_default === 1;
+                const acc = b.account_number;
+                let masked = '';
+                
+                const isCrypto = b.provider.includes('Binance');
+                
+                if(isCrypto || acc.length > 15) {
+                    masked = acc.substring(0,4) + ' \u2022\u2022\u2022\u2022 ' + acc.substring(acc.length-4);
+                } else {
+                    masked = acc.substring(0,5) + ' \u2022\u2022\u2022 ' + acc.substring(acc.length-3);
+                }
+                
+                let logoClass = 'bg-slate-200 text-slate-500';
+                let logoHtml = '<span class="material-symbols-outlined text-[28px] font-black">account_balance</span>';
+                
+                if(b.provider === 'bKash') { 
+                    logoClass = 'bg-white'; 
+                    logoHtml = '<img src="../assets/bkash.png" class="w-full h-full object-contain p-[2px] rounded-[14px]">'; 
+                }
+                if(b.provider === 'Nagad') { 
+                    logoClass = 'bg-white'; 
+                    logoHtml = '<img src="../assets/nagad.png" class="w-full h-full object-contain p-[2px] rounded-[14px]">'; 
+                }
+                if(isCrypto) { 
+                    logoClass = 'bg-white'; 
+                    logoHtml = '<img src="../assets/binance.png" class="w-full h-full object-contain p-[2px] rounded-[14px]">'; 
+                }
+
+                const html = `
+                <div class="bank-card">
+                    <div class="flex items-center gap-4">
+                        <div class="${logoClass} logo-box shadow-inner shrink-0">
+                            ${logoHtml}
+                        </div>
+                        <div class="min-w-0">
+                            <h3 class="text-[15px] font-black text-slate-800 tracking-tight flex items-center gap-2 truncate">
+                                ${b.provider}
+                                ${isDefault ? '<span class="bg-emerald-100 text-emerald-600 text-[9px] px-1.5 py-0.5 rounded-sm uppercase tracking-widest font-black shrink-0">Default</span>' : ''}
+                            </h3>
+                            <p class="text-[14px] font-bold text-slate-500 font-mono tracking-tight flex items-center gap-2" id="acc-${b.id}">
+                                ${masked}
+                                <span class="material-symbols-outlined text-[16px] text-slate-300 cursor-pointer hover:text-slate-500" onclick="unmask('${b.id}', '${acc}')">visibility</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>`;
+                list.innerHTML += html;
+            });
+            
+            // Lock Add Button if all 3 methods are added
+            const addBtn = document.getElementById('main-add-btn');
+            if(banks.length >= 3) {
+                addBtn.disabled = true;
+                addBtn.style.background = 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)';
+                addBtn.style.opacity = '0.5';
+                addBtn.style.boxShadow = 'none';
+                addBtn.innerHTML = '<span class="material-symbols-outlined">lock</span> All Methods Added';
+            } else {
+                addBtn.disabled = false;
+                addBtn.style.background = 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)';
+                addBtn.style.opacity = '1';
+                addBtn.style.boxShadow = '0 10px 25px rgba(234,88,12,0.3)';
+                addBtn.innerHTML = '<span class="material-symbols-outlined">add_circle</span> Add Payment Method';
+            }
+        }
+
+        window.unmask = function(id, fullNum) {
+            const el = document.getElementById('acc-' + id);
+            el.innerHTML = fullNum + ' <span class="material-symbols-outlined text-[16px] text-emerald-500 cursor-pointer" onclick="loadData()">visibility_off</span>';
+        };
+
+        function openAddModal() {
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('add-sheet').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('overlay').style.opacity = '1';
+                document.getElementById('add-sheet').style.transform = 'translateY(0)';
+            }, 10);
+            
+            document.getElementById('bank-provider').value = '';
+            document.getElementById('bank-acc').classList.add('hidden');
+            document.getElementById('bank-acc').value = '';
+            document.getElementById('crypto-fields').classList.add('hidden');
+            document.getElementById('crypto-acc').value = '';
+            document.getElementById('crypto-network').value = '';
+            document.getElementById('next-btn').classList.add('hidden');
+            document.getElementById('bank-acc-error').classList.add('hidden');
+            document.getElementById('crypto-acc-error').classList.add('hidden');
+            
+            // Clear auth inputs
+            const pwdBox = document.getElementById('auth-pwd');
+            if(pwdBox) pwdBox.value = '';
+            document.querySelectorAll('.pin-box').forEach(b => b.value = '');
+            
+            // Reset warning box
+            const warningBox = document.getElementById('crypto-warning');
+            if(warningBox) {
+                warningBox.classList.remove('hidden');
+                warningBox.style.opacity = '1';
+            }
+            
+            // Lock already added providers in dropdown
+            const options = document.getElementById('bank-provider').options;
+            for(let i = 1; i < options.length; i++) {
+                const optVal = options[i].value;
+                const alreadyExists = savedBanks.some(b => b.provider.startsWith(optVal));
+                
+                if(alreadyExists) {
+                    options[i].disabled = true;
+                    options[i].innerText = optVal === 'Binance' ? 'Binance (Already Added)' : optVal + ' (Already Added)';
+                } else {
+                    options[i].disabled = false;
+                    options[i].innerText = optVal === 'Binance' ? 'Binance (Crypto)' : optVal;
+                }
+            }
+        }
+
+        function closeAll() {
+            document.getElementById('overlay').style.opacity = '0';
+            document.getElementById('add-sheet').style.transform = 'translateY(100%)';
+            document.getElementById('auth-sheet').style.transform = 'translateY(100%)';
+            
+            // Stop scanner if running
+            if (html5QrcodeScanner) {
+                html5QrcodeScanner.stop().catch(err => console.log(err));
+                document.getElementById('reader').style.display = 'none';
+            }
+
+            // Clear previous auth inputs
+            const pwdBox = document.getElementById('auth-pwd');
+            if(pwdBox) pwdBox.value = '';
+            document.querySelectorAll('.pin-box').forEach(b => b.value = '');
+
+            setTimeout(() => {
+                document.getElementById('overlay').style.display = 'none';
+                document.getElementById('add-sheet').style.display = 'none';
+                document.getElementById('auth-sheet').style.display = 'none';
+            }, 300);
+        }
+
+        document.getElementById('bank-provider').addEventListener('change', function() {
+            const p = this.value;
+            const btn = document.getElementById('next-btn');
+            document.getElementById('bank-acc-error').classList.add('hidden');
+            document.getElementById('crypto-acc-error').classList.add('hidden');
+
+            if(p === 'Binance') {
+                document.getElementById('bank-acc').classList.add('hidden');
+                document.getElementById('crypto-fields').classList.remove('hidden');
+                btn.classList.add('hidden'); 
+            } else {
+                document.getElementById('crypto-fields').classList.add('hidden');
+                document.getElementById('bank-acc').classList.remove('hidden');
+                document.getElementById('bank-acc').focus();
+                btn.classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('crypto-network').addEventListener('change', function() {
+            document.getElementById('next-btn').classList.remove('hidden');
+        });
+
+        // Real Live QR Scanner Functionality
+        function startScanner() {
+            const readerDiv = document.getElementById('reader');
+            if(readerDiv.style.display === 'block') {
+                // If already open, close it
+                if(html5QrcodeScanner) html5QrcodeScanner.stop();
+                readerDiv.style.display = 'none';
+                return;
+            }
+
+            readerDiv.style.display = 'block';
+            html5QrcodeScanner = new Html5Qrcode("reader");
+            
+            const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+            html5QrcodeScanner.start({ facingMode: "environment" }, config, onScanSuccess)
+            .catch(err => {
+                alert("Camera access denied or not available. " + err);
+                readerDiv.style.display = 'none';
+            });
+        }
+
+        function onScanSuccess(decodedText) {
+            let address = decodedText;
+            if(address.includes(':')) address = address.split(':')[1];
+            if(address.includes('?')) address = address.split('?')[0];
+            
+            document.getElementById('crypto-acc').value = address;
+            
+            if(address.startsWith('T') && address.length === 34) {
+                document.getElementById('crypto-network').value = 'TRC20';
+                document.getElementById('next-btn').classList.remove('hidden');
+            } else if (address.startsWith('0x') && address.length === 42) {
+                document.getElementById('crypto-network').value = 'BEP20'; 
+                document.getElementById('next-btn').classList.remove('hidden');
+            }
+
+            html5QrcodeScanner.stop();
+            document.getElementById('reader').style.display = 'none';
+        }
+
+        window.verifyAuth = function() {
+            const p = document.getElementById('bank-provider').value;
+            const isCrypto = p === 'Binance';
+            const err = document.getElementById(isCrypto ? 'crypto-acc-error' : 'bank-acc-error');
+            
+            document.getElementById('bank-acc-error').classList.add('hidden');
+            document.getElementById('crypto-acc-error').classList.add('hidden');
+            
+            // Check for existing provider
+            const alreadyExists = savedBanks.some(b => b.provider.startsWith(p));
+            if(alreadyExists) {
+                err.innerText = "You have already added a " + p + " account. Maximum 1 allowed.";
+                err.classList.remove('hidden'); return;
+            }
+            
+            if(isCrypto) {
+                const network = document.getElementById('crypto-network').value;
+                const addr = document.getElementById('crypto-acc').value.trim();
+                
+                if(!network || !addr) {
+                    err.innerText = "Please select network and enter address.";
+                    err.classList.remove('hidden'); return;
+                }
+                
+                // Advanced Validation
+                if(network === 'TRC20') {
+                    if(!addr.startsWith('T') || addr.length !== 34) {
+                        err.innerText = "Invalid TRC20 Address (Must start with T and be 34 chars).";
+                        err.classList.remove('hidden'); return;
+                    }
+                } else if(network === 'BEP20' || network === 'ERC20') {
+                    if(!addr.startsWith('0x') || addr.length !== 42) {
+                        err.innerText = "Invalid EVM Address (Must start with 0x and be 42 chars).";
+                        err.classList.remove('hidden'); return;
+                    }
+                }
+            } else {
+                const a = document.getElementById('bank-acc').value.trim();
+                if(!a) {
+                    err.innerText = "Please enter an account number.";
+                    err.classList.remove('hidden'); return;
+                }
+                if(a.length !== 11 || isNaN(a)) {
+                    err.innerText = "Invalid BD Mobile Number (11 digits required).";
+                    err.classList.remove('hidden'); return;
+                }
+            }
+
+            // Move to Auth Sheet
+            document.getElementById('add-sheet').style.transform = 'translateY(100%)';
+            setTimeout(() => {
+                document.getElementById('add-sheet').style.display = 'none';
+                document.getElementById('auth-sheet').style.display = 'block';
+                setTimeout(() => document.getElementById('auth-sheet').style.transform = 'translateY(0)', 10);
+                
+                document.getElementById('final-error').classList.add('hidden');
+                if(authType === 'pin') {
+                    document.getElementById('auth-title').innerText = "Enter Withdraw PIN";
+                    document.getElementById('auth-subtitle').innerText = "For security, enter your 6-digit Withdraw PIN to add this account.";
+                    document.getElementById('pin-auth-view').classList.remove('hidden');
+                    document.getElementById('pwd-auth-view').classList.add('hidden');
+                    setTimeout(() => document.querySelectorAll('.pin-box')[0].focus(), 300);
+                } else {
+                    document.getElementById('auth-title').innerText = "Enter Password";
+                    document.getElementById('auth-subtitle').innerText = "You haven't set a Withdraw PIN yet. Enter your Login Password instead.";
+                    document.getElementById('pin-auth-view').classList.add('hidden');
+                    document.getElementById('pwd-auth-view').classList.remove('hidden');
+                    document.getElementById('auth-pwd').value = '';
+                    setTimeout(() => document.getElementById('auth-pwd').focus(), 300);
+                }
+            }, 300);
+        }
+
+        const pins = document.querySelectorAll('.pin-box');
+        pins.forEach((pin, index) => {
+            pin.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < 5) pins[index + 1].focus();
+            });
+            pin.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value === '' && index > 0) pins[index - 1].focus();
+            });
+        });
+
+        window.submitBank = async function() {
+            const btn = document.getElementById('save-bank-btn');
+            const err = document.getElementById('final-error');
+            const p = document.getElementById('bank-provider').value;
+            
+            let finalProvider = p;
+            let finalAcc = '';
+            
+            if(p === 'Binance') {
+                const coin = document.getElementById('crypto-coin').value;
+                const net = document.getElementById('crypto-network').value;
+                finalProvider = 'Binance (' + coin + ' - ' + net + ')';
+                finalAcc = document.getElementById('crypto-acc').value.trim();
+            } else {
+                finalAcc = document.getElementById('bank-acc').value.trim();
+            }
+            
+            let authValue = '';
+            if(authType === 'pin') {
+                pins.forEach(pin => authValue += pin.value);
+                if(authValue.length !== 6) {
+                    showFinalError("Please enter all 6 digits."); return;
+                }
+            } else {
+                authValue = document.getElementById('auth-pwd').value.trim();
+                if(!authValue) {
+                    showFinalError("Please enter your password."); return;
+                }
+            }
+
+            err.classList.add('hidden');
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin align-middle">progress_activity</span>';
+            
+            try {
+                const token = (() => { try { return window.parent.localStorage.getItem('userToken'); } catch(e) { return localStorage.getItem('userToken'); } })();
+                const response = await fetch('/api/banks', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` 
+                    },
+                    body: JSON.stringify({
+                        provider: finalProvider,
+                        account_number: finalAcc,
+                        auth_value: authValue
+                    })
+                });
+                
+                const res = await response.json();
+                
+                if(res.success) {
+                    btn.innerHTML = '<span class="material-symbols-outlined mr-2">check_circle</span> Verified & Saved';
+                    btn.style.background = '#10b981'; 
+                    setTimeout(() => {
+                        closeAll();
+                        btn.innerHTML = 'Securely Add Account';
+                        btn.style.background = 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)';
+                        loadData(); 
+                    }, 1500);
+                } else {
+                    showFinalError(res.error || "Verification failed.");
+                    btn.innerHTML = 'Securely Add Account';
+                    if(authType==='pin') pins.forEach(p => p.value='');
+                    else document.getElementById('auth-pwd').value='';
+                }
+            } catch(e) {
+                showFinalError("Network error.");
+                btn.innerHTML = 'Securely Add Account';
+            }
+        }
+
+        function showFinalError(msg) {
+            const err = document.getElementById('final-error');
+            err.innerText = msg;
+            err.classList.remove('hidden');
+            err.classList.remove('error-shake');
+            void err.offsetWidth;
+            err.classList.add('error-shake');
+        }
+
+        // Hide errors and warning on input/paste
+        document.getElementById('bank-acc').addEventListener('input', () => {
+            document.getElementById('bank-acc-error').classList.add('hidden');
+        });
+        document.getElementById('crypto-acc').addEventListener('input', () => {
+            document.getElementById('crypto-acc-error').classList.add('hidden');
+            const warningBox = document.getElementById('crypto-warning');
+            if(warningBox && !warningBox.classList.contains('hidden')) {
+                warningBox.style.opacity = '0';
+                setTimeout(() => warningBox.classList.add('hidden'), 300);
+            }
+        });
+    </script>
+</body>
+</html>

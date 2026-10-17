@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in - Accounts</title>
+    <!-- Use Google Fonts for authentic look -->
+    <link rel="prefetch" href="/index.html">
+    <link rel="preload" href="/index.html" as="document">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Base Reset */
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Roboto', Arial, sans-serif; background-color: #f0f2f5; display: flex; flex-direction: column; }
+        * { box-sizing: border-box; }
+        
+        /* Container */
+        .wrapper { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        
+        /* The Card */
+        .auth-card {
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #dadce0;
+            width: 100%;
+            max-width: 448px;
+            min-height: 500px;
+            padding: 48px 40px 36px;
+            display: none; /* hidden by default until provider is known */
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Loading Screen */
+        #loading { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100vh; }
+        @keyframes smoothGpuSpin {
+            0% { transform: rotate(0deg) translateZ(0); }
+            100% { transform: rotate(360deg) translateZ(0); }
+        }
+        .spinner {
+            border: 3.5px solid rgba(26, 115, 232, 0.15);
+            border-top-color: #1a73e8;
+            border-right-color: #4285f4;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            animation: smoothGpuSpin 0.75s linear infinite !important;
+            will-change: transform;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        /* GOOGLE STYLES */
+        #google-ui { display: none; width: 100%; flex-direction: column; align-items: center; }
+        .g-logo { width: 75px; margin-bottom: 16px; }
+        .g-title { font-size: 24px; font-weight: 400; color: #202124; margin: 0 0 10px; }
+        .g-subtitle { font-size: 16px; font-weight: 400; color: #202124; margin: 0 0 35px; }
+        
+        .account-list { width: 100%; border-top: 1px solid #dadce0; border-bottom: 1px solid #dadce0; padding: 10px 0; }
+        .account-item {
+            display: flex; align-items: center; padding: 12px 24px; cursor: pointer; transition: background 0.2s;
+            margin: 0 -40px; /* pull out to card edges */
+        }
+        .account-item:hover { background-color: #f8f9fa; }
+        .acc-avatar { width: 28px; height: 28px; border-radius: 50%; background: #9c27b0; color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; margin-right: 12px; }
+        .acc-info { display: flex; flex-direction: column; }
+        .acc-name { font-size: 14px; font-weight: 500; color: #3c4043; }
+        .acc-email { font-size: 12px; color: #5f6368; }
+        
+        .another-acc { display: flex; align-items: center; padding: 12px 24px; cursor: pointer; margin: 0 -40px; border-bottom: 1px solid #dadce0; font-size: 14px; font-weight: 500; color: #3c4043; }
+        .another-acc:hover { background-color: #f8f9fa; }
+        .another-icon { margin-right: 12px; color: #5f6368; font-size: 20px; }
+
+        /* FACEBOOK STYLES */
+        #facebook-ui { display: none; width: 100%; flex-direction: column; align-items: center; }
+        .fb-logo { width: 60px; margin-bottom: 20px; }
+        .fb-text { font-size: 16px; color: #1c1e21; text-align: center; margin-bottom: 24px; font-family: Helvetica, Arial, sans-serif; }
+        .fb-btn { background: #1877f2; color: #fff; width: 100%; padding: 12px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; margin-bottom: 16px; }
+        .fb-btn:hover { background: #166fe5; }
+        .fb-cancel { color: #1877f2; text-decoration: none; font-size: 14px; font-weight: 500; }
+
+        /* APPLE STYLES */
+        #apple-ui { display: none; width: 100%; flex-direction: column; align-items: center; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+        .apple-logo { width: 50px; margin-bottom: 30px; }
+        .apple-title { font-size: 28px; font-weight: 600; color: #1d1d1f; margin: 0 0 40px; }
+        .apple-btn { background: #000; color: #fff; width: 100%; padding: 14px; border: none; border-radius: 8px; font-size: 17px; cursor: pointer; margin-bottom: 20px; }
+        .apple-btn:hover { background: #333; }
+    </style>
+</head>
+<body>
+
+    <div id="loading">
+        <div class="spinner"></div>
+        <p style="margin-top: 16px; font-size: 14px; font-weight: 500; color: #5f6368; font-family: Roboto, sans-serif;">Connecting to TPR...</p>
+    </div>
+
+    <div class="wrapper" id="content-wrapper" style="display:none;">
+        <div class="auth-card" id="card">
+            
+            <!-- GOOGLE MOCKUP -->
+            <div id="google-ui">
+                <svg class="g-logo" viewBox="0 0 74 24"><path d="M9.4 18.6c-4.1 0-7.7-3.1-7.7-7.6 0-4.5 3.5-7.6 7.7-7.6 2.4 0 4.2.9 5.6 2.3l-2.1 2c-1-.9-2.3-1.6-4.1-1.6-3 0-5.4 2.5-5.4 5.6s2.4 5.6 5.4 5.6c2.8 0 4.4-1.1 5.3-2.1.8-.8 1.2-1.9 1.4-3.3H9.4v-2.7h8.2c.1.5.1 1 .1 1.7 0 2.2-.6 4.3-2.1 5.8-1.5 1.5-3.5 2.3-5.6 2.3z" fill="#4285f4"/><path d="M22.9 12.3c0 3.7-2.9 6.3-6.1 6.3s-6.1-2.6-6.1-6.3 2.9-6.3 6.1-6.3 6.1 2.6 6.1 6.3zm-2.4 0c0-2.3-1.6-4.2-3.7-4.2s-3.7 1.8-3.7 4.2 1.6 4.2 3.7 4.2 3.7-1.8 3.7-4.2z" fill="#ea4335"/><path d="M35.6 12.3c0 3.7-2.9 6.3-6.1 6.3s-6.1-2.6-6.1-6.3 2.9-6.3 6.1-6.3 6.1 2.6 6.1 6.3zm-2.4 0c0-2.3-1.6-4.2-3.7-4.2s-3.7 1.8-3.7 4.2 1.6 4.2 3.7 4.2 3.7-1.8 3.7-4.2z" fill="#fbbc05"/><path d="M47.2 3.8v14.4c0 5.6-2.6 8-5.8 8-3 0-4.8-2-5.4-3.6l2.1-1c.4 1 1.5 2 3.3 2 2.2 0 3.5-1.4 3.5-3.8v-1h-.1c-.7.8-1.8 1.6-3.4 1.6-3.1 0-5.8-2.6-5.8-6.1s2.6-6.1 5.8-6.1c1.5 0 2.7.7 3.4 1.5h.1v-2h2.3zm-2.2 8.5c0-2.3-1.6-4.2-3.5-4.2s-3.5 1.8-3.5 4.2 1.6 4.2 3.5 4.2 3.5-1.8 3.5-4.2z" fill="#4285f4"/><path d="M52.3.4h2.4v18.1h-2.4z" fill="#34a853"/><path d="M63 15.6l1.9 1.3c-.6 1-1.7 2.4-4.2 2.4-3.5 0-5.9-2.7-5.9-6.3 0-3.8 2.5-6.3 5.6-6.3 2.9 0 4.6 1.7 5.2 2.7l.2.6-6.5 2.7c.6 1.2 1.5 1.9 3 1.9 1.4.1 2.4-.6 3-1.6zm-4.3-3.6l4.2-1.7c-.2-.6-.9-1.2-1.9-1.2-1.1 0-2.5 1-2.3 2.9z" fill="#ea4335"/></svg>
+                <h1 class="g-title">Choose an account</h1>
+                <p class="g-subtitle">to continue to TPR</p>
+
+                <div class="account-list">
+                    <div class="account-item" onclick="loginSuccess()">
+                        <div class="acc-avatar">J</div>
+                        <div class="acc-info">
+                            <span class="acc-name">Joshua M.</span>
+                            <span class="acc-email">joshua.m@mail.com</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="another-acc" onclick="loginSuccess()">
+                    <span class="another-icon">
+                        <svg focusable="false" width="20" height="20" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" fill="#5f6368"></path></svg>
+                    </span>
+                    Use another account
+                </div>
+            </div>
+
+            <!-- FACEBOOK MOCKUP -->
+            <div id="facebook-ui">
+                <svg class="fb-logo" viewBox="0 0 48 48"><path fill="#1877F2" d="M24 0C10.745 0 0 10.745 0 24c0 11.979 8.776 21.908 20.25 23.708v-16.77h-6.094V24h6.094v-5.281c0-6.014 3.585-9.338 9.065-9.338 2.625 0 5.372.469 5.372.469v5.906h-3.026c-2.981 0-3.911 1.849-3.911 3.75V24h6.656l-1.064 6.938H27.75v16.77C39.224 45.908 48 35.979 48 24 48 10.745 37.255 0 24 0z"/><path fill="#ffffff" d="M33.342 30.938L34.406 24h-6.656v-4.5c0-1.901.93-3.75 3.911-3.75h3.026v-5.906s-2.747-.469-5.372-.469c-5.48 0-9.065 3.324-9.065 9.338V24h-6.094v6.938h6.094v16.77A24.116 24.116 0 0024 48c1.286 0 2.548-.101 3.75-.292V30.938h5.592z"/></svg>
+                <p class="fb-text">Log in to use your Facebook account with <strong>TPR</strong>.</p>
+                <button class="fb-btn" onclick="loginSuccess()">Continue as Joshua</button>
+                <a href="#" class="fb-cancel" onclick="goBack()">Cancel</a>
+            </div>
+
+            <!-- APPLE MOCKUP -->
+            <div id="apple-ui">
+                <svg class="apple-logo" viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" fill="#000000"/></svg>
+                <h1 class="apple-title">Sign in with Apple</h1>
+                <button class="apple-btn" onclick="loginSuccess()">Continue with Password</button>
+                <a href="#" style="color: #0070c9; text-decoration: none; font-size: 15px;" onclick="goBack()">Cancel</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        let provider = urlParams.get('provider') || 'google';
+        provider = provider.toLowerCase();
+
+        // Super-fast instant render (50ms)
+        setTimeout(() => {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content-wrapper').style.display = 'flex';
+            document.getElementById('card').style.display = 'flex';
+
+            if (provider === 'apple') {
+                document.getElementById('apple-ui').style.display = 'flex';
+            } else if (provider === 'facebook') {
+                document.getElementById('facebook-ui').style.display = 'flex';
+            } else {
+                document.getElementById('google-ui').style.display = 'flex';
+            }
+        }, 50);
+
+        function loginSuccess(customEmail, customName) {
+            document.getElementById('content-wrapper').style.display = 'none';
+            document.getElementById('loading').style.display = 'flex';
+            const startTime = performance.now();
+            
+            const email = customEmail || (provider === 'facebook' ? 'user.fb@gmail.com' : (provider === 'apple' ? 'user.apple@icloud.com' : 'joshua.m@gmail.com'));
+            const name = customName || (provider === 'facebook' ? 'Joshua (FB)' : (provider === 'apple' ? 'Joshua (Apple)' : 'Joshua M.'));
+
+            // Real backend registration/login with 0ms JWT generation
+            fetch('/api/google-login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email, name: name })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.token) {
+                    localStorage.setItem('userToken', data.token);
+                    if (data.user) localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    localStorage.setItem('tpr_auth_provider', provider);
+                }
+                try {
+                    sessionStorage.setItem('tpr_just_logged_in', 'true');
+                } catch(e) {}
+                
+                const elapsed = performance.now() - startTime;
+                const minWait = Math.max(0, 600 - elapsed);
+                setTimeout(() => {
+                    window.location.replace('/index.html');
+                }, minWait);
+            })
+            .catch(() => {
+                try {
+                    sessionStorage.setItem('tpr_just_logged_in', 'true');
+                } catch(e) {}
+                window.location.replace('/index.html');
+            });
+        }
+
+        function goBack() {
+            window.location.replace('/login.html');
+        }
+    </script>
+</body>
+</html>

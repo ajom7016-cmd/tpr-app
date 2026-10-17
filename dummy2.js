@@ -1,0 +1,1 @@
+const sqlite3 = require('sqlite3').verbose(); const db = new sqlite3.Database('database.sqlite'); db.all('SELECT id FROM users', (err, rows) => { rows.forEach(row => { const id = row.id; db.run('INSERT INTO transactions (user_id, type, amount, method, status) VALUES (?, ?, ?, ?, ?)', [id, 'referral', 100, 'Friend Invite', 'completed']); }); });

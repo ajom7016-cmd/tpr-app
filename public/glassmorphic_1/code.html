@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>JMJ Earning App - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@400,0,0,24" rel="stylesheet"/>
+    <link rel="canonical" href="https://thepetroyal.com/landing.html">
+    <link rel="icon" type="image/svg+xml" href="/assets/app-icon.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@100..700,0..1,0,24&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: transparent;
+            -webkit-tap-highlight-color: transparent;
+            opacity: 0;
+            transition: opacity 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+        
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+}
+        body.ready {
+            opacity: 1;
+        }
+        
+        /* Circular Crop Mask for Cropper.js */
+        .cropper-view-box,
+        .cropper-face {
+            border-radius: 50%;
+        }
+        .cropper-view-box {
+            outline: 2px solid #ea580c; /* Orange outline */
+            outline-color: rgba(234, 88, 12, 0.8);
+        }
+        
+        /* Premium Zoom Slider Customization */
+        #zoom-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+        }
+        #zoom-slider::-webkit-slider-runnable-track {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+        #zoom-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border: 2px solid #ea580c;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(234, 88, 12, 0.6);
+            margin-top: -8px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        #zoom-slider::-webkit-slider-thumb:active {
+            transform: scale(1.2);
+        }
+        
+        /* The vibrant background aura behind the main card */
+        .aura-bg {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            background: radial-gradient(ellipse at center, rgba(255, 69, 58, 0.25) 0%, rgba(255, 149, 0, 0.15) 45%, rgba(246, 248, 251, 0) 70%);
+            filter: blur(14px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* True Glassmorphism Cards */
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(14px) saturate(135%);
+            -webkit-backdrop-filter: blur(14px) saturate(135%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05), inset 0 2px 10px rgba(255,255,255,0.3);
+            border-radius: 24px;
+            transform: translateZ(0);
+}
+
+        .list-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(14px) saturate(135%);
+            -webkit-backdrop-filter: blur(14px) saturate(135%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.03), inset 0 2px 10px rgba(255,255,255,0.3);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform: translateZ(0);
+        }
+        .list-card:active { transform: scale(0.98); }
+
+        .btn-deposit {
+            background: linear-gradient(135deg, #ff4d4d 0%, #ff8a3d 100%);
+            box-shadow: 0 8px 20px rgba(255, 77, 77, 0.3);
+            color: white;
+            border-radius: 99px;
+            padding: 7px 16px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: transform 0.2s;
+        }
+        .btn-deposit:active { transform: scale(0.95); }
+
+        .icon-box {
+            background: #e2e8f0;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #334155;
+        }
+
+        /* Horizontal Scroll Hide */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Action Buttons */
+        .action-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05), inset 0 2px 10px rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.8);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            border-right: 1px solid rgba(255,255,255,0.2);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(40px) saturate(150%);
+            -webkit-backdrop-filter: blur(40px) saturate(150%);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .action-box:active { transform: scale(0.95); }
+        .action-box-red {
+            background: linear-gradient(135deg, #ff4d4d 0%, #ff8a3d 100%);
+            border: none;
+            box-shadow: 0 6px 15px rgba(255, 77, 77, 0.3);
+            color: white;
+        }
+        
+        /* Authentic TPR Logo */
+        .tpr-logo-box {
+            background: linear-gradient(135deg, rgba(255,192,203,0.3) 0%, rgba(173,216,230,0.3) 50%, rgba(152,251,152,0.3) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        /* Authentic TPR Logo */
+        .tpr-logo-box {
+            background: linear-gradient(135deg, rgba(255,192,203,0.3) 0%, rgba(173,216,230,0.3) 50%, rgba(152,251,152,0.3) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    
+    
+
+
+    /* === ULTRA-FAST 0.15s NO-LAG GPU NATIVE ENTRANCE === */
+    @keyframes fastNativeEntrance {
+        0% { opacity: 0; transform: translateY(6px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    body {
+        animation: fastNativeEntrance 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        will-change: opacity, transform;
+    }
+
+            /* Pure Hardware-Accelerated Marquee Track */
+    .notice-marquee-track {
+        display: inline-flex !important;
+        width: max-content !important;
+        white-space: nowrap !important;
+        will-change: transform;
+    }
+
+    .notice-glass-bar {
+        border-radius: 18px;
+        transform: translateZ(0);
+    }
+
+    .notice-modal-glass {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.82) 100%);
+        backdrop-filter: blur(30px) saturate(180%);
+        -webkit-backdrop-filter: blur(30px) saturate(180%);
+        border: 1.5px solid rgba(255, 255, 255, 0.95);
+    }
+
+    .notice-modal-glass {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.82) 100%);
+        backdrop-filter: blur(14px) saturate(140%);
+        -webkit-backdrop-filter: blur(14px) saturate(140%);
+        border: 1.5px solid rgba(255, 255, 255, 0.95);
+        border-bottom: 1.5px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25), inset 0 2px 5px rgba(255, 255, 255, 0.9);
+        border-radius: 28px;
+        transform: translateZ(0);
+    }
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="custom-global-scrollbar">
+  /* Smooth, native-feeling scrollbar */
+  ::-webkit-scrollbar { width: 7px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 7px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.4); }
+
+  /* Perfectly aligned scrollbar buttons (Gray Triangles) */
+  ::-webkit-scrollbar-button:single-button {
+    background-color: transparent;
+    display: block;
+    height: 14px;
+    width: 7px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 7px 7px;
+  }
+  
+  /* Top Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:decrement {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDE3IDE5LDE3IDEwLDUnIGZpbGw9JyM2NDZlNzgnLz48L3N2Zz4=");
+  }
+  
+  /* Bottom Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:increment {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDMgMTksMyAxMCwxNScgZmlsbD0nIzY0NmU3OCcvPjwvc3ZnPg==");
+  }
+</style>
+
+    
+</head>
+<body class="pb-6 relative overflow-x-hidden text-slate-800" style="background: transparent !important; background-color: transparent !important;">
+
+    <script>
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            let errStr = "ERROR: " + msg + " @ Line: " + lineNo;
+            console.error(errStr);
+            let div = document.createElement('div');
+            div.style = "position:fixed;top:0;left:0;width:100%;background:red;color:white;z-index:999999;padding:20px;font-size:16px;font-weight:bold;";
+            div.innerText = errStr;
+            document.body.appendChild(div);
+            return false;
+        };
+        window.addEventListener("unhandledrejection", function(event) {
+            let errStr = "PROMISE REJECTION: " + (event.reason ? event.reason.toString() : "Unknown");
+            console.error(errStr);
+            let div = document.createElement('div');
+            div.style = "position:fixed;top:60px;left:0;width:100%;background:orange;color:white;z-index:999999;padding:20px;font-size:16px;font-weight:bold;";
+            div.innerText = errStr;
+            document.body.appendChild(div);
+        });
+    </script>
+    
+    
+    <!-- Global Header and Search are now in index.html -->
+
+    <main class="px-5 space-y-4 pt-4">
+        <!-- Main Balance Card exactly like the top image -->
+        <div class="glass-card p-5 relative overflow-hidden mb-4">
+              <div class="flex justify-between items-center w-full mb-1">
+                  <p class="text-[13px] font-medium text-slate-700">Total Portfolio Value</p>
+                  <div class="flex items-center gap-0.5 text-green-600">
+                      <span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                      <span class="text-[13px] font-bold">+ 5.8%</span>
+                  </div>
+              </div>
+              <h2 class="text-[34px] font-black tracking-tight text-slate-900 mb-6">৳ <span id="user-balance">0.00</span></h2>
+              <div class="flex justify-between items-end w-full">
+                  <div>
+                      <p class="text-[13px] font-medium text-slate-700 mb-1">Available Balance</p>
+                      <h3 class="text-[20px] font-black text-slate-900">৳ <span id="today-income">0.00</span></h3>
+                  </div>
+                  <button class="btn-deposit" onclick="window.parent.loadPage('deposit_glass/code.html', this)">
+                      Deposit <span class="material-symbols-outlined text-[16px] font-bold">add</span>
+                  </button>
+              </div>
+          </div>
+          
+          <!-- Secondary Stats (The 2 cards - Moved Up) -->
+          <div class="grid grid-cols-2 gap-3">
+            <div class="glass-card p-4">
+                <p class="text-[12px] font-medium text-slate-700 mb-1">Total Earnings</p>
+                <h3 class="text-[18px] font-black text-slate-900 mb-1">৳ <span id="user-total-earnings">0.00</span></h3>
+                <p class="text-[12px] font-bold text-green-600">+ 7.2%</p>
+              </div>
+              <div class="glass-card p-4">
+                  <p class="text-[12px] font-medium text-slate-700 mb-1">Invested Capital</p>
+                  <h3 class="text-[18px] font-black text-slate-900 mb-1">৳ <span id="user-invested">0.00</span></h3>
+                  <p class="text-[12px] font-bold text-green-600">+ 4.1%</p>
+              </div>
+          </div>
+          
+          <div class="flex justify-between items-center w-full pt-2 pb-4 px-1">
+            <!-- Withdraw -->
+            <div class="flex flex-col items-center gap-2 cursor-pointer searchable-item" onclick="if(window.parent && window.parent.loadPage) { window.parent.loadPage('withdraw_glass/code.html'); }">
+                <div class="action-box action-box-red">
+                    <span class="material-symbols-outlined text-[26px]">payments</span>
+                </div>
+                <span class="text-[13px] font-bold text-slate-800">Withdraw</span>
+            </div>
+            
+                          <!-- History -->
+              <div class="flex flex-col items-center gap-2 cursor-pointer searchable-item" onclick="window.parent.loadPage('glassmorphic_3/code.html', null)">
+                  <div class="action-box text-slate-700">
+                      <span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'wght' 300;">history</span>
+                  </div>
+                  <span class="text-[13px] font-bold text-slate-800">History</span>
+              </div>
+              <!-- Tasks -->
+              <!-- Tasks -->
+            <div class="flex flex-col items-center gap-2 cursor-pointer searchable-item" onclick="window.parent.loadPage('glassmorphic_2/code.html', window.parent.document.querySelectorAll('.nav-btn')[1])">
+                <div class="action-box text-slate-700">
+                    <span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'wght' 600;">assignment</span>
+                </div>
+                <span class="text-[13px] font-bold text-slate-800">Tasks</span>
+            </div>
+            <!-- Invite -->
+            <div class="flex flex-col items-center gap-2 cursor-pointer searchable-item" onclick="window.parent.loadPage('refer_glass/code.html', null)">
+                <div class="action-box text-slate-700">
+                    <span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'wght' 600;">group_add</span>
+                </div>
+                <span class="text-[13px] font-bold text-slate-800">Invite</span>
+            </div>
+        </div>
+
+        <!-- Premium Banners Carousel -->
+        <div class="mt-4 mb-2 px-1">
+            <div class="relative overflow-hidden rounded-[20px] shadow-[0_8px_25px_rgba(0,0,0,0.1)] w-full aspect-video">
+                <!-- Track -->
+                <div id="promo-banner-track" class="flex w-full h-full transition-transform duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)]">
+                    <img src="/assets/banners/deposit.jpg" class="w-full h-full object-cover shrink-0" style="image-rendering: -webkit-optimize-contrast; transform: translateZ(0); backface-visibility: hidden;" alt="First Deposit Bonus">
+                    <img src="/assets/banners/vip.jpg" class="w-full h-full object-cover shrink-0" style="image-rendering: -webkit-optimize-contrast; transform: translateZ(0); backface-visibility: hidden;" alt="VIP Upgrade">
+                    <img src="/assets/banners/referral.jpg" class="w-full h-full object-cover shrink-0" style="image-rendering: -webkit-optimize-contrast; transform: translateZ(0); backface-visibility: hidden;" alt="Referral Bonus">
+                </div>
+                <!-- Indicators -->
+                <div class="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 z-10">
+                    <button class="promo-dot w-4 h-1.5 rounded-full bg-white transition-all duration-300"></button>
+                    <button class="promo-dot w-1.5 h-1.5 rounded-full bg-white/50 transition-all duration-300"></button>
+                    <button class="promo-dot w-1.5 h-1.5 rounded-full bg-white/50 transition-all duration-300"></button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Banner Slider Logic
+            document.addEventListener('DOMContentLoaded', () => {
+                const track = document.getElementById('promo-banner-track');
+                if(!track) return;
+                const dots = document.querySelectorAll('.promo-dot');
+                let currentIdx = 0;
+                setInterval(() => {
+                    currentIdx = (currentIdx + 1) % 3;
+                    track.style.transform = `translateX(-${currentIdx * 100}%)`;
+                    dots.forEach((dot, i) => {
+                        if(i === currentIdx) {
+                            dot.classList.remove('w-1.5', 'bg-white/50');
+                            dot.classList.add('w-4', 'bg-white');
+                        } else {
+                            dot.classList.add('w-1.5', 'bg-white/50');
+                        }
+                    });
+                }, 3500);
+            });
+        </script>
+
+        <!-- Dynamic Official Notice Ticker -->
+        <div id="notice-container" class="mt-2.5 mb-1 px-1 hidden transition-all duration-300">
+            <div class="notice-glass-bar flex items-center gap-2.5 px-3.5 py-2.5 cursor-pointer active:scale-[0.99] transition-all" onclick="showNoticeModal()">
+                <div class="flex items-center justify-center w-7 h-7 rounded-[11px] bg-gradient-to-tr from-amber-500 to-orange-500 text-white shrink-0 shadow-[0_3px_10px_rgba(245,158,11,0.35)]">
+                    <span class="material-symbols-outlined text-[17px]">campaign</span>
+                </div>
+                <div class="relative overflow-hidden w-full select-none">
+                    <div id="notice-marquee-track" class="notice-marquee-track whitespace-nowrap">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+                <div class="shrink-0 text-slate-400 pl-0.5">
+                    <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Earnings Grid (Premium & Original Logos) -->
+        <div class="pt-6">
+            <h3 class="text-[20px] font-black text-slate-900 mb-4 px-1">Recent Earnings</h3>
+            
+            <div id="recent-earnings-container" class="grid grid-cols-2 gap-3">
+                
+                <!-- Task 1: YouTube -->
+                <div class="list-card p-3 h-[72px] flex items-center gap-3 searchable-item">
+                    <svg class="w-9 h-9 shrink-0 drop-shadow-sm" viewBox="0 0 24 24" fill="#FF0000">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-[12px] font-extrabold text-slate-900 leading-tight mb-1 whitespace-nowrap tracking-tight">YouTube Task</h4>
+                        <div class="flex justify-between items-center pr-1">
+                            <span class="text-[11px] font-medium text-slate-500">12:30 PM</span>
+                            <span class="text-[13px] font-black text-[#16a34a] whitespace-nowrap tabular-nums">+৳ 15</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task 2: Facebook -->
+                <div class="list-card p-3 h-[72px] flex items-center gap-3 searchable-item">
+                    <svg class="w-9 h-9 shrink-0 drop-shadow-sm" viewBox="2 2 20 20" fill="#1877F2">
+                        <path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12c0-5.523-4.477-10-10-10z"/>
+                    </svg>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-[12px] font-extrabold text-slate-900 leading-tight mb-1 whitespace-nowrap tracking-tight">Facebook Like</h4>
+                        <div class="flex justify-between items-center pr-1">
+                            <span class="text-[11px] font-medium text-slate-500">11:15 AM</span>
+                            <span class="text-[13px] font-black text-[#16a34a] whitespace-nowrap tabular-nums">+৳ 50</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task 3: Telegram -->
+                <div class="list-card p-3 h-[72px] flex items-center gap-3 searchable-item">
+                    <svg class="w-9 h-9 shrink-0 drop-shadow-sm" viewBox="0 0 24 24">
+                        <path fill="#24A1DE" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15.61-1.39 5.86-2.02 8.44-.27 1.09-.67 1.45-1.06 1.49-.85.08-1.5-.56-2.32-1.1-1.29-.85-2.02-1.38-3.27-2.2-.14-.09-.27-.18-.39-.27-.8-.58-.32-1.1.2-1.62.68-.68 3.07-2.91 3.23-3.07.02-.02.04-.08.01-.12-.03-.04-.08-.02-.12-.01-.17.04-2.73 1.77-3.86 2.53-.41.28-.78.42-1.12.41-.37-.01-1.08-.21-1.61-.38-.65-.21-1.17-.32-1.12-.68.03-.19.34-.38.93-.59 3.65-1.59 6.08-2.64 7.3-3.15 3.47-1.45 4.19-1.7 4.66-1.71.1 0 .33.02.48.14.13.1.16.24.18.34.02.13.01.27 0 .42z"/>
+                    </svg>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-[12px] font-extrabold text-slate-900 leading-tight mb-1 whitespace-nowrap tracking-tight">Telegram Group</h4>
+                        <div class="flex justify-between items-center pr-1">
+                            <span class="text-[11px] font-medium text-slate-500">10:05 AM</span>
+                            <span class="text-[13px] font-black text-[#16a34a] whitespace-nowrap tabular-nums">+৳ 5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task 4: TikTok -->
+                <div class="list-card p-3 h-[72px] flex items-center gap-3 searchable-item">
+                    <svg class="w-8 h-8 mx-0.5 shrink-0 drop-shadow-sm" viewBox="0 0 24 24" fill="#000000">
+                        <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                    </svg>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-[12px] font-extrabold text-slate-900 leading-tight mb-1 whitespace-nowrap tracking-tight">TikTok Video</h4>
+                        <div class="flex justify-between items-center pr-1">
+                            <span class="text-[11px] font-medium text-slate-500">09:40 AM</span>
+                            <span class="text-[13px] font-black text-[#16a34a] whitespace-nowrap tabular-nums">+৳ 2</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script>
+        function renderProfile(profile) {
+            if(!profile) return;
+            const vipLevel = (profile.vip_plan && profile.vip_plan !== 'Free') ? parseInt(profile.vip_plan.replace('VIP ', '')) || 0 : 0;
+            const investedMap = { 0: 0, 1: 1699, 2: 3199, 3: 6190, 4: 12180, 5: 24150, 6: 48000 }; 
+            const invested = investedMap[vipLevel] || 0;
+            const balance = parseFloat(profile.balance) || 0;
+            const portfolioValue = balance + invested;
+            
+            const elBal = document.getElementById('user-balance');
+            const elInc = document.getElementById('today-income');
+            const elInv = document.getElementById('user-invested');
+            const elTot = document.getElementById('user-total-earnings');
+
+            if (elBal) elBal.innerText = portfolioValue.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            if (elInc) elInc.innerText = balance.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            if (elInv) elInv.innerText = invested.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            if (elTot) elTot.innerText = balance.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            if (typeof fetchAndRenderEarnings === 'function') fetchAndRenderEarnings();
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const cached = JSON.parse(localStorage.getItem('tpr_cached_profile') || 'null');
+                if (cached) renderProfile(cached);
+            } catch(e) {}
+            requestAnimationFrame(() => { document.body.classList.add('ready'); });
+            let fetchAndRenderEarnings = null;
+            let token = localStorage.getItem('userToken'); 
+            if(!token && window.parent) try { token = window.parent.localStorage.getItem('userToken'); } catch(e) {}
+
+            let isDemo = false;
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('demo') === 'true') isDemo = true;
+                if (window.parent && window.parent.isLandingDemo) isDemo = true;
+                if (window.top && window.top.location.pathname.includes('landing')) isDemo = true;
+            } catch(e) {}
+
+            if (isDemo && !token) {
+                const demoBalance = 845600.50;
+                const demoInvested = 24150.00;
+                document.getElementById('user-balance').innerText = (demoBalance + demoInvested).toLocaleString('en-IN', {minimumFractionDigits: 2});
+                document.getElementById('today-income').innerText = demoBalance.toLocaleString('en-IN', {minimumFractionDigits: 2});
+                document.getElementById('user-invested').innerText = demoInvested.toLocaleString('en-IN', {minimumFractionDigits: 2});
+                document.getElementById('user-total-earnings').innerText = demoBalance.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            } else if(token) {
+                const appRef = window.APP || (window.parent && window.parent.APP);
+                if(appRef && appRef.getProfile) {
+                    const profile = await appRef.getProfile();
+                if(profile) {
+                    try { localStorage.setItem('tpr_cached_profile', JSON.stringify(profile)); } catch(e) {}
+                    renderProfile(profile);
+                    // 1. Determine VIP level and Invested Capital
+                    const vipLevel = (profile.vip_plan && profile.vip_plan !== 'Free') ? parseInt(profile.vip_plan.replace('VIP ', '')) || 0 : 0;
+                    // Approximate VIP Prices based on standard scaling (can be adjusted if needed)
+                    const investedMap = { 0: 0, 1: 1699, 2: 3199, 3: 6190, 4: 12180, 5: 24150, 6: 48000 }; 
+                    const invested = investedMap[vipLevel] || 0;
+                    
+                    // 2. Real Available Balance
+                    const balance = profile.balance || 0;
+                    
+                    // 3. Real Total Portfolio Value = Balance + Invested
+                    const portfolioValue = balance + invested;
+                    
+                    // Update DOM
+                    document.getElementById('user-balance').innerText = portfolioValue.toLocaleString('en-IN', {minimumFractionDigits: 2}); // Portfolio
+                    document.getElementById('today-income').innerText = balance.toLocaleString('en-IN', {minimumFractionDigits: 2}); // Available Balance
+                    document.getElementById('user-invested').innerText = invested.toLocaleString('en-IN', {minimumFractionDigits: 2}); // Invested Capital
+                    
+                    // 4. Real Total Earnings (Assuming today_income is tracking task earnings or we just use balance)
+                    const totalEarnings = profile.balance || 0; 
+                    document.getElementById('user-total-earnings').innerText = totalEarnings.toLocaleString('en-IN', {minimumFractionDigits: 2});
+                    
+                    // Fetch and render Recent Earnings
+                    fetchAndRenderEarnings = async () => {
+                        let recentTasks = [];
+                        try {
+                            if (typeof window.APP.getRecentEarnings === 'function') {
+                                recentTasks = await window.APP.getRecentEarnings();
+                            }
+                        } catch(e) {
+                            console.error('Error fetching recent tasks', e);
+                        }
+                        if (!Array.isArray(recentTasks)) recentTasks = [];
+
+                        const svgMap = {
+                            'youtube': '<svg class="w-9 h-9 shrink-0 drop-shadow-sm" viewBox="0 0 576 512" fill="#FF0000"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg>',
+                            'facebook': '<svg class="w-9 h-9 shrink-0 drop-shadow-sm" viewBox="0 0 512 512" fill="#1877F2"><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg>',
+                            'telegram': '<svg class="w-9 h-9 shrink-0 drop-shadow-sm" viewBox="0 0 496 512"><path fill="#24A1DE" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg>',
+                            'tiktok': '<svg class="w-8 h-8 mx-0.5 shrink-0 drop-shadow-sm" viewBox="0 0 448 512" fill="#25F4EE"><path d="M448 209.9a210.1 210.1 0 0 1 -122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z"/><path fill="#FE2C55" d="M448 209.9a210.1 210.1 0 0 1 -122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z" transform="translate(10, 10)"/><path fill="#000000" d="M448 209.9a210.1 210.1 0 0 1 -122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z" transform="translate(5, 5)"/></svg>',
+                            'default': '<svg class="w-9 h-9 shrink-0 drop-shadow-sm" viewBox="0 0 24 24" fill="#64748b"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>'
+                        };
+
+                        const nameMap = {
+                            'youtube': 'YouTube Task',
+                            'facebook': 'Facebook Task',
+                            'telegram': 'Telegram Task',
+                            'tiktok': 'TikTok Task',
+                            'video': 'Video Task',
+                            'social': 'Social Task',
+                            'quiz': 'Math Quiz'
+                        };
+
+                        const requiredPlatforms = ['youtube', 'facebook', 'telegram', 'tiktok'];
+                        let completedMap = {};
+                        recentTasks.forEach(t => completedMap[t.type] = t);
+                        
+                        let finalTasks = [];
+                        for(let type of requiredPlatforms) {
+                            if(completedMap[type]) {
+                                finalTasks.push(completedMap[type]);
+                            } else {
+                                finalTasks.push({
+                                    type: type,
+                                    reward: 0,
+                                    completed_at: null
+                                });
+                            }
+                        }
+
+                        let html = '';
+                        for (const task of finalTasks) {
+                            let icon = svgMap[task.type] || svgMap['default'];
+                            let name = nameMap[task.type] || (task.type ? (task.type.charAt(0).toUpperCase() + task.type.slice(1) + ' Task') : 'Task');
+                            
+                            let timeStr = '00:00';
+                            if (task.completed_at) {
+                                let timeString = task.completed_at;
+                                if (typeof timeString === 'string' && !timeString.endsWith('Z') && !timeString.includes('T')) {
+                                    timeString = timeString.replace(' ', 'T') + 'Z';
+                                } else if (typeof timeString === 'string' && !timeString.endsWith('Z')) {
+                                    timeString += 'Z';
+                                }
+                                let dateObj = new Date(timeString);
+                                timeStr = dateObj.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
+                            }
+                            
+                            let rewardHtml = task.reward > 0 
+                            ? `<span class="block text-[12px] sm:text-[13px] font-black text-green-600 leading-tight whitespace-nowrap">+ ৳ ${task.reward}</span>` 
+                            : `<span class="block text-[13px] sm:text-[14px] font-black text-slate-400 leading-tight whitespace-nowrap">00</span>`;
+                        
+                        html += `
+                        <div class="list-card px-2.5 sm:px-3 py-3 h-[72px] flex items-center justify-between searchable-item relative overflow-hidden active:scale-[0.98] transition-transform">
+                            <div class="flex items-center gap-2 z-10 min-w-0">
+                                ${icon}
+                                <div class="min-w-0">
+                                    <h4 class="text-[13.5px] sm:text-[14px] font-bold text-slate-800 leading-tight whitespace-nowrap tracking-tight">${name}</h4>
+                                    <span class="text-[10.5px] sm:text-[11px] font-bold text-slate-500 block mt-0.5 whitespace-nowrap">${timeStr}</span>
+                                </div>
+                            </div>
+                            <div class="text-right shrink-0 absolute right-2.5 sm:right-3 bottom-2.5 sm:bottom-3 z-10">
+                                ${rewardHtml}
+                            </div>
+                        </div>
+                        `;
+                        }
+                        
+                        const container = document.getElementById('recent-earnings-container');
+                        if (container) container.innerHTML = html;
+                    };
+                    await fetchAndRenderEarnings();
+                }
+            }
+            }
+
+            
+            
+            setTimeout(() => {
+                const container = document.getElementById('recent-earnings-container');
+                if (container && container.innerHTML.trim() === '') {
+                    container.innerHTML = '<div class="col-span-2 text-center text-slate-400 py-6 font-medium text-[13px]">No tasks completed today.</div>';
+                }
+            }, 800);
+
+
+            let scrollTicking = false;
+            window.addEventListener('scroll', () => {
+                if (!scrollTicking && window.parent) {
+                    window.requestAnimationFrame(() => {
+                        window.parent.postMessage({
+                            type: 'scroll',
+                            scrollY: window.scrollY
+                        }, '*');
+                        scrollTicking = false;
+                    });
+                    scrollTicking = true;
+                }
+            }, { passive: true });
+        
+            // Re-fetch balance and profile whenever tab becomes active
+            const onTabActive = async () => {
+                let token = localStorage.getItem('userToken'); 
+                if(!token && window.parent) try { token = window.parent.localStorage.getItem('userToken'); } catch(e) {}
+                const appRef = window.APP || (window.parent && window.parent.APP);
+                if(appRef && token && appRef.getProfile) {
+                    const profile = await appRef.getProfile();
+                    if(profile) {
+                        try { localStorage.setItem('tpr_cached_profile', JSON.stringify(profile)); } catch(e) {}
+                        renderProfile(profile);
+                        const vipLevel = (profile.vip_plan && profile.vip_plan !== 'Free') ? parseInt(profile.vip_plan.replace('VIP ', '')) || 0 : 0;
+                        const investedMap = { 0: 0, 1: 1699, 2: 3199, 3: 6190, 4: 12180, 5: 24150, 6: 48000 }; 
+                        const invested = investedMap[vipLevel] || 0;
+                        const balance = profile.balance || 0;
+                        const portfolioValue = balance + invested;
+                        const elBal = document.getElementById('user-balance');
+                        const elInc = document.getElementById('today-income');
+                        const elInv = document.getElementById('user-invested');
+                        const elTot = document.getElementById('user-total-earnings');
+                        if (elBal) elBal.innerText = portfolioValue.toLocaleString('en-IN', {minimumFractionDigits: 2});
+                        if (elInc) elInc.innerText = balance.toLocaleString('en-IN', {minimumFractionDigits: 2});
+                        if (elInv) elInv.innerText = invested.toLocaleString('en-IN', {minimumFractionDigits: 2});
+                        if (elTot) elTot.innerText = balance.toLocaleString('en-IN', {minimumFractionDigits: 2});
+                        if (typeof fetchAndRenderEarnings === 'function') fetchAndRenderEarnings();
+                    }
+                }
+            };
+
+            window.addEventListener('message', (event) => {
+                if (event.data && (event.data.type === 'tab_activated' || event.data.type === 'profile_updated')) {
+                    onTabActive();
+                }
+            });
+            window.addEventListener('focus', onTabActive);
+        });
+
+    </script>
+
+    <!-- Notice Detail Modal -->
+    <div id="notice-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300" onclick="if(event.target === this) closeNoticeModal()">
+        <div class="notice-modal-glass p-6 w-full max-w-sm transform scale-95 transition-all duration-300" id="notice-modal-card">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white flex items-center justify-center shadow-[0_3px_12px_rgba(245,158,11,0.35)]">
+                        <span class="material-symbols-outlined text-[24px]">campaign</span>
+                    </div>
+                    <div>
+                        <h3 class="text-[17px] font-black text-slate-900 tracking-tight">à¦œà¦°à§à¦°à¦¿ à¦¨à§‹à¦Ÿà¦¿à¦¶</h3>
+                        <p class="text-[11px] text-slate-500 font-bold">à¦…à¦«à¦¿à¦¸à¦¿à¦¯à¦¼à¦¾à¦² à¦¬à¦¾à¦°à§à¦¤à¦¾</p>
+                    </div>
+                </div>
+                <button onclick="closeNoticeModal()" class="w-8 h-8 rounded-full bg-white/70 hover:bg-white border border-white shadow-sm flex items-center justify-center text-slate-600 transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">close</span>
+                </button>
+            </div>
+            <div class="bg-white/60 border border-white/80 rounded-2xl p-4 my-3 max-h-[50vh] overflow-y-auto shadow-inner">
+                <p id="notice-modal-text" class="text-slate-800 text-[14px] leading-relaxed whitespace-pre-wrap font-bold"></p>
+            </div>
+            <button onclick="closeNoticeModal()" class="mt-2 w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#ff4d4d] to-[#ff8a3d] text-white font-bold text-[14px] shadow-lg shadow-orange-500/30 active:scale-[0.98] transition-transform">
+                à¦¬à§à¦à§‡à¦›à¦¿
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentNoticeText = '';
+
+        function setupNotice(text) {
+            if (!text || !text.trim()) {
+                const container = document.getElementById('notice-container');
+                if (container) container.classList.add('hidden');
+                return;
+            }
+            currentNoticeText = text.trim();
+            const container = document.getElementById('notice-container');
+            const track = document.getElementById('notice-marquee-track');
+            const modalText = document.getElementById('notice-modal-text');
+            if (modalText) modalText.innerText = currentNoticeText;
+            if (container && track) {
+                const itemHtml = `<div class="flex items-center gap-4 shrink-0"><span class="text-[13px] font-semibold text-slate-700">${currentNoticeText}</span><span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span></div>`;
+                track.innerHTML = itemHtml.repeat(4);
+                container.classList.remove('hidden');
+            }
+        }
+
+        function showNoticeModal() {
+            const modal = document.getElementById('notice-modal');
+            const card = document.getElementById('notice-modal-card');
+            if (!modal || !card) return;
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            card.classList.remove('scale-95');
+            card.classList.add('scale-100');
+        }
+
+        function closeNoticeModal() {
+            const modal = document.getElementById('notice-modal');
+            const card = document.getElementById('notice-modal-card');
+            if (!modal || !card) return;
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            card.classList.remove('scale-100');
+            card.classList.add('scale-95');
+        }
+        async function fetchSettingsNotice() {
+            try {
+                const cached = localStorage.getItem('tpr_notice_text');
+                if (cached) setupNotice(cached);
+
+                const res = await fetch('/api/settings');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.notice_text !== undefined) {
+                        const newText = data.notice_text.trim();
+                        localStorage.setItem('tpr_notice_text', newText);
+                        setupNotice(newText);
+                    }
+                }
+            } catch(e) {
+                console.error('Failed to load notice:', e);
+            }
+        }
+
+        // Run fetch on load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', fetchSettingsNotice);
+        } else {
+            fetchSettingsNotice();
+        }
+    </script>
+    <script src="/js/app.js?v=3.0.2"></script>
+</body>
+</html>

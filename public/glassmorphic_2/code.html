@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>JMJ Earning App - Ultra Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@400,1,0,24" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: {
+                        primary: "#ea580c", // orange-600
+                        "primary-light": "#f97316", // orange-500
+                        surface: "#ffffff",
+                        "on-surface": "#1e293b", // slate-800
+                        "on-surface-light": "#64748b" // slate-500
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            color: #1e293b; 
+            background: #ffffff;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            opacity: 0;
+            transition: opacity 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+        
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+}
+        body.ready {
+            opacity: 1;
+        }
+
+        /* Solid White Background */
+        .bg-premium-mesh {
+            background-color: transparent !important;
+        }
+
+        /* Hyper-Realistic 3D Deep Glass Card */
+        .glass-3d {
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        /* Hyper-Realistic Soft Glass -> Now True Glassmorphism */
+        .glass-soft {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(14px) saturate(135%);
+            -webkit-backdrop-filter: blur(14px) saturate(135%);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05), inset 0 2px 10px rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #ea580c, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Super Smooth Premium Button */
+        .btn-premium {
+            background: linear-gradient(135deg, #ea580c, #fb923c);
+            color: white;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn-premium:hover {
+            box-shadow: 0 20px 40px rgba(234, 88, 12, 0.35);
+            transform: translateY(-3px) scale(1.02);
+            background: linear-gradient(135deg, #f97316, #fdba74);
+        }
+        .btn-premium:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        /* Floating iOS style nav */
+        .floating-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+        
+        
+    
+    
+
+
+    /* === ULTRA-FAST 0.15s NO-LAG GPU NATIVE ENTRANCE === */
+    @keyframes fastNativeEntrance {
+        0% { opacity: 0; transform: translateY(6px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    body {
+        animation: fastNativeEntrance 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        will-change: opacity, transform;
+    }
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="custom-global-scrollbar">
+  /* Smooth, native-feeling scrollbar */
+  ::-webkit-scrollbar { width: 7px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 7px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.4); }
+
+  /* Perfectly aligned scrollbar buttons (Gray Triangles) */
+  ::-webkit-scrollbar-button:single-button {
+    background-color: transparent;
+    display: block;
+    height: 14px;
+    width: 7px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 7px 7px;
+  }
+  
+  /* Top Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:decrement {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDE3IDE5LDE3IDEwLDUnIGZpbGw9JyM2NDZlNzgnLz48L3N2Zz4=");
+  }
+  
+  /* Bottom Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:increment {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDMgMTksMyAxMCwxNScgZmlsbD0nIzY0NmU3OCcvPjwvc3ZnPg==");
+  }
+</style>
+
+      <style>
+        /* White True Glassmorphic Spinning Badge */
+        .badge-42-wrap {
+            position: relative;
+            width: 72px; height: 32px; border-radius: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); overflow: hidden;
+            z-index: 1;
+            'TikTok': 'https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg'
+        };
+
+        async function generateTasks() {
+            let tasks = [];
+            let vipInfo = { level: 0 };
+            
+            try {
+                let token = localStorage.getItem('userToken');
+                if (!token && window.parent) {
+                    try { token = window.parent.localStorage.getItem('userToken'); } catch(e) {}
+                }
+                
+                if (token) {
+                    // Fetch Tasks manually
+                    const resTasks = await fetch('/api/tasks?t=' + new Date().getTime(), {
+                        headers: { 'Authorization': 'Bearer ' + token }
+                    });
+                    if (resTasks.ok) {
+            border-radius: 16px;
+            padding: 1.5px; /* Border thickness */
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            z-index: 3;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        /* The Spinning Gradient */
+        .badge-42-border {
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(from 0deg, transparent 0%, transparent 20%, #ea580c 30%, transparent 40%, transparent 70%, #fbbf24 80%, transparent 90%);
+            animation: spin-border 2.5s linear infinite;
+        }
+        
+        .badge-42-glass .vip-txt { font-weight: 900; font-size: 11px; color: #ea580c; letter-spacing: 1px; line-height: 1; margin-bottom: 1px; margin-top: 2px; position: relative;}
+        .badge-42-glass .b42-star { font-size: 10px; color: #fbbf24; font-variation-settings: 'FILL' 1; filter: drop-shadow(0 1px 2px rgba(234, 88, 12, 0.5)); margin: 0 -1px; }
+        .star-row { display: flex; align-items: center; justify-content: center; position: relative; }
+        @keyframes spin-border { 100% { transform: rotate(360deg); } } } }
+      </style>
+
+</head>
+<body class="pb-6 relative overflow-x-hidden text-slate-800" style="background: transparent !important; background-color: transparent !important;">
+
+    <script>
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            let errStr = "ERROR: " + msg + " @ Line: " + lineNo;
+            console.error(errStr);
+            let div = document.createElement('div');
+            div.style = "position:fixed;top:0;left:0;width:100%;background:red;color:white;z-index:999999;padding:20px;font-size:16px;font-weight:bold;";
+            div.innerText = errStr;
+            document.body.appendChild(div);
+            return false;
+        };
+        window.addEventListener("unhandledrejection", function(event) {
+            let errStr = "PROMISE REJECTION: " + (event.reason ? event.reason.toString() : "Unknown");
+            console.error(errStr);
+            let div = document.createElement('div');
+            div.style = "position:fixed;top:60px;left:0;width:100%;background:orange;color:white;z-index:999999;padding:20px;font-size:16px;font-weight:bold;";
+            div.innerText = errStr;
+            document.body.appendChild(div);
+        });
+    </script>
+    
+
+<main class="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 pt-4">
+    <!-- Header Area -->
+    <div id="tasks-container" class="max-w-3xl mx-auto flex flex-col gap-4 mb-2">
+        <!-- JS will populate tasks here -->
+    </div>
+    
+    <script>
+        const svgMap = {
+            'YouTube': 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg',
+            'Facebook': 'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg',
+            'Instagram': 'https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg',
+            'TikTok': 'https://www.vectorlogo.zone/logos/tiktok/tiktok-icon.svg'
+        };
+
+        async function generateTasks() {
+            let tasks = [];
+            let vipInfo = { level: 0, userName: 'User Name', userPic: '' };
+window.vipLevelGlobal = 0;
+            
+            try {
+                let token = localStorage.getItem('userToken');
+                if (!token && window.parent) {
+                    try { token = window.parent.localStorage.getItem('userToken'); } catch(e) {}
+                }
+                
+                if (token) {
+                    const resTasks = await fetch('/api/tasks?t=' + new Date().getTime(), {
+                        headers: { 'Authorization': 'Bearer ' + token }
+                    });
+                    if (resTasks.ok) {
+                        tasks = await resTasks.json();
+                    }
+                    
+                    const resProf = await fetch('/api/profile?t=' + new Date().getTime(), {
+                        headers: { 'Authorization': 'Bearer ' + token }
+                    });
+                    if (resProf.ok) {
+                        const p = await resProf.json();
+                        vipInfo.userName = p.name || p.username || 'User Name';
+                          if (p.profile_pic) {
+                              vipInfo.userPic = (p.profile_pic.startsWith('http') || p.profile_pic.startsWith('/')) ? p.profile_pic : '/' + p.profile_pic;
+                          }
+                          // Fallback to local storage (which is where the header saves cropped images)
+                          try {
+                              let localPic = localStorage.getItem('userProfilePic');
+                              if (!localPic && window.parent) {
+                                  localPic = window.parent.localStorage.getItem('userProfilePic');
+                              }
+                              if (localPic) vipInfo.userPic = localPic;
+                          } catch (e) {}
+                          window.completedTasks = p.today_tasks || 0;
+                        if(p && p.vip_plan && p.vip_plan !== 'Free') {
+                            const match = p.vip_plan.match(/\d+/);
+                            vipInfo.level = match ? parseInt(match[0]) : 1;
+                            window.vipLevelGlobal = vipInfo.level;
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error("Error fetching tasks/profile for iframe", e);
+            }
+            
+            const limitMap = {0: 1, 1: 4, 2: 6, 3: 8, 4: 10, 5: 12, 6: 14};
+            const limit = limitMap[vipInfo.level] || 1;
+            
+            const vipTitle = vipInfo.level === 0 ? 'FREE PROFILE' : 'VIP LEVEL ' + vipInfo.level;
+            let starHtml = '';
+            for(let i=0; i<vipInfo.level; i++) {
+                starHtml += '<span class="material-symbols-outlined b42-star">star</span>';
+            }
+            const vipBadgeHtml = vipInfo.level > 0 
+                ? `<div class="badge-42-wrap">  <div class="badge-42-glass">      <span class="vip-txt">VIP</span>      <div class="star-row">${starHtml}</div>  </div>  <div class="badge-42-border-wrap">      <div class="badge-42-border"></div>  </div></div>` 
+                : `<div class="w-12 h-12 rounded-[18px] bg-white/20 border border-white/30 flex items-center justify-center shadow-inner relative overflow-hidden">
+                      <span class="material-symbols-outlined text-white text-[24px]">workspace_premium</span>
+                   </div>`;
+
+            const userPicHtml = vipInfo.userPic 
+                ? `<img src="${vipInfo.userPic}" class="w-6 h-6 rounded-full object-cover">` 
+                : `<span class="material-symbols-outlined text-white/80 text-[18px]">person</span>`;
+            
+            // Dynamic VIP Perks
+            const bonusPercent = vipInfo.level * 5; // Free: 0%, VIP 1: 5%, VIP 6: 30%
+            const perkTexts = [
+                "Standard User",      // 0
+                "Basic Priority",     // 1
+                "Extra Tasks",        // 2
+                "Priority Support",   // 3
+                "VIP Access",         // 4
+                "Elite Status",       // 5
+                "Supreme Lounge"      // 6
+            ];
+            const perkText = perkTexts[vipInfo.level] || "Premium Lounge";
+
+                let html = `
+                  <!-- Authentic Original True Glassmorphism VIP Card (Large & Premium) -->
+                  <div class="relative bg-gradient-to-r from-white/10 to-black/10 backdrop-blur-[24px] border border-white/40 rounded-[28px] px-4 pt-2.5 pb-2.5 mb-4 mt-[-10px] shadow-[0_20px_40px_rgba(0,0,0,0.1)]">
+                      <!-- Top Row -->
+                        <div class="flex justify-between items-center mb-1">
+                          ${vipBadgeHtml}
+                          <div class="bg-white/10 border border-white/20 rounded-full py-1 px-2.5 flex items-center gap-1.5">
+                              ${userPicHtml}
+                                <span id="vip-user-name" class="text-white text-[13px] font-bold">${vipInfo.userName}</span>
+                          </div>
+                      </div>
+                      
+                      <!-- Middle Text -->
+                        <div class="mb-2">
+                            <p class="text-white/70 text-[10px] font-black tracking-[0.2em] uppercase mb-0">VIP STATUS CARD</p>
+                          <h2 id="vip-level-display" class="text-white text-[36px] font-black leading-none tracking-tight ">${vipTitle}</h2>
+                      </div>
+                      
+                      <!-- Progress Area -->
+                      <div class="bg-white/5 border border-white/10 rounded-[20px] p-2.5 mb-2 shadow-inner">
+                          <div class="flex items-center gap-2 mb-2">
+                              <span id="task-progress-text" class="text-white font-black text-[22px] leading-none">${window.completedTasks}/${limit}</span>
+                              <span class="text-white/70 text-[13px] font-bold leading-none mt-1">Tasks Completed</span>
+                          </div>
+                          <div class="w-full h-2 bg-white/20 rounded-full overflow-hidden">
+                              <div id="task-progress-bar" class="h-full rounded-full transition-all duration-500" style="width: ${limit > 0 ? (window.completedTasks / limit) * 100 : 0}%; background: linear-gradient(90deg, #ff9a28 0%, #ff5e00 100%); box-shadow: 0 0 10px rgba(255, 94, 0, 0.4);"></div>
+                          </div>
+                      </div>
+                      
+                      <!-- Bottom Perks -->
+                        <div class="flex items-center justify-center gap-6">
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full shadow-[0_0_8px_rgba(255,94,0,0.6)]" style="background: linear-gradient(180deg, #ff9a28 0%, #ff5e00 100%);"></div>
+                                <span class="text-white/90 text-[12px] font-bold">Earn Bonus: +${bonusPercent}%</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full shadow-[0_0_8px_rgba(255,94,0,0.6)]" style="background: linear-gradient(180deg, #ff9a28 0%, #ff5e00 100%);"></div>
+                                <span class="text-white/90 text-[12px] font-bold">${perkText}</span>
+                            </div>
+                        </div>
+                  </div>
+              `;
+              
+              
+                // Only use the 4 unique base platforms
+                const baseTasks = tasks.slice(0, 4);
+                
+                // Distribute 'limit' across the 4 platforms
+                const platformLimits = { 'youtube': 0, 'facebook': 0, 'telegram': 0, 'tiktok': 0 };
+                const platforms = ['youtube', 'facebook', 'telegram', 'tiktok'];
+                let remaining = limit;
+                let idx = 0;
+                while (remaining > 0) {
+                    platformLimits[platforms[idx % 4]]++;
+                    remaining--;
+                    idx++;
+                }
+
+                let remainingToDeduct = window.completedTasks;
+                let deductIdx = 0;
+                while(remainingToDeduct > 0 && deductIdx < 100) {
+                    let platform = platforms[deductIdx % 4];
+                    if (platformLimits[platform] > 0) {
+                        platformLimits[platform]--;
+                        remainingToDeduct--;
+                    }
+                    deductIdx++;
+                }
+
+                if (baseTasks.length === 0) {
+                    html += `
+                    <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-[24px] p-10 flex flex-col items-center justify-center text-center shadow-sm">
+                        <span class="material-symbols-outlined text-[48px] text-white/50 mb-3">task</span>
+                        <p class="text-white/80 font-bold">No tasks available right now.</p>
+                    </div>`;
+                } else {
+                    // Free Plan Lock Banner (When Free user completed 2 days / 100 tk)
+                    if (vipInfo.level === 0 && window.isFreeLocked) {
+                        html += `
+                        <div class="bg-gradient-to-r from-amber-500/25 to-orange-600/25 border border-amber-400/50 rounded-[24px] p-4 mb-3.5 backdrop-blur-xl flex items-center justify-between shadow-lg">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-amber-500/30 flex items-center justify-center shrink-0 border border-amber-400/50 shadow-sm">
+                                    <span class="material-symbols-outlined text-amber-300 text-[22px]">lock</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-black text-[13px] leading-tight">à¦«à§à¦°à¦¿ à¦ªà§à¦²à§à¦¯à¦¾à¦¨à§‡à¦° à¦®à§‡à§Ÿà¦¾à¦¦ à¦¶à§‡à¦· (à§¨ à¦¦à¦¿à¦¨ à¦¸à¦®à§à¦ªà¦¨à§à¦¨)</h4>
+                                    <p class="text-white/80 text-[11px] font-semibold mt-0.5">à¦Ÿà¦¾à¦¸à§à¦•à§‡à¦° à¦²à¦• à¦–à§à¦²à§‡ à¦†à¦¨à¦²à¦¿à¦®à¦¿à¦Ÿà§‡à¦¡ à¦†à§Ÿ à¦•à¦°à¦¤à§‡ VIP à¦†à¦ªà¦—à§à¦°à§‡à¦¡ à¦•à¦°à§à¦¨à¥¤</p>
+                                </div>
+                            </div>
+                            <button onclick="goToVip()" class="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-black text-[11px] px-3.5 py-2 rounded-xl shadow-md shrink-0 active:scale-95 transition-transform flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[14px]">stars</span> Get VIP
+                            </button>
+                        </div>`;
+                    } else if (window.completedTasks >= limit) {
+                        // Today Finished Countdown Banner (Resets at 12:00 AM Midnight)
+                        html += `
+                        <div class="bg-gradient-to-r from-blue-500/20 to-indigo-600/20 border border-blue-400/40 rounded-[24px] p-3.5 mb-3.5 backdrop-blur-xl flex items-center justify-between shadow-lg">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-9 h-9 rounded-full bg-blue-500/30 flex items-center justify-center shrink-0 border border-blue-400/40 shadow-sm">
+                                    <span class="material-symbols-outlined text-blue-300 text-[20px]">schedule</span>
+                                </div>
+                                <div>
+                                    <h4 class="text-white font-black text-[12px] leading-tight">à¦†à¦œà¦•à§‡à¦° à¦•à¦¾à¦œ à¦¸à¦®à§à¦ªà¦¨à§à¦¨!</h4>
+                                    <p class="text-white/70 text-[10px] font-semibold mt-0.5">à¦°à¦¾à¦¤ à§§à§¨:à§¦à§¦ à¦Ÿà¦¾à§Ÿ à¦¨à¦¤à§à¦¨ à¦•à¦¾à¦œ à¦†à¦¸à¦¬à§‡</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span id="midnight-countdown-text" class="text-amber-300 font-black text-xs font-mono bg-black/30 px-3 py-1.5 rounded-xl border border-white/10 shadow-inner">--:--:--</span>
+                            </div>
+                        </div>`;
+                    }
+
+                    // Render exactly 4 cards
+                    const roiMap = { 0: 50, 1: 53, 2: 114.25, 3: 257.90, 4: 580, 5: 1341, 6: 3000 };
+                    const dynamicReward = (roiMap[vipInfo.level] || 10) / limit;
+                    baseTasks.forEach(task => {
+                        const typeToIcon = {
+                            'youtube': 'https://www.vectorlogo.zone/logos/youtube/youtube-icon.svg',
+                            'facebook': 'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg',
+                            'tiktok': 'https://www.vectorlogo.zone/logos/tiktok/tiktok-icon.svg',
+                            'telegram': 'https://www.vectorlogo.zone/logos/telegram/telegram-icon.svg'
+                        };
+                        const iconUrl = typeToIcon[task.type] || 'https://www.vectorlogo.zone/logos/youtube/youtube-icon.svg';
+                        const displayPlatform = task.type.charAt(0).toUpperCase() + task.type.slice(1);
+                        const pLimit = platformLimits[task.type] || 0;
+                        
+                        // We store the limit in the DOM so we can decrement it
+                        let linksArr = [];
+                        try {
+                            if (task.link && task.link.startsWith('[')) linksArr = JSON.parse(task.link);
+                            else if (task.link) linksArr = [task.link];
+                        } catch(e) { if (task.link) linksArr = [task.link]; }
+                        linksArr = linksArr.filter(l => l && l.trim().length > 0);
+
+                        html += `
+                        <!-- Slim & Compact Glassmorphism Task Card -->
+                        <div class="bg-white/10 backdrop-blur-[15px] border border-white/20 rounded-[26px] py-2.5 px-4 shadow-sm flex items-center justify-between group transition-all hover:bg-white/20 mb-3" id="task-card-${task.id}" data-links='${JSON.stringify(linksArr)}' data-completed="0">
+                            <div class="flex items-center gap-3 w-[70%]">
+                                <div class="w-10 h-10 flex items-center justify-center shrink-0">
+                                    <img src="${iconUrl}" class="w-full h-full object-contain ">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="text-[15px] font-bold text-white truncate drop-shadow-sm leading-tight">${displayPlatform}</h4>
+                                    <p class="text-white/70 text-[11px] font-black uppercase tracking-widest mt-0.5" id="task-limit-${task.id}" data-limit="${pLimit}">${pLimit} TASKS TODAY</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-end gap-1 shrink-0">
+                                <span class="text-[16px] font-black text-slate-900 drop-shadow-sm">৳ ${parseFloat(dynamicReward).toFixed(2)}<span class="text-[11px] text-slate-500 font-bold ml-1">/task</span></span>
+                                ` + (pLimit > 0 && !window.isFreeLocked ? `
+                                <button onclick="startMultiTask(${task.id}, ${dynamicReward})" id="btn-task-${task.id}" class="text-white text-[12px] font-black px-7 py-1.5 rounded-full transition-transform hover:scale-105 active:scale-95" style="background: linear-gradient(180deg, #ff9a28 0%, #ff5e00 100%); box-shadow: 0 4px 15px rgba(255, 94, 0, 0.4);">Start</button>
+                                ` : `
+                                <button disabled class="flex items-center justify-center text-white/50 bg-white/10 px-7 py-1.5 rounded-full cursor-not-allowed" style="border: 1px solid rgba(255,255,255,0.1);"><span class="material-symbols-outlined text-[14px]">lock</span></button>
+                                `) + `
+                            </div>
+                        </div>`;
+                    });
+                }
+                
+
+document.getElementById('tasks-container').innerHTML = html;
+                if (typeof startMidnightCountdown === 'function') startMidnightCountdown();
+
+    
+    // Update VIP header
+    const bnNums = ['à§¦','à§§','à§¨','à§©','à§ª','à§«','à§¬','à§­','à§®','à§¯'];
+    const toBnNum = (n) => String(n).split('').map(d => bnNums[d] || d).join('');
+    
+    document.getElementById('vip-level-display').innerText = vipInfo.level === 0 ? 'FREE PROFILE' : 'VIP LEVEL ' + vipInfo.level;
+    
+    // Using 0 as completed tasks for now
+        document.getElementById('task-progress-text').innerText = `${window.completedTasks}/${limit}`;
+    
+    let progressPercent = limit > 0 ? (window.completedTasks / limit) * 100 : 0;
+    document.getElementById('task-progress-bar').style.width = progressPercent + '%';
+}
+
+
+    // Set username dynamically for the new VIP card
+    try {
+        // Fetch real name from backend via global APP object
+        const fetchAndSetName = async () => {
+            try {
+                let appRef = window.APP;
+                if (!appRef && window.parent && window.parent.APP) {
+                    appRef = window.parent.APP;
+                }
+                if (appRef && appRef.getProfile) {
+                    const profile = await appRef.getProfile();
+                    if (profile && profile.name) {
+                        const nameEl = document.getElementById('vip-user-name');
+                        if (nameEl) {
+                            nameEl.innerText = profile.name.split(' ')[0];
+                        }
+                    }
+                }
+            } catch(e) {}
+        };
+        fetchAndSetName();
+        
+        // Add Profile Pic Logic
+        let profilePic = null;
+        try { profilePic = window.parent.localStorage.getItem('userProfilePic'); } catch(e) { profilePic = localStorage.getItem('userProfilePic'); }
+        if (!profilePic) {
+            try { profilePic = localStorage.getItem('userProfilePic'); } catch(e) {}
+        }
+        
+        if (profilePic) {
+            const picEl = document.getElementById('vip-user-pic');
+            if (picEl) {
+                picEl.src = profilePic;
+                picEl.classList.remove('hidden');
+            }
+        }
+        
+        // Listen for profile pic updates from parent frame
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'profilePicUpdated') {
+                let newPic = null;
+                try { newPic = window.parent.localStorage.getItem('userProfilePic'); } catch(e) { newPic = localStorage.getItem('userProfilePic'); }
+                if (newPic) {
+                    const picEl = document.getElementById('vip-user-pic');
+                    if (picEl) {
+                        picEl.src = newPic;
+                        picEl.classList.remove('hidden');
+                    }
+                }
+            }
+        });
+    } catch(e) {}
+    
+    
+    function startTask(taskId) {
+    if (window.parent && window.parent.loadPage) {
+        window.parent.loadPage('task_action/code.html?taskId=' + taskId);
+    } else {
+        window.location.href = '../task_action/code.html?taskId=' + taskId;
+    }
+}
+
+// ensure APP object is loaded before generating tasks if we need to fetch
+document.addEventListener('DOMContentLoaded', () => {
+    requestAnimationFrame(() => { document.body.classList.add('ready'); });
+    if (window.APP) {
+        generateTasks();
+    } else {
+        // give it a brief moment if loaded via script tag async
+        setTimeout(generateTasks, 100);
+    }
+});
+</script>
+<script src="/js/app.js?v=2.5.0"></script>
+</main>
+
+<style>
+    @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+    @keyframes spin-slow {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .animate-spin-slow {
+        animation: spin-slow 8s linear infinite;
+    }
+
+    /* === ULTRA-FAST 0.15s GPU NATIVE ENTRANCE === */
+    
+    body {
+        
+        will-change: opacity, transform;
+    }
+
+</style>
+
+<script>
+function showTaskNotice(msg) {
+    let old = document.getElementById('task-notice-toast');
+    if (old) old.remove();
+    let toast = document.createElement('div');
+    toast.id = 'task-notice-toast';
+    toast.className = 'fixed top-12 left-1/2 -translate-x-1/2 z-[99999] px-5 py-3 rounded-2xl bg-amber-500/90 text-white font-bold text-sm shadow-xl backdrop-blur-md flex items-center gap-2 border border-white/30 animate-bounce text-center max-w-[90%]';
+    toast.innerHTML = `<span class="material-symbols-outlined text-[20px]">warning</span> <span>${msg}</span>`;
+    document.body.appendChild(toast);
+    setTimeout(() => { if (toast) toast.remove(); }, 3500);
+}
+
+function startMidnightCountdown() {
+    function updateTimer() {
+        const timerEl = document.getElementById('midnight-countdown-text');
+        if (!timerEl) return;
+
+        const now = new Date();
+        const bdNow = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Dhaka" }));
+        
+        const nextMidnight = new Date(bdNow);
+        nextMidnight.setHours(24, 0, 0, 0); // Next 12:00:00 AM
+
+        nextMidnight.setHours(24, 0, 0, 0); // Next 12:00:00 AM
+
+        const diffMs = nextMidnight - bdNow;
+        if (diffMs <= 0) {
+            timerEl.innerText = "à¦¨à¦¤à§à¦¨ à¦•à¦¾à¦œ à¦à¦¸à§‡à¦›à§‡! à¦²à§‹à¦¡ à¦¹à¦šà§à¦›à§‡...";
+            setTimeout(() => { if (typeof generateTasks === 'function') generateTasks(); else window.location.reload(); }, 1500);
+            return;
+        }
+
+        const hrs = Math.floor(diffMs / (1000 * 60 * 60));
+        const mins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((diffMs % (1000 * 60)) / 1000);
+
+        const pad = (n) => String(n).padStart(2, '0');
+        timerEl.innerText = pad(hrs) + 'h ' + pad(mins) + 'm ' + pad(secs) + 's';
+    }
+
+    updateTimer();
+    if (window.midnightInterval) clearInterval(window.midnightInterval);
+    window.midnightInterval = setInterval(updateTimer, 1000);
+}
+
+function goToVip() {
+    if (window.parent && window.parent.loadPage) {
+        window.parent.loadPage('investment_premium_glass/vip.html');
+    } else {
+        window.location.href = '../investment_premium_glass/vip.html';
+    }
+}
+
+async function startMultiTask(taskId, reward) {
+    if (window.vipLevelGlobal === 0 && window.isFreeLocked) {
+        showTaskNotice('âš ï¸ à¦†à¦ªà¦¨à¦¾à¦° à¦«à§à¦°à¦¿ à¦ªà§à¦²à§à¦¯à¦¾à¦¨à§‡à¦° à§¨ à¦¦à¦¿à¦¨à§‡à¦° à¦•à¦¾à¦œ à¦¸à¦®à§à¦ªà¦¨à§à¦¨ à¦¹à§Ÿà§‡à¦›à§‡! à¦Ÿà¦¾à¦¸à§à¦• à¦†à¦¨à¦²à¦• à¦•à¦°à¦¤à§‡ VIP à¦ªà§à¦²à§à¦¯à¦¾à¦¨à§‡ à¦†à¦ªà¦—à§à¦°à§‡à¦¡ à¦•à¦°à§à¦¨à¥¤');
+        setTimeout(() => goToVip(), 1000);
+        return;
+    }
+    try {
+        let token = localStorage.getItem('userToken');
+        if (!token && window.parent) {
+            try { token = window.parent.localStorage.getItem('userToken'); } catch(e) {}
+        }
+        
+        if (token) {
+            let limitEl = document.getElementById('task-limit-' + taskId);
+            let currentLimit = parseInt(limitEl.getAttribute('data-limit'));
+            
+            if (currentLimit <= 0) return;
+            
+            const taskCard = document.getElementById('task-card-' + taskId);
+            let linksArr = [];
+            try {
+                const rawLinks = taskCard ? taskCard.getAttribute('data-links') : '';
+                if (rawLinks && rawLinks.startsWith('[')) linksArr = JSON.parse(rawLinks);
+                else if (rawLinks) linksArr = [rawLinks];
+            } catch(e) {}
+            linksArr = linksArr.filter(l => l && l.trim().length > 0);
+
+            let completedForThis = parseInt(taskCard ? (taskCard.getAttribute('data-completed') || '0') : '0');
+            
+            // Link corresponding to this attempt (Link 1 on 1st, Link 2 on 2nd, etc.)
+            let targetLink = '';
+            if (linksArr.length > 0) {
+                targetLink = linksArr[completedForThis % linksArr.length] || linksArr[0] || '';
+            }
+
+            // SAFETY CHECK: If admin has not set any link, block auto-completion!
+            if (!targetLink || linksArr.length === 0 || !targetLink.startsWith('http')) {
+                showTaskNotice('âš ï¸ à¦à¦‡ à¦•à¦¾à¦œà§‡à¦° à¦œà¦¨à§à¦¯ à¦…à§à¦¯à¦¾à¦¡à¦®à¦¿à¦¨ à¦à¦–à¦¨à¦“ à¦•à§‹à¦¨à§‹ à¦²à¦¿à¦™à§à¦• à¦¯à§‹à¦— à¦•à¦°à§‡à¦¨à¦¨à¦¿!');
+                return;
+            }
+
+            let btn = document.getElementById('btn-task-' + taskId);
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<span class="inline-block animate-spin mr-1">â³</span> à¦…à¦ªà§‡à¦•à§à¦·à¦¾...';
+                btn.classList.add('opacity-75');
+            }
+
+            // Open the target link in a new tab so user completes the actual action
+            window.open(targetLink, '_blank');
+
+            // 3-second realistic verification delay so user sees task in progress
+            await new Promise(r => setTimeout(r, 3000));
+
+            const res = await fetch('/api/tasks/complete', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({ taskId })
+            });
+            
+            if (res.ok) {
+                const data = await res.json();
+                
+                completedForThis++;
+                if (taskCard) taskCard.setAttribute('data-completed', completedForThis);
+
+                currentLimit--;
+                limitEl.setAttribute('data-limit', currentLimit);
+                limitEl.innerText = currentLimit + ' TASKS TODAY';
+                
+                if (currentLimit <= 0) {
+                    if (btn) {
+                        btn.disabled = true;
+                        btn.innerHTML = '<span class="material-symbols-outlined text-[14px]">lock</span>';
+                        btn.className = 'flex items-center justify-center text-white/50 bg-white/10 px-7 py-1.5 rounded-full cursor-not-allowed';
+                        btn.style = 'border: 1px solid rgba(255,255,255,0.1);';
+                    }
+                } else {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = 'Start';
+                        btn.classList.remove('opacity-75');
+                    }
+                }
+                
+                // Update Progress Bar
+                window.completedTasks++;
+                const limitMap = {0: 1, 1: 4, 2: 6, 3: 8, 4: 10, 5: 12, 6: 14};
+                const totalLimit = limitMap[window.vipLevelGlobal] || 1;
+                
+                document.getElementById('task-progress-text').innerText = window.completedTasks + '/' + totalLimit;
+                let progressPercent = totalLimit > 0 ? (window.completedTasks / totalLimit) * 100 : 0;
+                document.getElementById('task-progress-bar').style.width = progressPercent + '%';
+                
+                let earnEl = document.getElementById('user-total-earnings');
+                if (earnEl) {
+                    let currentEarnings = parseFloat(earnEl.innerText.replace(/,/g, '')) || 0;
+                    currentEarnings += reward;
+                    earnEl.innerText = currentEarnings.toLocaleString('en-IN', {minimumFractionDigits: 2});
+                }
+
+                if (window.completedTasks >= totalLimit) {
+                    setTimeout(() => { if (typeof generateTasks === 'function') generateTasks(); }, 1200);
+                }
+            } else {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = 'Start';
+                    btn.classList.remove('opacity-75');
+                }
+                const err = await res.json().catch(() => ({}));
+                showTaskNotice(err.error || 'Failed to complete task');
+                if (err.is_free_locked || res.status === 403) {
+                    window.isFreeLocked = true;
+                    setTimeout(() => goToVip(), 1800);
+                }
+            }
+        }
+    } catch (e) {
+        console.error(e);
+        let btn = document.getElementById('btn-task-' + taskId);
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = 'Start';
+            btn.classList.remove('opacity-75');
+        }
+    }
+}
+
+// Auto-refresh tasks and VIP perks on tab activation or window focus
+window.addEventListener('message', (event) => {
+    if (event.data && (event.data.type === 'tab_activated' || event.data.type === 'profile_updated')) {
+        if (typeof generateTasks === 'function') generateTasks();
+    }
+});
+window.addEventListener('focus', () => {
+    if (typeof generateTasks === 'function') generateTasks();
+});
+</script>
+</body>
+</html>

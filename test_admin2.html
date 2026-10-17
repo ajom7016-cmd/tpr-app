@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JMJ App - Premium Admin</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@400,1,0,24" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: { primary: "#ea580c", "primary-light": "#f97316" }
+                }
+            }
+        }
+    </script>
+    
+    <!-- FOUC Fix for Tailwind CDN -->
+    <style>
+        body { font-family: 'Outfit', sans-serif; background: #f8fafc; color: #1e293b; overflow-x: hidden; opacity: 0; animation: fadeBodyIn 0.4s ease-out forwards; animation-delay: 150ms; }
+        @keyframes fadeBodyIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        /* Ultra Premium Animated 3D Background - Light Mode */
+        .bg-3d { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: #f8fafc; overflow: hidden; }
+        .orb-1 { position: absolute; top: -10%; right: -20%; width: 70vh; height: 70vh; background: radial-gradient(circle, rgba(239, 68, 68, 0.25) 0%, rgba(239, 68, 68, 0) 70%); border-radius: 50%; filter: blur(50px); animation: float 12s ease-in-out infinite; }
+        .orb-2 { position: absolute; bottom: -20%; left: -20%; width: 80vh; height: 80vh; background: radial-gradient(circle, rgba(249, 115, 22, 0.25) 0%, rgba(249, 115, 22, 0) 70%); border-radius: 50%; filter: blur(50px); animation: float 15s ease-in-out infinite reverse; }
+        .bg-block-1 { position: absolute; top: 40%; left: 10%; width: 50vh; height: 50vh; background: linear-gradient(135deg, rgba(248, 250, 252, 0.8), rgba(241, 245, 249, 0.4)); backdrop-filter: blur(20px); border-radius: 40px; transform: rotate(15deg); border: 1px solid rgba(255, 255, 255, 0.5); z-index: -1; }
+        .bg-block-2 { position: absolute; top: 20%; right: 10%; width: 40vh; height: 40vh; background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2)); backdrop-filter: blur(20px); border-radius: 40px; transform: rotate(-10deg); border: 1px solid rgba(255, 255, 255, 0.8); z-index: -1; }
+        
+        @keyframes float { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-30px) scale(1.05); } }
+        
+        .glass-card { background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid rgba(255, 255, 255, 0.8); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05), inset 0 0 20px rgba(255, 255, 255, 0.5); }
+        .btn-gradient { background: linear-gradient(135deg, #ff9a28 0%, #ff5e00 100%); }
+        .hide { display: none !important; }
+        .hidden { display: none !important; }
+    
+        .active-nav { background-color: rgba(255, 237, 213, 0.8) !important; color: #ea580c !important; }
+        .glass-3d { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.6); }
+    </style>
+
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-premium-mesh min-h-screen flex">
+
+    <!-- LOGIN SCREEN -->
+    <div id="login-section" class="absolute inset-0 z-[100] bg-premium-mesh flex items-center justify-center p-4">
+        <div class="glass-3d p-8 rounded-[32px] w-full max-w-sm text-center relative overflow-hidden">
+            
+            
+            <div class="w-20 h-20 bg-gradient-to-br from-orange-100 to-orange-50 rounded-[24px] mx-auto flex items-center justify-center mb-6 relative z-10 shadow-sm border border-white">
+                <span class="material-symbols-outlined text-[42px] text-slate-700">admin_panel_settings</span>
+            </div>
+            <h1 class="text-[32px] font-black text-slate-800 mb-1 relative z-10 text-center tracking-tight">JMJ Admin</h1>
+            <p class="text-slate-500 mb-8 text-sm relative z-10 font-semibold">অ্যাডমিন কন্ট্রোল প্যানেল</p>
+            
+            <div class="space-y-4 relative z-10 text-left">
+                <div>
+                    <label class="block text-[11px] font-black text-slate-600 mb-1.5 uppercase tracking-widest ml-1">Admin Phone</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-3.5 text-primary material-symbols-outlined text-[20px]">phone</span>
+                        <input type="text" id="adminPhone" value="01700000000" class="w-full bg-white/50 border border-white/60 rounded-[24px] pl-12 pr-4 py-4 focus:outline-none focus:border-primary shadow-inner text-[16px] font-bold text-slate-800 backdrop-blur-md">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-[11px] font-black text-slate-600 mb-1.5 uppercase tracking-widest ml-1">Password</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-3.5 text-primary material-symbols-outlined text-[20px]">lock</span>
+                        <input type="password" id="adminPass" value="admin123" class="w-full bg-white/50 border border-white/60 rounded-[24px] pl-12 pr-4 py-4 focus:outline-none focus:border-primary shadow-inner text-[16px] font-bold text-slate-800 backdrop-blur-md">
+                    </div>
+                </div>
+                <button onclick="loginAdmin()" class="w-full btn-premium py-4 rounded-2xl font-bold shadow-lg mt-2 text-[15px]">
+                    লগইন করুন
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="hide w-72 glass-3d h-[calc(100vh-40px)] m-5 rounded-[32px] flex flex-col relative z-20">
+        <div class="p-8 flex items-center gap-4 border-b border-orange-100/50">
+            <div class="w-12 h-12 bg-orange-100 rounded-[18px] flex items-center justify-center shadow-sm border border-white">
+                <span class="material-symbols-outlined text-primary text-[28px]">dashboard</span>
+            </div>
+            <h2 class="text-2xl font-black text-slate-800 tracking-tight">JMJ Admin</h2>
+        </div>
+        <nav class="flex-1 py-6 flex flex-col gap-2">
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn active-nav flex items-center gap-4 px-8 py-3.5 text-[15px] font-semibold text-slate-500 hover:bg-orange-50/50 transition-colors w-full text-left">
+                <span class="material-symbols-outlined">monitoring</span> ড্যাশবোর্ড
+            </button>
+            <button onclick="switchTab('users')" id="nav-users" class="nav-btn flex items-center gap-4 px-8 py-3.5 text-[15px] font-semibold text-slate-500 hover:bg-orange-50/50 transition-colors w-full text-left">
+                <span class="material-symbols-outlined">group</span> ইউজার ম্যানেজমেন্ট
+            </button>
+            <button onclick="switchTab('tasks')" id="nav-tasks" class="nav-btn flex items-center gap-4 px-8 py-3.5 text-[15px] font-semibold text-slate-500 hover:bg-orange-50/50 transition-colors w-full text-left">
+                <span class="material-symbols-outlined">assignment</span> টাস্ক (কাজ) সেটআপ
+            </button>
+            <button onclick="switchTab('withdrawals')" id="nav-withdrawals" class="nav-btn flex items-center gap-4 px-8 py-3.5 text-[15px] font-semibold text-slate-500 hover:bg-orange-50/50 transition-colors w-full text-left">
+                <span class="material-symbols-outlined">account_balance_wallet</span> উইথড্র রিকোয়েস্ট
+            </button>
+        
+                <button onclick="switchTab('deposit')" id="nav-deposit" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-500 font-semibold hover:bg-slate-50 transition-colors">
+                    <span class="material-symbols-outlined">payments</span>
+                    ডিপোজিট রিকোয়েস্ট
+                </button>
+                <button onclick="switchTab('settings')" id="nav-settings" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-500 font-semibold hover:bg-slate-50 transition-colors">
+                    <span class="material-symbols-outlined">settings</span>
+                    অ্যাপ সেটিংস
+                </button>
+    </nav>
+        <div class="p-6">
+            <button onclick="logoutAdmin()" class="flex items-center gap-2 w-full justify-center bg-red-50 text-red-600 font-bold py-3.5 rounded-2xl hover:bg-red-100 transition-colors shadow-sm border border-red-100">
+                <span class="material-symbols-outlined">logout</span> লগ আউট
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main id="main-content" class="hide flex-1 h-screen overflow-y-auto p-10 relative z-10">
+        
+        <!-- DASHBOARD TAB -->
+        <section id="tab-dashboard" class="tab-content">
+            <h2 class="text-3xl font-black text-slate-800 mb-8">ওভারভিউ</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="glass-3d p-8 rounded-[32px] relative overflow-hidden flex items-center gap-6">
+                    <div class="w-16 h-16 rounded-[20px] bg-blue-50 flex items-center justify-center border border-white shadow-sm">
+                        <span class="material-symbols-outlined text-[32px] text-blue-500">group</span>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">মোট ইউজার</p>
+                        <h3 class="text-4xl font-black text-slate-800" id="dash-total-users">0</h3>
+                    </div>
+                </div>
+                
+                <div class="glass-3d p-8 rounded-[32px] relative overflow-hidden flex items-center gap-6">
+                    <div class="w-16 h-16 rounded-[20px] bg-transparent flex items-center justify-center border border-white shadow-sm">
+                        <span class="material-symbols-outlined text-[32px] text-primary">pending_actions</span>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">পেন্ডিং উইথড্র</p>
+                        <h3 class="text-4xl font-black text-primary" id="dash-pending-withdraw">0</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- USERS TAB -->
+        <section id="tab-users" class="tab-content hide">
+            <h2 class="text-3xl font-black text-slate-800 mb-8">ইউজার ম্যানেজমেন্ট</h2>
+            <div class="glass-3d rounded-[32px] overflow-hidden p-2">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="text-slate-500 text-xs uppercase tracking-wider border-b border-gray-100">
+                            <th class="p-6 font-bold">আইডি</th>
+                            <th class="p-6 font-bold">নাম</th>
+                            <th class="p-6 font-bold">মোবাইল</th>
+                            <th class="p-6 font-bold">ব্যালেন্স</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-list">
+                        <tr><td colspan="4" class="p-8 text-center font-bold text-slate-400">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- TASKS TAB -->
+        <section id="tab-tasks" class="tab-content hide">
+            <div class="flex justify-between items-end mb-8">
+                <h2 class="text-3xl font-black text-slate-800">টাস্ক সেটআপ</h2>
+                <button onclick="addTask()" class="btn-premium px-6 py-3.5 rounded-2xl font-bold flex items-center gap-2 text-[15px]">
+                    <span class="material-symbols-outlined">add</span> নতুন কাজ
+                </button>
+            </div>
+            <div id="task-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-8 text-center w-full font-bold text-slate-400">Loading...</div>
+            </div>
+        </section>
+
+        <!-- WITHDRAWALS TAB -->
+        <section id="tab-withdrawals" class="tab-content hide">
+            <div class="flex justify-between items-end mb-8">
+                <h2 class="text-3xl font-black text-slate-800">উইথড্র রিকোয়েস্ট</h2>
+                <button onclick="fetchWithdrawals()" class="glass-soft bg-white px-6 py-3.5 rounded-2xl font-bold text-slate-600 flex items-center gap-2 text-[15px] hover:bg-slate-50 transition-colors shadow-sm">
+                    <span class="material-symbols-outlined">refresh</span> রিফ্রেশ
+                </button>
+            </div>
+            
+            <div class="glass-3d rounded-[32px] overflow-hidden p-2">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="text-slate-500 text-xs uppercase tracking-wider border-b border-gray-100">
+                            <th class="p-6 font-bold">ইউজার</th>
+                            <th class="p-6 font-bold">মেথড</th>
+                            <th class="p-6 font-bold">অ্যামাউন্ট</th>
+                            <th class="p-6 font-bold">স্ট্যাটাস</th>
+                            <th class="p-6 font-bold text-right">অ্যাকশন</th>
+                        </tr>
+                    </thead>
+                    <tbody id="withdraw-list">
+                        <tr><td colspan="5" class="p-8 text-center font-bold text-slate-400">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    
+        <!-- Deposit Requests -->
+        <section id="tab-deposit" class="tab-content hide">
+            <h2 class="text-3xl font-black text-slate-800 mb-8">ডিপোজিট রিকোয়েস্ট</h2>
+            <div class="glass-3d rounded-[32px] overflow-hidden p-2">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="text-slate-500 text-xs uppercase tracking-wider border-b border-gray-100">
+                            <th class="p-6 font-bold">তারিখ</th>
+                            <th class="p-6 font-bold">ইউজার</th>
+                            <th class="p-6 font-bold">মেথড ও TxID</th>
+                            <th class="p-6 font-bold">অ্যামাউন্ট</th>
+                            <th class="p-6 font-bold text-right">অ্যাকশন</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deposit-table">
+                        <tr><td colspan="5" class="p-8 text-center font-bold text-slate-400">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Settings -->
+        <section id="tab-settings" class="tab-content hide">
+            <h2 class="text-3xl font-black text-slate-800 mb-8">অ্যাপ সেটিংস</h2>
+            <div class="glass-3d rounded-[32px] p-8 max-w-2xl bg-white/40">
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-widest">অ্যাপের নাম</label>
+                        <input type="text" id="set_app_name" class="w-full bg-white/60 border border-white/60 rounded-2xl px-4 py-3 font-bold text-slate-800 shadow-sm focus:outline-none focus:border-orange-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-widest">বিকাশ নাম্বার (ডিপোজিট)</label>
+                        <input type="text" id="set_bkash" class="w-full bg-white/60 border border-white/60 rounded-2xl px-4 py-3 font-bold text-slate-800 shadow-sm focus:outline-none focus:border-orange-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-widest">নগদ নাম্বার (ডিপোজিট)</label>
+                        <input type="text" id="set_nagad" class="w-full bg-white/60 border border-white/60 rounded-2xl px-4 py-3 font-bold text-slate-800 shadow-sm focus:outline-none focus:border-orange-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-widest">হোমপেজ নোটিশ</label>
+                        <textarea id="set_notice" class="w-full bg-white/60 border border-white/60 rounded-2xl px-4 py-3 font-bold text-slate-800 shadow-sm focus:outline-none focus:border-orange-500" rows="3"></textarea>
+                    </div>
+                    <button onclick="saveSettings()" class="w-full btn-gradient text-white font-black py-4 rounded-2xl shadow-[0_8px_20px_rgba(234,88,12,0.3)] active:scale-95 transition-transform tracking-widest mt-4">সেটিংস সেভ করুন</button>
+                </div>
+            </div>
+        </section>
+    
+    </main>
+
+    <script>
+        let authToken = localStorage.getItem('adminToken');
+
+        if (authToken) {
+            document.getElementById('login-section').classList.add('hide');
+            document.getElementById('sidebar').classList.remove('hide');
+            document.getElementById('main-content').classList.remove('hide');
+            loadAllData();
+        }
+
+        async function loginAdmin() {
+            const phone = document.getElementById('adminPhone').value;
+            const password = document.getElementById('adminPass').value;
+            const btn = document.querySelector('#login-section button');
+            const og = btn.innerHTML;
+            btn.innerHTML = "Logging in...";
+            try {
+                const res = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ contact: phone, password }) });
+                const data = await res.json();
+                if (data.token && data.user.role === 'admin') {
+                    localStorage.setItem('adminToken', data.token);
+                    authToken = data.token;
+                    location.reload();
+                } else { alert('লগইন ব্যর্থ হয়েছে।'); btn.innerHTML = og; }
+            } catch (e) { alert('ত্রুটি হয়েছে।'); btn.innerHTML = og; }
+        }
+
+        function logoutAdmin() {
+            localStorage.removeItem('adminToken');
+            location.reload();
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hide'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active-nav'));
+            document.getElementById('tab-' + tabId).classList.remove('hide');
+            document.getElementById('nav-' + tabId).classList.add('active-nav');
+        }
+
+        ['dashboard', 'users', 'tasks', 'withdrawals', 'deposit', 'settings'].forEach(tab => {
+            const btn = document.getElementById('nav-' + tab);
+            if (btn) btn.addEventListener('click', () => switchTab(tab));
+        });
+
+        async function loadAllData() {
+            fetchDashboard();
+            fetchUsers();
+            fetchTasks();
+            fetchWithdrawals();
+            fetchDeposits();
+            fetchSettings();
+        }
+
+        async function fetchDashboard() {
+            const res = await fetch('/api/admin/users', { headers: { 'Authorization': 'Bearer ' + authToken } });
+            if(res.status === 403) return logoutAdmin();
+            const data = await res.json();
+            document.getElementById('dash-total-users').innerText = data.length;
+        }
+
+        async function fetchUsers() {
+            const res = await fetch('/api/admin/users', { headers: { 'Authorization': 'Bearer ' + authToken } });
+            const data = await res.json();
+            const tbody = document.getElementById('user-list');
+            tbody.innerHTML = '';
+            data.forEach(u => {
+                tbody.innerHTML += `<tr class="hover:bg-orange-50/50 transition-colors border-b border-gray-50/50">
+                    <td class="p-6 font-bold text-slate-400">#${u.id}</td>
+                    <td class="p-6 font-bold text-slate-800">${u.name}</td>
+                    <td class="p-6 font-semibold text-slate-500">${u.phone}</td>
+                    <td class="p-6 text-primary font-black text-lg">৳ ${u.balance}</td>
+                    <td class="p-6 text-right flex justify-end gap-2 items-center">
+                        <span class="px-3 py-1.5 bg-orange-100 text-orange-700 font-bold text-[11px] rounded-full uppercase cursor-pointer hover:bg-orange-200 border border-orange-200 shadow-sm" onclick="changeUserVIP(${u.id}, '${u.vip_plan}')">${u.vip_plan || 'Free'}</span>
+                        <button onclick="editUserBalance(${u.id}, ${u.balance})" class="w-8 h-8 bg-green-100 text-green-700 rounded-full flex items-center justify-center hover:bg-green-200 border border-green-200 shadow-sm" title="Edit Balance"><span class="material-symbols-outlined text-[16px]">edit</span></button>
+                        <button onclick="banUser(${u.id}, '${u.status}')" class="w-8 h-8 ${u.status==='banned'?'bg-red-500 text-white':'bg-red-100 text-red-700 hover:bg-red-200'} rounded-full flex items-center justify-center border border-red-200 shadow-sm" title="${u.status==='banned'?'Unban User':'Ban User'}"><span class="material-symbols-outlined text-[16px]">${u.status==='banned'?'lock':'lock_open'}</span></button>
+                          <button onclick="deleteUser(${u.id})" class="w-8 h-8 bg-red-100 text-red-700 rounded-full flex items-center justify-center hover:bg-red-300 border border-red-300 shadow-sm ml-1" title="Delete User Permanently"><span class="material-symbols-outlined text-[16px]">delete</span></button>
+                    </td>
+                </tr>`;
+            });
+        }
+
+        async function fetchTasks() {
+            const res = await fetch('/api/tasks', { headers: { 'Authorization': 'Bearer ' + authToken } });
+            const data = await res.json();
+            const list = document.getElementById('task-list');
+            list.innerHTML = '';
+            data.forEach(t => {
+                let shortLink = t.link ? (t.link.length > 30 ? t.link.substring(0,27)+'...' : t.link) : 'কোনো লিঙ্ক নেই';
+                list.innerHTML += `<div class="glass-3d p-6 rounded-[24px] flex justify-between items-center group mb-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-[18px] bg-orange-100 flex items-center justify-center border border-white shadow-sm cursor-pointer hover:bg-orange-200" onclick="editTaskLink(${t.id}, '${t.link||''}')" title="লিঙ্ক এডিট করুন">
+                            <span class="material-symbols-outlined text-primary text-[24px]">link</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-lg">${t.title}</h4>
+                            <div class="flex flex-col mt-1 text-sm font-semibold">
+                                <p class="text-slate-500">রিওয়ার্ড: <span class="text-primary font-bold">৳ ${t.reward}</span></p>
+                                <p class="text-blue-500 truncate max-w-[200px]" title="${t.link}">${shortLink}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="deleteTask(${t.id})" class="w-12 h-12 bg-red-50 text-red-500 rounded-[16px] hover:bg-red-500 hover:text-white transition-all shadow-sm border border-red-100 flex items-center justify-center">
+                        <span class="material-symbols-outlined">delete</span>
+                    </button>
+                </div>`;
+            });
+        }
+
+        async function addTask() {
+            const title = prompt("টাস্কের নাম (যেমন: YouTube, Facebook):");
+            if(!title) return;
+            const link = prompt("এই টাস্কের লিঙ্ক (URL):", "https://");
+            const reward = prompt("রিওয়ার্ড অ্যামাউন্ট (৳):", "10");
+            if(title && reward) {
+                await fetch('/api/admin/tasks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
+                    body: JSON.stringify({ title, description: '', reward: parseFloat(reward), type: 'general', link: link || '' })
+                });
+                fetchTasks();
+            }
+        }
+
+        async function deleteTask(id) {
+            if(confirm("টাস্কটি ডিলিট করতে চান?")) {
+                await fetch('/api/admin/tasks/' + id, { method: 'DELETE', headers: { 'Authorization': 'Bearer ' + authToken } });
+                fetchTasks();
+            }
+        }
+        
+        window.editTaskLink = async function(id, currentLink) {
+            const newLink = prompt("এই টাস্কের নতুন লিঙ্ক দিন:", currentLink);
+            if(newLink !== null) {
+                try {
+                    await fetch('/api/admin/tasks/' + id + '/link', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
+                        body: JSON.stringify({ link: newLink })
+                    });
+                    fetchTasks();
+                } catch(e) {}
+            }
+        }
+
+        async function fetchWithdrawals() {
+            const res = await fetch('/api/admin/withdrawals', { headers: { 'Authorization': 'Bearer ' + authToken } });
+            const data = await res.json();
+            const tbody = document.getElementById('withdraw-list');
+            tbody.innerHTML = '';
+            let pendingCount = 0;
+            if(data.length === 0) tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center font-bold text-slate-400">কোনো উইথড্র রিকোয়েস্ট নেই।</td></tr>`;
+            data.forEach(req => {
+                if(req.status === 'pending') pendingCount++;
+                let statusBadge = req.status === 'pending' 
+                    ? `<span class="bg-orange-100 text-orange-700 px-4 py-1.5 rounded-full text-xs font-bold border border-orange-200">পেন্ডিং</span>`
+                    : `<span class="bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-xs font-bold border border-green-200">সম্পন্ন</span>`;
+                tbody.innerHTML += `<tr class="hover:bg-orange-50/50 transition-colors border-b border-gray-50/50">
+                    <td class="p-6">
+                        <div class="font-bold text-slate-800 text-[15px]">${req.user_name}</div>
+                        <div class="text-[13px] font-semibold text-slate-500">${req.user_phone}</div>
+                    </td>
+                    <td class="p-6 font-bold text-slate-600">${req.method || 'bKash'}</td>
+                    <td class="p-6 font-black text-primary text-lg">৳ ${req.amount}</td>
+                    <td class="p-6">${statusBadge}</td>
+                    <td class="p-6 text-right">
+                        ${req.status === 'pending' ? `<button onclick="approveWithdraw(${req.id})" class="btn-premium px-6 py-2.5 rounded-2xl text-[13px] font-bold shadow-md flex items-center gap-1.5 ml-auto"><span class="material-symbols-outlined text-[18px]">done</span> Pay</button>` : '-'}
+                    </td>
+                </tr>`;
+            });
+            document.getElementById('dash-pending-withdraw').innerText = pendingCount;
+        }
+
+        async function approveWithdraw(id) {
+            if(confirm("এই উইথড্র রিকোয়েস্টটি অ্যাপ্রুভ করতে চান?")) {
+                const res = await fetch('/api/admin/withdrawals/' + id + '/approve', { method: 'POST', headers: { 'Authorization': 'Bearer ' + authToken } });
+                if(res.ok) { alert("পেমেন্ট সম্পন্ন হয়েছে!"); fetchWithdrawals(); }
+                else alert("কোনো সমস্যা হয়েছে।");
+            }
+        }
+
+        async function fetchDeposits() {
+            try {
+                const res = await fetch('/api/admin/deposits', { headers: { 'Authorization': 'Bearer ' + authToken } });
+                const deposits = await res.json();
+                const tbody = document.getElementById('deposit-table');
+                if(deposits.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center font-bold text-slate-400">কোনো ডিপোজিট রিকোয়েস্ট নেই!</td></tr>';
+                } else {
+                    tbody.innerHTML = deposits.map(d => `
+                        <tr class="hover:bg-slate-50/50 transition-colors border-b border-gray-50/50">
+                            <td class="p-6 text-sm text-slate-500 font-semibold">${new Date(d.created_at).toLocaleString()}</td>
+                            <td class="p-6"><div class="text-sm font-bold text-slate-800">${d.name}</div><div class="text-xs font-semibold text-slate-500">${d.phone}</div></td>
+                            <td class="p-6"><span class="px-3 py-1 bg-slate-200 text-slate-600 text-[10px] font-bold rounded-lg uppercase border border-slate-300">${d.method}</span> <div class="text-xs font-bold mt-2 text-slate-700">${d.transaction_id}</div></td>
+                            <td class="p-6 text-lg font-black text-primary">৳${d.amount}</td>
+                            <td class="p-6 text-right">
+                                ${d.status === 'pending' ? `
+                                    <button onclick="actionDeposit(${d.id}, 'approve')" class="px-4 py-2 bg-green-100 text-green-700 font-bold text-xs rounded-xl hover:bg-green-200 mr-2 border border-green-200 shadow-sm">Approve</button>
+                                    <button onclick="actionDeposit(${d.id}, 'reject')" class="px-4 py-2 bg-red-100 text-red-600 font-bold text-xs rounded-xl hover:bg-red-200 border border-red-200 shadow-sm">Reject</button>
+                                ` : `<span class="px-4 py-1.5 text-xs font-bold rounded-xl ${d.status==='approved'?'bg-green-100 text-green-700 border-green-200':'bg-red-100 text-red-700 border-red-200'} uppercase border">${d.status}</span>`}
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+            } catch(e) {}
+        }
+        
+        async function actionDeposit(id, action) {
+            if(!confirm('Are you sure you want to ' + action + ' this deposit?')) return;
+            try {
+                await fetch('/api/admin/deposits/' + id + '/action', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
+                    body: JSON.stringify({ action })
+                });
+                fetchDeposits();
+            } catch(e) {}
+        }
+        
+        async function fetchSettings() {
+            try {
+                const res = await fetch('/api/settings');
+                const settings = await res.json();
+                if(settings.app_name) document.getElementById('set_app_name').value = settings.app_name;
+                if(settings.bkash_number) document.getElementById('set_bkash').value = settings.bkash_number;
+                if(settings.nagad_number) document.getElementById('set_nagad').value = settings.nagad_number;
+                if(settings.notice_text) document.getElementById('set_notice').value = settings.notice_text;
+            } catch(e) {}
+        }
+        
+        window.saveSettings = async function() {
+            try {
+                const payload = {
+                    app_name: document.getElementById('set_app_name').value,
+                    bkash_number: document.getElementById('set_bkash').value,
+                    nagad_number: document.getElementById('set_nagad').value,
+                    notice_text: document.getElementById('set_notice').value
+                };
+                await fetch('/api/admin/settings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
+                    body: JSON.stringify(payload)
+                });
+                alert('Settings Saved Successfully!');
+            } catch(e) { alert('Error saving'); }
+        }
+
+        window.changeUserVIP = async function(id, current) {
+            const newVip = prompt("Enter new VIP Plan for User #" + id + " (e.g. VIP 1, VIP 2, Free):", current || 'Free');
+            if(newVip && newVip !== current) {
+                try {
+                    await fetch('/api/admin/users/' + id + '/vip', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
+                        body: JSON.stringify({ vip_plan: newVip })
+                    });
+                    fetchUsers();
+                } catch(e) {}
+            }
+        };
+        
+        window.editUserBalance = async function(id, currentBal) {
+            const act = prompt("User #" + id + " Balance: ৳" + currentBal + "\nType 'add' to Add funds or 'deduct' to Remove funds:", "add");
+            if(act === 'add' || act === 'deduct') {
+                const amt = prompt("Enter Amount to " + act + ":", "0");
+                if(amt && !isNaN(parseFloat(amt))) {
+                    try {
+                        await fetch('/api/admin/users/' + id + '/balance', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
+                            body: JSON.stringify({ action: act, amount: amt })
+                        });
+                        fetchUsers();
+                    } catch(e) {}
+                }
+            }
+        };
+    
+        
+        window.deleteUser = async function(id) {
+            if(confirm("আপনি কি নিশ্চিত যে আপনি ইউজার #" + id + " কে ডাটাবেস থেকে পার্মানেন্টলি ডিলিট করতে চান? এই কাজ আর ফেরানো যাবে না!")) {
+                try {
+                    await fetch('/api/admin/users/' + id, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': 'Bearer ' + authToken }
+                    });
+                    fetchUsers();
+                } catch(e) {
+                    alert('Error deleting user.');
+                }
+            }
+        };
+
+        window.banUser = async function(id, currentStatus) {
+            const act = currentStatus === 'banned' ? 'active' : 'banned';
+            const msg = act === 'banned' ? 'এই ইউজারকে কি সত্যিই Ban (লক) করতে চান?' : 'এই ইউজারের Ban (লক) তুলে নিতে চান?';
+            if(confirm(msg)) {
+                try {
+                    await fetch('/api/admin/users/' + id + '/ban', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + authToken },
+                        body: JSON.stringify({ status: act })
+                    });
+                    fetchUsers();
+                } catch(e) {}
+            }
+        };
+        
+    </script>
+</body>
+</html>

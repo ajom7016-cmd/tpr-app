@@ -1,0 +1,56 @@
+Created At: 2026-09-14T17:29:37+06:00
+Completed At: 2026-09-14T17:29:42+06:00
+
+The command exited with code 0.
+Output:
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#171a1f">
+    <link rel="apple-touch-icon" href="/assets/logo.png">
+    <script>
+        (function(){
+            let done = false;
+            function hidePreloader() {
+                if(done) return;
+                done = true;
+                const p = document.getElementById('tpr-global-preloader');
+                if(p) { p.style.opacity = '0'; setTimeout(() => p.remove(), 150); }
+            }
+            setTimeout(hidePreloader, 1000); // Exactly 1s spin!
+        })();
+    </script>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="main-wrapper">
+        
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="text-2xl font-bold tracking-widest text-white">
+                TPR
+            </div>
+            <div class="hidden md:flex gap-8 text-sm font-medium text-gray-300">
+                <a href="#" class="hover:text-white">features</a>
+                <a href="#" class="hover:text-about">about</a>
+                <a href="#" class="hover:text-white">blog</a>
+                <a href="#" class="hover:text-white">download</a>
+            </div>
+        </nav>
+
+        <!-- Hero -->
+

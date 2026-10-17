@@ -1,0 +1,24 @@
+{
+  "name": "TPR App - The Pet Royal Official",
+  "short_name": "TPR App",
+  "description": "TPR App (The Pet Royal) - Official Digital Earning Platform in Bangladesh",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#f1f5f9",
+  "theme_color": "#ea580c",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/assets/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/app-icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

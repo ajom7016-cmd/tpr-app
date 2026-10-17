@@ -1,0 +1,412 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Withdraw</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0" rel="stylesheet" />
+    <style>
+        body { font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-theme {
+            background: #ea580c;
+            color: white;
+            transition: all 0.2s;
+        }
+        .btn-theme:active { transform: scale(0.97); }
+
+        .input-glass {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 1);
+            transition: all 0.2s ease;
+        }
+        .input-glass:focus {
+            background: rgba(255, 255, 255, 1);
+            border-color: #64748b;
+            outline: none;
+        }
+
+        .method-card {
+            background: rgba(255,255,255,0.7);
+            border: 1px solid rgba(255,255,255,0.9);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .method-card:active { transform: scale(0.96); }
+        .method-card.active {
+            border-color: #ea580c;
+            background: rgba(255,255,255,1);
+            transform: scale(1.02) translateY(-2px);
+            box-shadow: 0 8px 24px rgba(234, 88, 12, 0.15);
+        }
+
+        .logo-box {
+            background: transparent;
+            border-radius: 7px;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(234, 88, 12, 0.3);
+            border-radius: 50%;
+            border-top-color: #ea580c;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    
+        .btn-premium {
+            background: linear-gradient(180deg, #ff9a28 0%, #ff5e00 100%);
+            border-radius: 9999px !important; /* Force pill shape */
+            border: none;
+            box-shadow: 
+                0 4px 10px rgba(0, 0, 0, 0.2),
+                inset 0 3px 5px rgba(255, 255, 255, 0.5),
+                inset 0 -3px 5px rgba(200, 50, 0, 0.8),
+                inset 0 1px 1px rgba(255, 255, 255, 0.9);
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 800;
+        }
+
+        .btn-premium:hover {
+            box-shadow: 
+                0 6px 15px rgba(0, 0, 0, 0.25),
+                inset 0 3px 6px rgba(255, 255, 255, 0.6),
+                inset 0 1px 1px rgba(255, 255, 255, 1),
+                inset 0 -4px 8px rgba(200, 50, 0, 0.9);
+            background: linear-gradient(180deg, #ffaa42 0%, #ff6b1a 100%);
+        }
+        
+        .btn-premium:active {
+            transform: translateY(1px);
+            background: linear-gradient(180deg, #e85500 0%, #ff9a28 100%);
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.2),
+                inset 0 4px 8px rgba(0,0,0,0.4);
+        }
+
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+    
+    /* Anti-FOUC Smooth Load */
+    body {
+        animation: smoothLoad 0.4s ease-out forwards;
+        opacity: 0;
+    }
+    @keyframes smoothLoad {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+</style>
+
+<style id="custom-global-scrollbar">
+  /* Smooth, native-feeling scrollbar */
+  ::-webkit-scrollbar { width: 7px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 7px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.4); }
+
+  /* Perfectly aligned scrollbar buttons (Gray Triangles) */
+  ::-webkit-scrollbar-button:single-button {
+    background-color: transparent;
+    display: block;
+    height: 14px;
+    width: 7px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 7px 7px;
+  }
+  
+  /* Top Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:decrement {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDE3IDE5LDE3IDEwLDUnIGZpbGw9JyM2NDZlNzgnLz48L3N2Zz4=");
+  }
+  
+  /* Bottom Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:increment {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDMgMTksMyAxMCwxNScgZmlsbD0nIzY0NmU3OCcvPjwvc3ZnPg==");
+  }
+</style>
+
+<style id="true-bg">
+    body {
+        background: linear-gradient(rgba(0,0,0,0.05), rgba(0,0,0,0.12)), url('/assets/bg_main_py.jpg') center/cover no-repeat fixed !important;
+    }
+</style>
+</head>
+<body class="pb-6 px-5 text-slate-800">
+    <div class="max-w-[400px] mx-auto pt-6">
+        
+        <div class="flex items-center gap-4 mb-6 relative">
+            <button onclick="window.parent.loadPage('user_profile_premium_glass/code.html')" class="w-10 h-10 rounded-full bg-white/40 border border-white/60 flex items-center justify-center backdrop-blur-md shadow-sm active:scale-95 transition-all">
+                <span class="material-symbols-outlined text-slate-700">arrow_back</span>
+            </button>
+            <h1 class="text-[24px] font-black tracking-tight text-slate-800">Withdraw Funds</h1>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading-state" class="flex flex-col items-center justify-center mt-20">
+            <div class="spinner mb-4"></div>
+            <p class="text-[14px] font-semibold text-slate-500">Checking methods...</p>
+        </div>
+
+        <!-- Empty State (No Banks) -->
+        <div id="empty-state" class="hidden flex-col items-center justify-center mt-10">
+            <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mb-6">
+                <span class="material-symbols-outlined text-slate-400 text-[48px]">account_balance</span>
+            </div>
+            <h2 class="text-[20px] font-black text-slate-800 mb-2">No Payment Method</h2>
+            <p class="text-slate-500 text-center text-[14px] font-medium px-4 mb-8">
+                You must add a Bank or Mobile Banking account before you can withdraw your funds.
+            </p>
+            <button onclick="goToAddBank()" class="btn-premium w-full py-4 rounded-full font-black text-[18px] tracking-wide flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined text-[20px]">add_circle</span>
+                Add Payment Method
+            </button>
+        </div>
+
+        <!-- Withdraw Form -->
+        <div id="withdraw-form" class="hidden">
+            <!-- Balance Card -->
+            <div class="glass-panel rounded-[32px] p-6 mb-6 flex items-center justify-between">
+                <div>
+                    <p class="text-[12px] font-bold text-slate-400 uppercase tracking-wider mb-1">Available Balance</p>
+                    <h2 class="text-[26px] font-black text-slate-800 tracking-tight flex items-center gap-1">
+                        ৳<span id="user-balance">0.00</span>
+                    </h2>
+                </div>
+                <div class="w-12 h-12 bg-slate-100/60 border border-white/50 shadow-sm rounded-full flex items-center justify-center">
+                    <span class="material-symbols-outlined text-slate-700">account_balance_wallet</span>
+                </div>
+            </div>
+
+            <!-- Select Method -->
+            <h3 class="text-[14px] font-bold text-slate-700 mb-3 px-1">Select Receive Method</h3>
+            <div id="bank-methods" class="flex flex-col gap-3 mb-6">
+                <!-- Banks will be injected here -->
+            </div>
+
+            <!-- Amount Input -->
+            <h3 class="text-[14px] font-bold text-slate-700 mb-3 px-1 mt-6">Withdrawal Amount</h3>
+            <div class="relative mb-8">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <span class="text-slate-500 font-bold text-[16px]">৳</span>
+                </div>
+                <input type="number" id="amount-input" class="input-glass w-full py-3.5 pl-10 pr-20 rounded-[16px] text-[16px] font-black text-slate-800 placeholder:text-slate-300 placeholder:font-medium" placeholder="0.00">
+                <div class="absolute inset-y-0 right-2 flex items-center">
+                    <button onclick="setMaxAmount()" class="bg-slate-100 border border-slate-200 text-slate-600 font-black text-[11px] px-3 py-1.5 rounded-[10px] hover:bg-slate-200 active:scale-95 transition-all uppercase tracking-wider">MAX</button>
+                </div>
+            </div>
+            <button onclick="submitWithdraw()" id="submit-btn" class="btn-premium w-full py-4 rounded-full font-black text-[18px] tracking-wide flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined text-[20px]">payments</span>
+                Confirm Withdrawal
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-full text-[13px] font-bold shadow-xl transition-all duration-300 opacity-0 pointer-events-none z-50 flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px]" id="toast-icon">info</span>
+        <span id="toast-msg">Message</span>
+    </div>
+
+    <script>
+        let currentBalance = 0;
+        let selectedBankId = null;
+        let selectedBankProvider = '';
+
+        function showToast(msg, type='error') {
+            const t = document.getElementById('toast');
+            const icon = document.getElementById('toast-icon');
+            document.getElementById('toast-msg').innerText = msg;
+            
+            if(type === 'success') {
+                t.style.background = '#10b981';
+                icon.innerText = 'check_circle';
+            } else {
+                t.style.background = '#ef4444';
+                icon.innerText = 'error';
+            }
+
+            t.classList.remove('opacity-0', '-translate-y-4');
+            setTimeout(() => {
+                t.classList.add('opacity-0', '-translate-y-4');
+            }, 3000);
+        }
+
+        function setMaxAmount() {
+            if (currentBalance > 0) {
+                document.getElementById('amount-input').value = Math.floor(currentBalance);
+            }
+        }
+
+        function goToAddBank() {
+            if(window.parent && window.parent.loadPage) {
+                window.parent.loadPage('bank_details_glass/code.html');
+            }
+        }
+
+        function selectBank(id, provider) {
+            selectedBankId = id;
+            selectedBankProvider = provider;
+            document.querySelectorAll('.method-card').forEach(el => el.classList.remove('active'));
+            document.getElementById('bank-' + id).classList.add('active');
+        }
+
+        async function init() {
+            try {
+                const token = (() => { try { return window.parent.localStorage.getItem('userToken'); } catch(e) { return localStorage.getItem('userToken'); } })();
+                if(!token) return;
+
+                const [profileRes, banksRes] = await Promise.all([
+                    fetch('/api/profile?t=' + new Date().getTime(), { headers: { 'Authorization': `Bearer ${token}` } }),
+                    fetch('/api/banks?t=' + new Date().getTime(), { headers: { 'Authorization': `Bearer ${token}` } })
+                ]);
+
+                document.getElementById('loading-state').classList.add('hidden');
+
+                if(profileRes.ok) {
+                    const profile = await profileRes.json();
+                    currentBalance = profile.balance;
+                    document.getElementById('user-balance').innerText = parseFloat(currentBalance).toFixed(2);
+                }
+
+                if(banksRes.ok) {
+                    const banks = await banksRes.json();
+                    if(banks.length === 0) {
+                        document.getElementById('empty-state').classList.remove('hidden');
+                        document.getElementById('withdraw-form').classList.add('hidden');
+                    } else {
+                        document.getElementById('empty-state').classList.add('hidden');
+                        document.getElementById('withdraw-form').classList.remove('hidden');
+                        renderBanks(banks);
+                    }
+                }
+            } catch(err) {
+                console.error(err);
+                showToast("Connection error");
+            }
+        }
+
+        function renderBanks(banks) {
+            const container = document.getElementById('bank-methods');
+            container.innerHTML = '';
+            
+            banks.forEach((b, idx) => {
+                const isSelected = idx === 0;
+                if(isSelected) {
+                    selectedBankId = b.id;
+                    selectedBankProvider = b.provider;
+                }
+
+                let logoHtml = `<span class="material-symbols-outlined text-slate-400">account_balance</span>`;
+                const provLow = (b.provider || '').toLowerCase();
+                if(provLow.includes('bkash')) {
+                    logoHtml = `<img src="../assets/bkash.png" style="transform: scale(0.95);" />`;
+                } else if(provLow.includes('nagad')) {
+                    logoHtml = `<img src="../assets/nagad.png" style="transform: scale(1.4);" />`;
+                } else if(provLow.includes('binance') || provLow.includes('usdt')) {
+                    logoHtml = `<img src="../assets/binance.png" style="transform: scale(1.1);" />`;
+                }
+
+                container.innerHTML += `
+                <div id="bank-${b.id}" onclick="selectBank(${b.id}, '${b.provider}')" class="method-card rounded-[24px] py-3 px-4 flex items-center justify-between ${isSelected ? 'active' : ''}">
+                    <div class="flex items-center gap-3.5">
+                        <div class="logo-box w-10 h-10">
+                            ${logoHtml}
+                        </div>
+                        <div>
+                            <h4 class="text-[16px] font-black text-slate-800">${b.provider}</h4>
+                            <p class="text-[12px] font-bold text-slate-400 font-mono tracking-widest mt-0.5">${b.account_number.slice(0, 4)}••••${b.account_number.slice(-3)}</p>
+                        </div>
+                    </div>
+                    <div class="w-4 h-4 rounded-full border-2 border-slate-200 flex items-center justify-center bg-white check-circle">
+                        <div class="w-2 h-2 rounded-full bg-orange-500 opacity-0 transition-opacity"></div>
+                    </div>
+                </div>
+                `;
+            });
+        }
+
+        async function submitWithdraw() {
+            const amount = parseFloat(document.getElementById('amount-input').value);
+            
+            if(!amount || amount < 100) {
+                return showToast("Minimum withdrawal is ৳100");
+            }
+            if(amount > currentBalance) {
+                return showToast("Insufficient balance");
+            }
+            if(!selectedBankId) {
+                return showToast("Please select a payment method");
+            }
+
+            const btn = document.getElementById('submit-btn');
+            btn.innerHTML = `<div class="spinner border-white border-t-transparent w-5 h-5"></div> Processing...`;
+            btn.style.opacity = '0.7';
+            btn.style.pointerEvents = 'none';
+
+            try {
+                const token = (() => { try { return window.parent.localStorage.getItem('userToken'); } catch(e) { return localStorage.getItem('userToken'); } })();
+                const res = await fetch('/api/withdraw', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` 
+                    },
+                    body: JSON.stringify({
+                        amount: amount,
+                        provider: selectedBankProvider
+                    })
+                });
+
+                const data = await res.json();
+                
+                if(res.ok) {
+                    showToast("Withdrawal successful!", 'success');
+                    document.getElementById('user-balance').innerText = parseFloat(data.newBalance).toFixed(2);
+                    currentBalance = data.newBalance;
+                    document.getElementById('amount-input').value = '';
+                } else {
+                    showToast(data.error || "Failed to process withdrawal");
+                }
+            } catch(err) {
+                showToast("Connection error");
+            }
+
+            btn.innerHTML = `<span class="material-symbols-outlined text-[20px]">payments</span> Confirm Withdrawal`;
+            btn.style.opacity = '1';
+            btn.style.pointerEvents = 'auto';
+        }
+
+        init();
+    </script>
+    <style>
+        .method-card.active .check-circle { border-color: #ea580c; }
+        .method-card.active .check-circle div { opacity: 1; }
+    </style>
+</body>
+</html>

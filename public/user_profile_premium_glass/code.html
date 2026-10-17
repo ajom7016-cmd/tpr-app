@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TPR VIP Profile</title>
+    
+    <!-- Instant Ligature Protection Script: Zero-Shift Font Readiness -->
+    <script>
+        if (document.fonts) {
+            document.fonts.ready.then(function() {
+                document.documentElement.classList.add('fonts-loaded');
+            }).catch(function() {
+                document.documentElement.classList.add('fonts-loaded');
+            });
+        } else {
+            document.documentElement.classList.add('fonts-loaded');
+        }
+
+        // Synchronous Profile & Avatar Pre-hydration (Prevents 1-sec shift)
+        (function() {
+            try {
+                var p = null;
+                var raw = localStorage.getItem('tpr_cached_profile');
+                if (raw) p = JSON.parse(raw);
+                if (!p && window.parent) {
+                    var rawParent = window.parent.localStorage.getItem('tpr_cached_profile');
+                    if (rawParent) p = JSON.parse(rawParent);
+                }
+                if (!p && window.top) {
+                    var rawTop = window.top.localStorage.getItem('tpr_cached_profile');
+                    if (rawTop) p = JSON.parse(rawTop);
+                }
+                if (p) window.__TPR_CACHED_USER__ = p;
+
+                var pic = localStorage.getItem('userProfilePic');
+                if (!pic && window.parent) pic = window.parent.localStorage.getItem('userProfilePic');
+                if (!pic && window.top) pic = window.top.localStorage.getItem('userProfilePic');
+                if (pic) window.__TPR_CACHED_PIC__ = pic;
+            } catch(e) {}
+        })();
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@400,1,0,24" rel="stylesheet" />
+
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: transparent !important;
+            color: #1e293b;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            padding-bottom: 100px;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: contain;
+        }
+
+        /* === ROCK-SOLID ICON LIGATURE PROTECTION: CLS = 0 (Zero Layout Shift) === */
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined' !important;
+            font-weight: normal;
+            font-style: normal;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+            width: 1em;
+            height: 1em;
+            max-width: 1em;
+            max-height: 1em;
+            overflow: hidden;
+            vertical-align: middle;
+            flex-shrink: 0;
+            box-sizing: content-box;
+        }
+        html:not(.fonts-loaded) .material-symbols-outlined {
+            visibility: hidden !important;
+            color: transparent !important;
+        }
+
+        /* Standardized Glass Card (ULTRA GLASS) -> True Glassmorphism */
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(14px) saturate(135%);
+            -webkit-backdrop-filter: blur(14px) saturate(135%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05), inset 0 2px 10px rgba(255,255,255,0.3);
+            border-radius: 24px;
+            transform: translateZ(0);
+        }
+
+        /* Zero-Shift Layout Lock Rules */
+        .profile-container {
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            position: relative;
+            padding-top: 1rem;
+            box-sizing: border-box;
+        }
+
+        .avatar-area {
+            position: relative;
+            width: 112px !important;
+            height: 112px !important;
+            min-width: 112px !important;
+            min-height: 112px !important;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-sizing: border-box;
+        }
+
+        .avatar-frame {
+            position: relative;
+            width: 100% !important;
+            height: 100% !important;
+            border-radius: 9999px;
+            overflow: hidden;
+            background-color: #ffffff;
+            z-index: 10;
+            padding: 2px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            box-sizing: border-box;
+        }
+
+        #prof-avatar {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            border-radius: 9999px !important;
+            display: block;
+            aspect-ratio: 1 / 1;
+        }
+
+        .vip-pill-badge {
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(to right, #dc2626, #f97316);
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            padding: 4px 16px;
+            border-radius: 9999px;
+            box-shadow: 0 5px 15px rgba(234,88,12,0.3);
+            border: 2px solid #ffffff;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            white-space: nowrap;
+            height: 24px;
+            box-sizing: border-box;
+        }
+
+        .user-name-heading {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -0.025em;
+            color: #334155;
+            margin-bottom: 8px;
+            line-height: 1.2;
+            max-width: 320px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .user-id-capsule {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 6px 16px;
+            border-radius: 9999px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            border: 1px solid #f1f5f9;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 28px;
+            box-sizing: border-box;
+        }
+
+        .user-id-text {
+            font-size: 12px;
+            font-weight: 900;
+            color: #64748b;
+            letter-spacing: 0.2em;
+            line-height: 1;
+        }
+
+        /* 3D Glowing Button */
+        .btn-primary {
+            background: linear-gradient(135deg, #ff4d4d 0%, #ff8a3d 100%);
+            box-shadow: 0 10px 20px rgba(255, 77, 77, 0.3), inset 0 2px 5px rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 16px;
+            transition: transform 0.2s;
+        }
+        .btn-primary:active { transform: scale(0.95); }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.03);
+            border-radius: 16px;
+            color: #ff4d4d;
+            transition: transform 0.2s;
+        }
+        .btn-secondary:active { transform: scale(0.95); }
+
+        /* Menu Items with Strict Fixed Heights & Geometry (Zero-Jitter) */
+        .list-btn {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.2) 100%);
+            backdrop-filter: blur(14px) saturate(135%);
+            -webkit-backdrop-filter: blur(14px) saturate(135%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            min-height: 68px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03), inset 0 2px 10px rgba(255,255,255,0.4);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .list-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.08),
+                inset 0 2px 20px rgba(255, 255, 255, 1);
+        }
+
+        .list-btn:active {
+            transform: scale(0.98);
+        }
+
+        .list-icon-gold {
+            background: linear-gradient(135deg, #ff6a00, #ffc107);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-variation-settings: 'FILL' 1;
+            filter: drop-shadow(0 4px 8px rgba(255,106,0,0.4));
+            font-size: 26px !important;
+            width: 26px !important;
+            height: 26px !important;
+            min-width: 26px !important;
+            min-height: 26px !important;
+            line-height: 26px !important;
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .arrow-icon {
+            font-size: 24px !important;
+            width: 24px !important;
+            height: 24px !important;
+            min-width: 24px !important;
+            min-height: 24px !important;
+            line-height: 24px !important;
+            color: #64748b;
+            display: inline-flex !important;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* === SMOOTH 0ms-SHIFT OPACITY ENTRANCE (No translateY jitter) === */
+        @keyframes fastNativeEntrance {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        body {
+            animation: fastNativeEntrance 0.12s ease-out forwards !important;
+            will-change: opacity;
+        }
+    </style>
+
+    <style id="custom-global-scrollbar">
+        /* Smooth, native-feeling scrollbar */
+        ::-webkit-scrollbar { width: 7px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 7px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.4); }
+
+        /* Perfectly aligned scrollbar buttons (Gray Triangles) */
+        ::-webkit-scrollbar-button:single-button {
+            background-color: transparent;
+            display: block;
+            height: 14px;
+            width: 7px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 7px 7px;
+        }
+        ::-webkit-scrollbar-button:single-button:vertical:decrement {
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDE3IDE5LDE3IDEwLDUnIGZpbGw9JyM2NDZlNzgnLz48L3N2Zz4=");
+        }
+        ::-webkit-scrollbar-button:single-button:vertical:increment {
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDMgMTksMyAxMCwxNScgZmlsbD0nIzY0NmU3OCcvPjwvc3ZnPg==");
+        }
+    </style>
+</head>
+<body class="pb-6 relative overflow-x-hidden text-slate-800" style="background: transparent !important; background-color: transparent !important;">
+
+    <div class="profile-container">
+        
+        <!-- EXACT IMAGE MATCH AVATAR SECTION (ULTRA GLASS) -->
+        <div class="glass-card py-6 px-4 relative z-10 flex flex-col items-center mt-0 mb-5">
+            
+            <!-- Avatar Area (Strictly Locked Dimensions) -->
+            <div class="avatar-area">
+                <!-- Soft background radial glow behind avatar -->
+                <div class="absolute inset-[-30px] bg-[radial-gradient(circle,rgba(255,100,50,0.15)_0%,transparent_70%)] rounded-full z-0 pointer-events-none"></div>
+                
+                <!-- Thin Orange/Gold Ring -->
+                <div class="absolute inset-[-4px] border-[1.5px] border-orange-300 rounded-full opacity-60 z-0"></div>
+                <div class="absolute inset-[-8px] border border-orange-200/50 rounded-full opacity-40 z-0"></div>
+                
+                <!-- Clear Avatar Frame -->
+                <div class="avatar-frame">
+                    <img src="https://i.pravatar.cc/300?u=a042581f4e29026704d" alt="User" id="prof-avatar" width="112" height="112" onerror="this.onerror=null; this.src='https://i.pravatar.cc/300?u=a042581f4e29026704d'; localStorage.removeItem('userProfilePic');">
+                </div>
+
+                <!-- Gradient Orange Pill Badge -->
+                <div class="vip-pill-badge">
+                    <span class="material-symbols-outlined text-[13px]" style="font-variation-settings: 'FILL' 1; width: 13px !important; height: 13px !important; font-size: 13px !important;">stars</span>
+                    <span id="prof-vip-badge-text" class="tracking-wide">VIP MEMBER</span>
+                </div>
+            </div>
+
+            <!-- User Info Section -->
+            <div class="text-center w-full mt-2 mb-1 flex flex-col items-center">
+                <h2 id="prof-user-name" class="user-name-heading">ALEXANDER CHEN</h2>
+                <div class="user-id-capsule">
+                    <span id="prof-user-id" class="user-id-text">ID: 948210</span>
+                </div>
+            </div>
+
+            <!-- Instant Synchronous Hydration (0ms layout paint) -->
+            <script>
+                (function() {
+                    try {
+                        if (window.__TPR_CACHED_PIC__) {
+                            var img = document.getElementById('prof-avatar');
+                            if (img) img.src = window.__TPR_CACHED_PIC__;
+                        }
+                        var u = window.__TPR_CACHED_USER__;
+                        if (u) {
+                            if (u.name) document.getElementById('prof-user-name').textContent = u.name;
+                            if (u.id) document.getElementById('prof-user-id').textContent = 'ID: ' + u.id;
+                            if (u.vip_plan && u.vip_plan !== 'Free') {
+                                var badge = document.getElementById('prof-vip-badge-text');
+                                if (badge) badge.textContent = u.vip_plan.toUpperCase();
+                            }
+                        }
+                    } catch(e) {}
+                })();
+            </script>
+        </div>
+
+        <!-- BOTTOM MENU LIST (Exact Image Match, Zero-Jitter Protected) -->
+        <div class="mt-4 relative z-10 flex flex-col mb-10 w-full px-1">
+            
+            <!-- Menu Item: Profile Settings -->
+            <div class="list-btn" onclick="window.parent.loadPage('profile_settings_glass/code.html', null)">
+                <div class="flex items-center gap-4 relative z-10">
+                    <span class="material-symbols-outlined list-icon-gold">settings</span>
+                    <div class="flex flex-col">
+                        <span class="text-[16px] font-bold text-slate-800 tracking-wide drop-shadow-sm">Profile Settings</span>
+                        <span id="profile-subtitle" class="text-[11px] font-bold text-slate-400 hidden mt-0.5">Edit personal info</span>
+                    </div>
+                </div>
+                <span id="profile-arrow" class="material-symbols-outlined arrow-icon font-bold drop-shadow-sm">chevron_right</span>
+            </div>
+
+            <!-- Menu Item: Bank Details -->
+            <div class="list-btn" onclick="window.parent.loadPage('bank_details_glass/code.html', null)">
+                <div class="flex items-center gap-4 relative z-10">
+                    <span class="material-symbols-outlined list-icon-gold">account_balance</span>
+                    <span class="text-[16px] font-bold text-slate-800 tracking-wide drop-shadow-sm">Bank Details</span>
+                </div>
+                <span class="material-symbols-outlined arrow-icon font-bold drop-shadow-sm">chevron_right</span>
+            </div>
+
+            <!-- Menu Item: Transaction History -->
+            <div class="list-btn" onclick="window.parent.loadPage('glassmorphic_3/code.html', null)">
+                <div class="flex items-center gap-4 relative z-10">
+                    <span class="material-symbols-outlined list-icon-gold">receipt_long</span>
+                    <span class="text-[16px] font-bold text-slate-800 tracking-wide drop-shadow-sm">Transaction History</span>
+                </div>
+                <span class="material-symbols-outlined arrow-icon font-bold drop-shadow-sm">chevron_right</span>
+            </div>
+
+            <!-- Menu Item: My Team -->
+            <div class="list-btn" onclick="window.parent.loadPage('refer_glass/code.html', null)">
+                <div class="flex items-center gap-4 relative z-10">
+                    <span class="material-symbols-outlined list-icon-gold">group</span>
+                    <span class="text-[16px] font-bold text-slate-800 tracking-wide drop-shadow-sm">My Team</span>
+                </div>
+                <span class="material-symbols-outlined arrow-icon font-bold drop-shadow-sm">chevron_right</span>
+            </div>
+            
+            <!-- Menu Item: Security & Privacy -->
+            <div class="list-btn" onclick="window.parent.loadPage('security_glass/code.html', null)">
+                <div class="flex items-center gap-4 relative z-10">
+                    <span class="material-symbols-outlined list-icon-gold">lock</span>
+                    <span class="text-[16px] font-bold text-slate-800 tracking-wide drop-shadow-sm">Security & Privacy</span>
+                </div>
+                <span class="material-symbols-outlined arrow-icon font-bold drop-shadow-sm">chevron_right</span>
+            </div>
+
+            <!-- Menu Item: Support -->
+            <div class="list-btn" onclick="window.parent.loadPage('support_glass/code.html', null)">
+                <div class="flex items-center gap-4 relative z-10">
+                    <span class="material-symbols-outlined list-icon-gold">headset_mic</span>
+                    <span class="text-[16px] font-bold text-slate-800 tracking-wide drop-shadow-sm">Support</span>
+                </div>
+                <span class="material-symbols-outlined arrow-icon font-bold drop-shadow-sm">chevron_right</span>
+            </div>
+
+            <!-- Menu Item: Logout (Centered Pill) -->
+            <div class="mt-4 mb-4 flex justify-center w-full">
+                <button onclick="logout()" class="flex items-center justify-center gap-2 px-6 py-2.5 rounded-full border border-red-200 bg-white/50 backdrop-blur-md shadow-sm active:scale-95 transition-transform cursor-pointer">
+                    <span class="material-symbols-outlined text-red-600" style="font-variation-settings: 'FILL' 1; font-size: 20px !important; width: 20px !important; height: 20px !important;">logout</span>
+                    <span class="text-[14px] font-black text-red-600 tracking-wide">Logout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    function logout() {
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('userProfilePic');
+        localStorage.removeItem('tpr_cached_profile');
+        localStorage.removeItem('tpr_pin');
+        try { 
+            if(window.parent) { 
+                window.parent.localStorage.removeItem('userToken'); 
+                window.parent.localStorage.removeItem('userProfilePic');
+                window.parent.localStorage.removeItem('tpr_cached_profile');
+                window.parent.localStorage.removeItem('tpr_pin');
+            } 
+        } catch(e){}
+        try { 
+            if(window.top) { 
+                window.top.localStorage.removeItem('userToken'); 
+                window.top.localStorage.removeItem('userProfilePic');
+                window.top.localStorage.removeItem('tpr_cached_profile');
+                window.top.localStorage.removeItem('tpr_pin');
+            } 
+        } catch(e){}
+        window.top.location.href = '/login.html';
+    }
+
+    // Apply Lock UI Function
+    function applyLockUI(subtitleId, arrowId, lockTimeStr) {
+        var subtitle = document.getElementById(subtitleId);
+        var arrow = document.getElementById(arrowId);
+        if(!subtitle || !arrow || !lockTimeStr) return;
+
+        var lockTime = parseInt(lockTimeStr);
+        var now = new Date().getTime();
+
+        if (now < lockTime) {
+            var timeLeft = lockTime - now;
+            var days = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
+            
+            subtitle.innerText = 'Locked for ' + days + ' day' + (days > 1 ? 's' : '');
+            subtitle.className = 'text-[11px] font-bold text-red-500 mt-0.5';
+            subtitle.classList.remove('hidden');
+            
+            arrow.innerText = 'lock';
+            arrow.className = 'material-symbols-outlined text-red-500 arrow-icon font-bold drop-shadow-sm';
+            
+            var btn = arrow.closest('.list-btn');
+            if (btn) {
+                btn.style.background = 'rgba(254, 226, 226, 0.4)';
+                btn.style.borderColor = 'rgba(252, 165, 165, 0.5)';
+            }
+        }
+    }
+
+    // Check Locks Immediately
+    function checkAllLocks() {
+        try {
+            applyLockUI('profile-subtitle', 'profile-arrow', localStorage.getItem('temp_profile_lock'));
+        } catch(e) {}
+    }
+    checkAllLocks();
+
+    // Re-check and update profile on tab activation
+    function refreshProfileUI() {
+        try {
+            var pic = localStorage.getItem('userProfilePic');
+            if (!pic && window.parent) pic = window.parent.localStorage.getItem('userProfilePic');
+            if (pic) {
+                var img = document.getElementById('prof-avatar');
+                if (img) img.src = pic;
+            }
+            var raw = localStorage.getItem('tpr_cached_profile');
+            if (!raw && window.parent) raw = window.parent.localStorage.getItem('tpr_cached_profile');
+            if (raw) {
+                var u = JSON.parse(raw);
+                if (u.name) document.getElementById('prof-user-name').textContent = u.name;
+                if (u.id) document.getElementById('prof-user-id').textContent = 'ID: ' + u.id;
+                if (u.vip_plan && u.vip_plan !== 'Free') {
+                    var badge = document.getElementById('prof-vip-badge-text');
+                    if (badge) badge.textContent = u.vip_plan.toUpperCase();
+                }
+            }
+        } catch(e) {}
+        checkAllLocks();
+    }
+
+    window.addEventListener('message', function(event) {
+        if (!event.data) return;
+        if (event.data.type === 'tab_activated') {
+            refreshProfileUI();
+        } else if (event.data.type === 'UPDATE_AVATAR' || event.data.type === 'profilePicUpdated') {
+            var pic = event.data.src || localStorage.getItem('userProfilePic');
+            if (pic) {
+                var profAvatar = document.getElementById('prof-avatar');
+                if (profAvatar) profAvatar.src = pic;
+            }
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', refreshProfileUI);
+</script>
+
+</body>
+</html>

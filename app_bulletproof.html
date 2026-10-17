@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>TPR</title>
+<link rel="icon" type="image/svg+xml" href="/assets/logo.png?v=2">
+
+<!-- Added Libraries for Global Header -->
+<script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ea580c',
+                        secondary: '#1f2937',
+                        accent: '#f97316'
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@100..700,0..1,0,24&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+<script>
+    const isLandingDemo = (window.top !== window);
+      if (!isLandingDemo && !localStorage.getItem('userToken')) {
+        window.location.href = '/login.html';
+    }
+</script>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background-color: #f1f5f9; display: flex; justify-content: center; min-height: 100vh; overflow: hidden; font-family: 'Inter', sans-serif; }
+    .device-mockup { width: 100%; max-width: 414px; min-height: 100vh; background: linear-gradient(rgba(0,0,0,0.05), rgba(0,0,0,0.12)), url('/assets/bg_main_py.jpg') center/cover no-repeat fixed; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+    
+    @media (min-width: 1000px) {
+        .device-mockup { height: 90vh; max-height: 896px; margin-top: 5vh; border-radius: 40px; border: 4px solid rgba(255, 255, 255, 0.15); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2), 0 25px 50px rgba(0,0,0,0.8); }
+    }
+
+    #app-frame { flex: 1; width: 100%; border: none; background: transparent; z-index: 10; margin-bottom: 75px; }
+    
+    /* Floating Nav Bar */
+    .bottom-nav {
+        position: absolute; bottom: 13px; left: 0; right: 0; margin: 0 auto;
+        width: 92%;
+        max-width: 400px;
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 10px;
+        z-index: 100;
+        
+        /* Exact Glassmorphism from Screenshot */
+        background: rgba(255, 255, 255, 0.45); /* True transparent glass */
+        backdrop-filter: blur(35px) saturate(150%);
+        -webkit-backdrop-filter: blur(35px) saturate(150%);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), inset 0 2px 15px rgba(255, 255, 255, 0.6);
+        border-radius: 26px;
+    }
+
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        color: #5b6982; /* Deep slate gray */
+        text-decoration: none;
+        font-family: 'Outfit', sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+
+    .nav-item.active {
+        color: #ff5454; /* Vibrant coral red */
+    }
+    .nav-item.active .material-symbols-outlined {
+        color: #ff5454;
+        font-variation-settings: 'FILL' 1;
+    }
+
+    /* ====== GLOBAL HEADER STYLES ====== */
+    .tpr-logo-box {
+        background: linear-gradient(135deg, rgba(255,192,203,0.3) 0%, rgba(173,216,230,0.3) 50%, rgba(152,251,152,0.3) 100%);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        border: 1px solid rgba(255,255,255,0.8);
+    }
+    .tpr-logo-text {
+        font-family: 'Outfit', sans-serif;
+        text-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+    }
+    .glass-base-ultra {
+        background: rgba(255, 255, 255, 0.45);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 5px 25px rgba(0,0,0,0.05), inset 0 2px 10px rgba(255,255,255,0.3);
+        transition: all 0.3s ease;
+    }
+    .glass-base-ultra.scrolled {
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(50px);
+        -webkit-backdrop-filter: blur(50px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.08), inset 0 -1px 0 rgba(255,255,255,0.5);
+    }
+    .nav-link-ultra {
+        font-family: 'Outfit', sans-serif;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        cursor: pointer;
+        white-space: nowrap;
+        color: #64748b;
+        transition: color 0.2s;
+    }
+    .nav-link-ultra.active {
+        color: #0f172a;
+        font-weight: 900;
+    }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* ====== GLOBAL CROP MODAL STYLES ====== */
+    .cropper-view-box, .cropper-face { border-radius: 50%; }
+    .cropper-view-box { outline: 2px solid #ea580c; outline-color: rgba(234, 88, 12, 0.8); }
+    #zoom-slider { -webkit-appearance: none; appearance: none; background: transparent; }
+    #zoom-slider::-webkit-slider-runnable-track { height: 4px; background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
+    #zoom-slider::-webkit-slider-thumb {
+        -webkit-appearance: none; width: 20px; height: 20px; background: #fff;
+        border: 2px solid #ea580c; border-radius: 50%; box-shadow: 0 0 15px rgba(234, 88, 12, 0.6);
+        margin-top: -8px; cursor: pointer; transition: transform 0.1s;
+    }
+    #zoom-slider::-webkit-slider-thumb:active { transform: scale(1.2); }
+
+      @keyframes slideUpNav {
+          from { opacity: 1; background: #e2e8f0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes slideDownNav {
+          from { opacity: 1; transform: translateY(0); }
+          to { opacity: 1; transform: translateY(20px); }
+      }
+    
+    /* Anti-FOUC Smooth Load */
+    body {
+        
+        opacity: 1; background: #e2e8f0;
+    }
+    
+
+</style>
+
+    <style>
+        html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
+        html, body { height: 100%; -ms-overflow-style: none; scrollbar-width: none; overflow-x: hidden; }
+    </style>
+
+    <!-- FOUC Fix for Tailwind CDN -->
+    <style>
+        body { opacity: 0; animation: fadeBodyIn 0.4s ease-out forwards; animation-delay: 200ms; background-color: #eef2f6; }
+        @keyframes fadeBodyIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-[#eef2f6]">
+    
+
+<div class="device-mockup">
+    
+    <!-- Ultra Level Edge-to-Edge Glass Header (Global) -->
+    <header id="global-header" class="relative w-full z-50 shrink-0">
+        <div class="glass-base-ultra px-4 pt-2 pb-1.5 flex justify-between items-center w-full">
+            <div class="flex items-center gap-2 flex-1 w-full">
+                <!-- App Logo (Authentic TPR Box) -->
+                <div class="tpr-logo-box w-[42px] h-[42px] shrink-0 rounded-[14px] ml-0.5 flex flex-col items-center justify-center relative overflow-hidden">
+                    <span class="tpr-logo-text text-white font-black text-[15px] tracking-tighter leading-none z-10">TPR</span>
+                    <div class="absolute inset-0 bg-gradient-to-t from-white/10 to-transparent z-0"></div>
+                </div>
+                
+                <!-- Center Section: Nav & Search -->
+                <div class="relative flex-1 h-11 mx-1 overflow-hidden">
+                    <!-- Top Nav Container -->
+                    <div id="nav-links" class="absolute inset-0 w-full h-full flex items-center justify-center overflow-visible   ease-out scale-100 opacity-100">
+                        <div id="top-nav-container" class="flex gap-4 justify-center items-center w-full px-1 h-full  " style="opacity: 1; transform: translateY(0) scale(1);">
+                            <!-- JS will populate 3 items here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Search Input -->
+                    <div id="search-input-container" class="absolute inset-0 w-full h-full flex items-center px-1   ease-out scale-95 opacity-0 pointer-events-none">
+                        <div class="relative w-full h-9">
+                            <input type="text" id="premium-search" placeholder="Search" class="w-full h-full bg-white/70 backdrop-blur-md rounded-full pl-4 pr-9 text-[13px] font-bold text-slate-800 placeholder-slate-500 border border-slate-300/50 shadow-inner focus:outline-none focus:border-slate-500  font-['Outfit']">
+                            <div class="absolute right-1.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full flex items-center justify-center cursor-pointer text-slate-500 hover:text-slate-800 bg-transparent transition-colors" onclick="togglePremiumSearch()">
+                                <span class="material-symbols-outlined text-[16px]" style="font-weight: 700;">close</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right side icons (Search + Profile) -->
+            <div class="flex items-center gap-2 pr-1 shrink-0 relative z-10">
+                <div id="search-btn" class="w-10 h-10 rounded-full bg-white/80 shadow-sm flex items-center justify-center text-slate-700 border border-white cursor-pointer hover:bg-white  " onclick="togglePremiumSearch()">
+                    <span class="material-symbols-outlined text-[26px]" style="font-weight: 600;">search</span>
+                </div>
+                <div class="relative cursor-pointer group" onclick="document.getElementById('header-pic-upload').click()">
+                    <!-- Avatar Circle -->
+                    <div class="w-11 h-11 rounded-full shadow-sm border-2 border-white bg-[#2f3542] flex items-center justify-center overflow-hidden relative">
+                        <!-- Uploaded Image (Hidden by default) -->
+                        <img id="header-profile-img" src="" class="w-full h-full rounded-full object-cover bg-white hidden z-20 relative">
+                        <!-- Default Person Silhouette -->
+                        <svg class="absolute -bottom-1 w-9 h-9 text-slate-400 z-10" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        <!-- Camera Icon Overlay -->
+                        <div class="absolute inset-0 flex items-center justify-center z-10">
+                            <span class="material-symbols-outlined text-white text-[18px]">add_a_photo</span>
+                        </div>
+                    </div>
+                    <!-- Green Status Dot -->
+                    <div class="absolute bottom-0 right-0 w-[14px] h-[14px] bg-green-500 border-2 border-white rounded-full z-30 shadow-sm"></div>
+                </div>
+                <input type="file" id="header-pic-upload" class="hidden" accept="image/*">
+            </div>
+        </div>
+    </header>
+
+    <!-- Global Image Crop Modal -->
+    <div id="crop-modal" class="absolute inset-0 z-[110] hidden flex-col bg-[#0b0f19]/95 backdrop-blur-2xl   opacity-0 scale-95 font-['Outfit']">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-orange-500/20 rounded-full blur-[100px] pointer-events-none"></div>
+        <div class="absolute bottom-0 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none"></div>
+        <div class="h-20 w-full flex items-center justify-between px-6 z-[120] relative">
+            <button onclick="closeCropModal()" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-white/10  active:scale-95">
+                <span class="material-symbols-outlined text-[26px]">close</span>
+            </button>
+            <h2 class="text-white font-bold text-[17px] tracking-wide absolute left-1/2 -translate-x-1/2">Adjust Photo</h2>
+            <button onclick="saveCrop()" class="bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold px-5 py-2.5 rounded-full shadow-[0_4px_20px_rgba(249,115,22,0.4)] active:scale-95  text-[15px]">Done</button>
+        </div>
+        <div class="flex-1 w-full flex flex-col items-center justify-center p-6 relative overflow-hidden z-[120]">
+            <p class="text-slate-400 text-[13px] font-medium tracking-wider uppercase mb-6 drop-shadow-md">Drag to pan ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ Slider to zoom</p>
+            <div class="w-full max-w-sm aspect-square bg-[#0b0f19] rounded-[32px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.6)] border border-white/5 relative">
+                <img id="crop-image" src="" class="max-w-full block">
+            </div>
+            <div class="w-full max-w-sm flex items-center gap-5 px-6 py-5 bg-white/[0.04] backdrop-blur-3xl rounded-full mt-10 border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.3)]">
+                <button id="zoom-out-btn" class="material-symbols-outlined text-slate-400 hover:text-white transition-colors text-[26px] cursor-pointer">remove</button>
+                <input type="range" id="zoom-slider" class="flex-1 w-full" min="0" max="100" value="0">
+                <button id="zoom-in-btn" class="material-symbols-outlined text-slate-400 hover:text-white transition-colors text-[26px] cursor-pointer">add</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- iFrame loads the individual HTML files from folders -->
+    
+    <div id="frame-loader" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; display: none; flex-direction: column; align-items: center; justify-content: center;">
+        <div class="w-8 h-8 rounded-full border-4 border-slate-200 border-t-orange-500 animate-spin"></div>
+    </div>
+    <iframe id="app-frame" allow="microphone; camera" src="" style="will-change: transform, opacity; transition: all 0.08s ease-out; opacity: 0; transform: translateY(15px);" onload="    try {         const d=this.contentWindow.document;         if(!this.src.includes('support') && this.src !== '') {             d.body.style.setProperty('background', 'transparent', 'important');             d.body.style.setProperty('background-color', 'transparent', 'important');             const b=d.querySelector('.bg-3d');             if(b)b.style.display='none';         }                  if (typeof isLandingDemo !== 'undefined' && isLandingDemo) {             const w = this.contentWindow;                          d.body.addEventListener('click', (e) => {                 const clickableElements = 'button, a, [onclick], .cursor-pointer, .action-box, .btn-primary, .btn-deposit, .btn-subscribe, .list-btn, .searchable-item';                 const btn = e.target.closest(clickableElements);                 if (btn) {                     const text = (btn.innerText || '').toLowerCase();                     const oc = btn.getAttribute('onclick') || '';                     if (text.includes('support') || btn.id === 'support-btn' || oc.includes('support') || btn.innerHTML.includes('arrow_back') || oc.includes('goBack')) return;                                          e.preventDefault();                     e.stopPropagation();                     alert('This is a demo preview! Please download the app to use this feature.');                 }             }, true);                          const originalFetch = w.fetch;             w.fetch = async function(...args) {                 const method = (args[1] && args[1].method) ? args[1].method.toUpperCase() : 'GET'; if ((method !== 'GET' && !(args[0] && args[0].includes('/api/support/chat'))) || (args[0] && (args[0].includes('/api/subscribe') || args[0].includes('/api/withdraw')))) {                     alert('This is a demo preview! Transactions are disabled.');                     return new Response(JSON.stringify({success: false}), {status: 400});                 }                 return originalFetch.apply(this, args);             };                          const profs = d.querySelectorAll('img');             profs.forEach(img => {                 if (img.src && img.src.length > 500) {                      img.src = 'https://i.pravatar.cc/300?u=a042581f4e29026704d';                 }             });         }     } catch(err) { console.log(err); }"></iframe>
+
+    <div class="bottom-nav">
+        <a href="#" onclick="loadPage('glassmorphic_1/code.html', this); return false;" class="nav-item active">
+            <span class="material-symbols-outlined text-[26px]">dashboard</span>
+            <span>Dashboard</span>
+        </a>
+        <a href="#" onclick="loadPage('glassmorphic_2/code.html', this); return false;" class="nav-item">
+            <span class="material-symbols-outlined text-[26px]">assignment</span>
+            <span>Tasks</span>
+        </a>
+        <a href="#" onclick="loadPage('investment_premium_glass/vip.html', this); return false;" class="nav-item">
+            <span class="material-symbols-outlined text-[26px]">diamond</span>
+            <span>Plan</span>
+        </a>
+        <a href="#" onclick="loadPage('user_profile_premium_glass/code.html', this); return false;" class="nav-item">
+            <span class="material-symbols-outlined text-[26px]">person</span>
+            <span>Profile</span>
+        </a>
+        </div>
+        <!-- Toggle Button for Subpages -->
+        <div id="nav-toggle" onclick="toggleBottomNav()" class="absolute bottom-[5px] left-1/2 -translate-x-1/2 flex items-center justify-center cursor-pointer z-[200]" style="display: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);">
+            <div class="px-5 py-2 rounded-[20px] bg-white/40 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(255,255,255,0.8)] flex items-center justify-center gap-1.5 active:scale-95 transition-transform">
+                <span class="font-black text-[12px] text-slate-800 tracking-wider uppercase">Menu</span>
+                <div id="chevron-container" class="transition-transform  flex items-center justify-center">
+                    <span class="material-symbols-outlined text-slate-800" style="font-size: 16px; font-variation-settings: 'wght' 700;">arrow_upward</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let navIsToggled = false;
+    function toggleBottomNav() {
+        const bottomNav = document.querySelector('.bottom-nav');
+        const toggleBtn = document.getElementById('nav-toggle');
+        const chevronContainer = document.getElementById('chevron-container');
+        
+        navIsToggled = !navIsToggled;
+        
+        if(navIsToggled) {
+            bottomNav.style.display = 'flex';
+            bottomNav.style.animation = 'slideUpNav 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+            
+            
+            chevronContainer.style.transform = 'rotate(180deg)';
+            toggleBtn.style.bottom = '71px';
+        } else {
+            bottomNav.style.animation = 'slideDownNav 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+            
+            chevronContainer.style.transform = 'rotate(0deg)';
+            toggleBtn.style.bottom = '5px';
+            
+            setTimeout(() => {
+                if(!navIsToggled) {
+                    bottomNav.style.display = 'none';
+                    
+                }
+            }, 300);
+        }
+    }
+
+    // --- Global App Navigation ---
+    const appPages = [
+
+        { title: 'DASHBOARD', keywords: ['home', 'dashboard', 'main'], url: 'glassmorphic_1/code.html', icon: 'dashboard', bottomNavIdx: 0 },
+        { title: 'TASKS', keywords: ['rewards', 'gifts', 'tasks'], url: 'glassmorphic_2/code.html', icon: 'card_giftcard', bottomNavIdx: 1 },
+        { title: 'PLAN', keywords: ['vip', 'deposit', 'invest', 'plan', 'premium', 'add money'], url: 'investment_premium_glass/vip.html', icon: 'diamond', bottomNavIdx: 2 },
+        { title: 'PROFILE', keywords: ['profile', 'account', 'settings', 'me', 'withdraw'], url: 'user_profile_premium_glass/code.html', icon: 'person', bottomNavIdx: 3 },
+        { title: 'HISTORY', keywords: ['history', 'transactions', 'records', 'past'], url: 'glassmorphic_3/code.html', icon: 'history', bottomNavIdx: null },
+        { title: 'LEADERBOARD', keywords: ['leaderboard', 'ranking', 'top', 'score'], url: 'leaderboard_glass/code.html', icon: 'leaderboard', bottomNavIdx: null },
+        { title: 'WITHDRAW', keywords: ['withdraw', 'cashout', 'money'], url: 'withdraw_glass/code.html', icon: 'payments', bottomNavIdx: null },
+        { title: 'DEPOSIT', keywords: ['deposit', 'add money', 'recharge', 'funds'], url: 'deposit_glass/code.html', icon: 'account_balance_wallet', bottomNavIdx: null },
+        { title: 'REFER', keywords: ['refer', 'invite', 'friends', 'bonus', 'affiliate'], url: 'refer_glass/code.html', icon: 'group_add', bottomNavIdx: null },
+        { title: 'SETTINGS', keywords: ['settings', 'profile'], url: 'profile_settings_glass/code.html', icon: 'settings', bottomNavIdx: null },
+        { title: 'BANK', keywords: ['bank', 'details', 'money'], url: 'bank_details_glass/code.html', icon: 'account_balance', bottomNavIdx: null },
+        { title: 'SECURITY', keywords: ['security', 'privacy', 'lock'], url: 'security_glass/code.html', icon: 'lock', bottomNavIdx: null },
+        { title: 'SUPPORT', keywords: ['support', 'help', 'chat'], url: 'support_glass/code.html', icon: 'headset_mic', bottomNavIdx: null },
+        { title: 'PASSWORD', keywords: ['password', 'change'], url: 'security_change_password/code.html', icon: 'key', bottomNavIdx: null },
+        { title: 'PIN', keywords: ['pin', 'withdrawal'], url: 'security_change_pin/code.html', icon: 'dialpad', bottomNavIdx: null },
+        { title: 'BIOMETRIC', keywords: ['biometric', 'fingerprint', 'face'], url: 'security_biometric/code.html', icon: 'fingerprint', bottomNavIdx: null },
+        { title: '2FA', keywords: ['2fa', 'auth'], url: 'security_2fa/code.html', icon: 'security', bottomNavIdx: null },
+        { title: 'DEVICES', keywords: ['devices', 'sessions'], url: 'security_devices/code.html', icon: 'devices', bottomNavIdx: null },
+        { title: 'DEACTIVATE', keywords: ['deactivate', 'delete'], url: 'security_deactivate/code.html', icon: 'cancel', bottomNavIdx: null }
+    ];
+
+    function loadPage(url, btnElement) {
+        // Save current page to localStorage so it persists on refresh
+        localStorage.setItem('last_visited_page', url);
+        
+        // Change iframe source with cache buster
+        const timestamp = '1.0.53'; // Fixed version string instead of dynamic to enable super-fast caching
+        const separator = url.includes('?') ? '&' : '?';
+        const finalUrl = url + separator + 'v=' + timestamp;
+        const frame = document.getElementById('app-frame');
+        if (frame.src) {
+            // Apple Press Animation
+            frame.style.transition = 'transform 0.1s ease-out, opacity 0.1s ease-out';
+            frame.style.transform = 'scale(0.98)';
+            frame.style.opacity = '0.4';
+            
+            frame.src = finalUrl;
+        } else {
+            frame.src = finalUrl;
+        }
+        
+        // Hide bottom nav on all sub-pages to give native app feel
+        const bottomNav = document.querySelector('.bottom-nav');
+        const globalHeader = document.getElementById('global-header');
+        
+        const mainPages = [
+              'glassmorphic_1/code.html', 
+              'glassmorphic_2/code.html', 
+              'investment_premium_glass/vip.html', 
+              'user_profile_premium_glass/code.html'
+          ];
+
+        if (!mainPages.includes(url)) {
+            if(bottomNav) bottomNav.style.display = 'none'; document.getElementById('app-frame').style.marginBottom = '0px';
+            if(globalHeader) globalHeader.style.display = 'block'; 
+            
+            // Show toggle button
+            const toggleBtn = document.getElementById('nav-toggle');
+            if (toggleBtn) {
+                  if (url.includes('support')) {
+                      toggleBtn.style.display = 'none';
+                  } else {
+                      toggleBtn.style.display = 'flex';
+                  }
+                toggleBtn.style.bottom = '5px';
+            }
+            const chevronContainer = document.getElementById('chevron-container');
+            if (chevronContainer) {
+                chevronContainer.style.transform = 'rotate(0deg)';
+            }
+            navIsToggled = false;
+        } else {
+            if(bottomNav) { bottomNav.style.display = 'flex'; bottomNav.style.animation = 'none'; bottomNav.style.opacity = '1'; bottomNav.style.transform = 'translateY(0)'; } document.getElementById('app-frame').style.marginBottom = '75px';
+            if(globalHeader) globalHeader.style.display = 'block';
+            
+            // Hide toggle button
+            const toggleBtn = document.getElementById('nav-toggle');
+            if (toggleBtn) {
+                toggleBtn.style.display = 'none';
+            }
+            navIsToggled = false;
+        }
+
+        let activePageIdx = appPages.findIndex(p => p.url === url);
+        if (activePageIdx === -1) activePageIdx = 0;
+        let activePage = appPages[activePageIdx];
+
+        // Update bottom nav active classes
+        let buttons = document.querySelectorAll('.nav-item');
+        let targetBottomNav = btnElement;
+        
+        // If btnElement wasn't passed, try to infer it from bottomNavIdx
+        if (!targetBottomNav && activePage.bottomNavIdx !== null) {
+            targetBottomNav = buttons[activePage.bottomNavIdx];
+        }
+
+        buttons.forEach(btn => {
+            btn.classList.remove('active');
+            let icon = btn.querySelector('.material-symbols-outlined');
+            if (icon) icon.style.fontVariationSettings = "'FILL' 0";
+        });
+        
+        if (targetBottomNav) {
+            targetBottomNav.classList.add('active');
+            targetBottomNav.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1";
+        }
+        
+        // Render exactly 3 items in the top nav with Premium Animation
+        const topNavContainer = document.getElementById('top-nav-container');
+        
+        // Animate Out
+        topNavContainer.style.opacity = '0';
+        topNavContainer.style.transform = 'translateY(8px) scale(0.95)';
+        
+        setTimeout(() => {
+            topNavContainer.innerHTML = '';
+            
+            // Calculate the 3 items to show
+            let startIndex = activePageIdx - 1;
+            if (startIndex < 0) startIndex = 0;
+            let endIndex = startIndex + 2;
+            if (endIndex >= appPages.length) {
+                endIndex = appPages.length - 1;
+                startIndex = Math.max(0, endIndex - 2);
+            }
+
+            const visiblePages = appPages.slice(startIndex, endIndex + 1);
+            
+            // If we are on the PROFILE page, shrink gaps and side items to prevent cut-off
+            if (activePage.title === 'PROFILE') {
+                topNavContainer.classList.remove('gap-4', 'gap-3');
+                topNavContainer.classList.add('gap-5');
+            } else {
+                topNavContainer.classList.remove('gap-5');
+                topNavContainer.classList.add('gap-4');
+            }
+            
+            visiblePages.forEach((page) => {
+                const isActive = page.url === activePage.url;
+                const item = document.createElement('div');
+                
+                let activeSize = 'text-[13px]';
+                let inactiveSize = 'text-[11px]';
+
+                // Side items are normal size but faded color, active is bold and prominent
+                item.className = 'nav-link-ultra whitespace-nowrap text-center   ease-[cubic-bezier(0.25,0.8,0.25,1)] ' + 
+                                 (isActive ? `active ${activeSize} scale-105` : `${inactiveSize} text-slate-400 hover:text-slate-600 cursor-pointer`);
+                item.innerText = page.title;
+                item.onclick = () => loadPage(page.url);
+                topNavContainer.appendChild(item);
+            });
+            
+            // Animate In
+            setTimeout(() => {
+                topNavContainer.style.opacity = '1';
+                topNavContainer.style.transform = 'translateY(0) scale(1)';
+            }, 50);
+            
+        }, 200);
+
+        // Close global search if open
+        const nav = document.getElementById('nav-links');
+        if (nav && nav.classList.contains('opacity-0') && window.togglePremiumSearch) {
+            togglePremiumSearch();
+        }
+    }
+    
+    // Initial call to setup top nav and restore last visited page
+    window.addEventListener('load', () => {
+        let lastPage = (typeof isLandingDemo !== 'undefined' && isLandingDemo) ? 'glassmorphic_1/code.html' : (localStorage.getItem('last_visited_page') || 'glassmorphic_1/code.html'); if(lastPage.includes('demo_dashboard.html')) lastPage = 'glassmorphic_1/code.html';
+        loadPage(lastPage);
+    });
+
+    // Pass scroll events from iframe up to parent for header styling
+    window.addEventListener('message', (event) => {
+        if(event.data && event.data.type === 'scroll') {
+            const header = document.querySelector('.glass-base-ultra');
+            if (event.data.scrollY > 15) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        // --- Profile Pic Loading ---
+        const savedPic = isLandingDemo ? null : localStorage.getItem('userProfilePic');
+        if (savedPic) {
+            const img = document.getElementById('header-profile-img');
+            img.src = savedPic;
+            img.classList.remove('hidden');
+        }
+
+        // --- Cropper JS Logic ---
+        let cropper = null;
+        let minZoom = 0;
+        const cropModal = document.getElementById('crop-modal');
+        const cropImage = document.getElementById('crop-image');
+        const zoomSlider = document.getElementById('zoom-slider');
+
+        document.getElementById('header-pic-upload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    // Hide parent bottom nav
+                    document.querySelector('.bottom-nav').style.display = 'none';
+                    
+                    // Show modal with animation
+                    cropModal.classList.remove('hidden');
+                    setTimeout(() => {
+                        cropModal.classList.remove('opacity-0', 'scale-95');
+                        cropModal.classList.add('opacity-100', 'scale-100', 'flex');
+                    }, 10);
+                    
+                    // Set image and init cropper
+                    cropImage.src = e.target.result;
+                    zoomSlider.value = 0;
+                    
+                    if (cropper) cropper.destroy();
+                    
+                    setTimeout(() => {
+                        cropper = new Cropper(cropImage, {
+                            aspectRatio: 1, viewMode: 1, dragMode: 'move', autoCropArea: 0.95,
+                            restore: false, modal: true, guides: false, highlight: false,
+                            cropBoxMovable: false, cropBoxResizable: false, toggleDragModeOnDblclick: false,
+                            background: false,
+                            ready() {
+                                const cropBoxData = cropper.getCropBoxData();
+                                minZoom = cropBoxData.width / cropper.getImageData().naturalWidth;
+                                cropper.zoomTo(minZoom);
+                            }
+                        });
+                    }, 50);
+                };
+                reader.readAsDataURL(file);
+            }
+            event.target.value = '';
+        });
+
+        zoomSlider.addEventListener('input', function(e) {
+            if (!cropper) return;
+            const val = parseInt(e.target.value);
+            const maxZoom = minZoom * 3;
+            const currentRatio = minZoom + ((val / 100) * (maxZoom - minZoom));
+            cropper.zoomTo(currentRatio);
+        });
+
+        cropImage.addEventListener('zoom', function(e) {
+            if (e.detail.ratio < minZoom) {
+                e.preventDefault();
+                cropper.zoomTo(minZoom);
+                return;
+            }
+            const maxZoom = minZoom * 3;
+            let val = ((e.detail.ratio - minZoom) / (maxZoom - minZoom)) * 100;
+            val = Math.max(0, Math.min(100, val));
+            zoomSlider.value = val;
+        });
+
+        document.getElementById('zoom-in-btn').addEventListener('click', () => {
+            let currentVal = parseInt(zoomSlider.value);
+            if(currentVal < 100) {
+                currentVal = Math.min(100, currentVal + 5);
+                zoomSlider.value = currentVal;
+                zoomSlider.dispatchEvent(new Event('input'));
+            }
+        });
+
+        document.getElementById('zoom-out-btn').addEventListener('click', () => {
+            let currentVal = parseInt(zoomSlider.value);
+            if(currentVal > 0) {
+                currentVal = Math.max(0, currentVal - 5);
+                zoomSlider.value = currentVal;
+                zoomSlider.dispatchEvent(new Event('input'));
+            }
+        });
+
+        window.closeCropModal = () => {
+            document.querySelector('.bottom-nav').style.display = 'flex';
+            cropModal.classList.remove('opacity-100', 'scale-100');
+            cropModal.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+                cropModal.classList.add('hidden');
+                cropModal.classList.remove('flex');
+                if (cropper) { cropper.destroy(); cropper = null; }
+            }, 300);
+        };
+
+        window.saveCrop = () => {
+            if (cropper) {
+                const canvas = cropper.getCroppedCanvas({
+                    width: 400, height: 400, imageSmoothingEnabled: true, imageSmoothingQuality: 'high',
+                });
+                const base64Pic = canvas.toDataURL('image/jpeg', 0.9);
+                const img = document.getElementById('header-profile-img');
+                img.src = base64Pic;
+                img.classList.remove('hidden');
+                localStorage.setItem('userProfilePic', base64Pic);
+                closeCropModal();
+                
+                // Alert iframe to update its profile picture if it has one
+                const appFrame = document.getElementById('app-frame');
+                if(appFrame.contentWindow) {
+                    appFrame.contentWindow.postMessage({type: 'profilePicUpdated'}, '*');
+                }
+            }
+        };
+
+        // --- Global Search System ---
+        // (Uses appPages defined above)
+
+        const searchInput = document.getElementById('premium-search');
+        let searchDropdown = document.getElementById('search-results-dropdown');
+        
+        if (!searchDropdown) {
+            searchDropdown = document.createElement('div');
+            searchDropdown.id = 'search-results-dropdown';
+            searchDropdown.className = 'absolute left-4 right-4 top-[64px] bg-white/40 backdrop-blur-[50px] border border-white/70 rounded-[28px] shadow-[0_30px_60px_rgba(15,23,42,0.1),inset_0_1px_1px_rgba(255,255,255,0.9)] overflow-hidden   ease-out opacity-0 scale-[0.98] -translate-y-2 pointer-events-none origin-top z-50 max-h-[65vh] overflow-y-auto pb-2 pt-2 custom-scrollbar font-["Outfit"]';
+            searchDropdown.innerHTML = '<div class="space-y-1" id="search-results-list"></div>';
+            document.querySelector('.device-mockup').appendChild(searchDropdown);
+            
+            const style = document.createElement('style');
+            style.textContent = `
+                .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+                .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+                .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 4px; }
+            `;
+            document.head.appendChild(style);
+        }
+        const resultsList = document.getElementById('search-results-list');
+
+        window.togglePremiumSearch = () => {
+            const nav = document.getElementById('nav-links');
+            const search = document.getElementById('search-input-container');
+            
+            if (nav.classList.contains('opacity-0')) {
+                nav.classList.remove('scale-95', 'opacity-0', 'pointer-events-none');
+                nav.classList.add('scale-100', 'opacity-100');
+                search.classList.remove('scale-100', 'opacity-100', 'pointer-events-auto');
+                search.classList.add('scale-95', 'opacity-0', 'pointer-events-none');
+                searchDropdown.classList.remove('opacity-100', 'scale-100', 'translate-y-0', 'pointer-events-auto');
+                searchDropdown.classList.add('opacity-0', 'scale-[0.98]', '-translate-y-2', 'pointer-events-none');
+                searchInput.value = '';
+            } else {
+                nav.classList.remove('scale-100', 'opacity-100');
+                nav.classList.add('scale-95', 'opacity-0', 'pointer-events-none');
+                search.classList.remove('scale-95', 'opacity-0', 'pointer-events-none');
+                search.classList.add('scale-100', 'opacity-100', 'pointer-events-auto');
+                setTimeout(() => searchInput.focus(), 300);
+            }
+        };
+
+        searchInput.addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase().trim();
+            resultsList.innerHTML = '';
+            
+            if (query.length > 0) {
+                const matches = appPages.filter(item => 
+                    item.title.toLowerCase().includes(query) || 
+                    item.keywords.some(k => k.includes(query))
+                );
+                
+                if (matches.length > 0) {
+                    searchDropdown.classList.remove('opacity-0', 'scale-[0.98]', '-translate-y-2', 'pointer-events-none');
+                    searchDropdown.classList.add('opacity-100', 'scale-100', 'translate-y-0', 'pointer-events-auto');
+                    
+                    matches.forEach((match, index) => {
+                        const resultItem = document.createElement('div');
+                        resultItem.className = 'flex items-center gap-4 px-4 py-3 mx-2 rounded-[20px] cursor-pointer hover:bg-white/60 active:bg-white/80 hover:shadow-[0_4px_15px_rgba(0,0,0,0.02)]   search-result-item group';
+                        resultItem.onclick = () => {
+                            loadPage(match.url);
+                        };
+                        resultItem.innerHTML = `
+                            <div class="w-10 flex items-center justify-center shrink-0 group-hover:scale-110 group-active:scale-95 transition-transform ">
+                                <span class="material-symbols-outlined text-slate-700 text-[28px] drop-shadow-sm" style="font-variation-settings: 'wght' 400;">${match.icon}</span>
+                            </div>
+                            <div class="flex-1 min-w-0 flex flex-col justify-center">
+                                <h4 class="text-[15px] font-bold text-slate-700 tracking-tight leading-tight mb-0.5 group-hover:text-slate-800 transition-colors">${match.title}</h4>
+                                <p class="text-[10px] text-slate-500 font-semibold tracking-widest uppercase">${match.icon === 'home' ? 'Main Dashboard' : 'App Feature'}</p>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-slate-100/30 backdrop-blur-sm border border-transparent group-hover:border-white/60 group-hover:bg-white/50 group-hover:shadow-sm flex items-center justify-center text-slate-400 group-hover:text-slate-900  ">
+                                <span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'wght' 600;">chevron_right</span>
+                            </div>
+                        `;
+                        resultsList.appendChild(resultItem);
+                    });
+                } else {
+                    searchDropdown.classList.remove('opacity-100', 'scale-100', 'translate-y-0', 'pointer-events-auto');
+                    searchDropdown.classList.add('opacity-0', 'scale-[0.98]', '-translate-y-2', 'pointer-events-none');
+                }
+            } else {
+                searchDropdown.classList.remove('opacity-100', 'scale-100', 'translate-y-0', 'pointer-events-auto');
+                searchDropdown.classList.add('opacity-0', 'scale-[0.98]', '-translate-y-2', 'pointer-events-none');
+            }
+        });
+
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const firstGlobalResult = document.querySelector('.search-result-item');
+                if (firstGlobalResult && searchDropdown.classList.contains('opacity-100')) {
+                    firstGlobalResult.click();
+                }
+            }
+        });
+    });
+</script>
+<script>
+    document.write('<script src="js/app.js?v=' + new Date().getTime() + '"><\/script>');
+</script>
+
+  <script>
+      // Run immediately
+      if (typeof isLandingDemo !== 'undefined' && isLandingDemo) {
+          const sbtn = document.getElementById('search-btn');
+          if (sbtn) {
+              sbtn.removeAttribute('onclick');
+              sbtn.addEventListener('click', (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  alert('This is a demo preview! Please download the app to use this feature.');
+              });
+          }
+          const pbtn = document.querySelector('[onclick*="header-pic-upload"]');
+          if (pbtn) {
+              pbtn.removeAttribute('onclick');
+              pbtn.addEventListener('click', (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  alert('This is a demo preview! Please download the app to use this feature.');
+              });
+          }
+          
+          window.togglePremiumSearch = function() {
+              alert('This is a demo preview! Please download the app to use this feature.');
+          };
+          
+          // GLOBALLY capture ALL clicks on the top nav items!
+          document.addEventListener('click', (e) => {
+              const link = e.target.closest('.nav-link-ultra');
+              if (link) {
+                  const txt = (link.innerText || '').toLowerCase();
+                  if (txt.includes('dashboard') || txt.includes('support')) {
+                      // allow
+                      return;
+                  }
+                  e.preventDefault();
+                  e.stopPropagation();
+                  alert('This is a demo preview! Please download the app to use this feature.');
+              }
+          }, true);
+      }
+  </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const frame = document.getElementById('app-frame');
+        if (frame) {
+            frame.addEventListener('load', function() {
+                // Apple Spring Release
+                this.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease';
+                this.style.opacity = '1';
+                this.style.transform = 'scale(1)';
+            });
+        }
+    });
+    </script>
+</body>
+</html>

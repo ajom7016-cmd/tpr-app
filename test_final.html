@@ -1,0 +1,525 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>JMJ Earning App - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@400,0,0,24" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <style>
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            background-color: #f6f8fb; 
+            color: #111827; 
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Circular Crop Mask for Cropper.js */
+        .cropper-view-box,
+        .cropper-face {
+            border-radius: 50%;
+        }
+        .cropper-view-box {
+            outline: 2px solid #ea580c; /* Orange outline */
+            outline-color: rgba(234, 88, 12, 0.8);
+        }
+        
+        /* Premium Zoom Slider Customization */
+        #zoom-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+        }
+        #zoom-slider::-webkit-slider-runnable-track {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+        #zoom-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border: 2px solid #ea580c;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(234, 88, 12, 0.6);
+            margin-top: -8px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        #zoom-slider::-webkit-slider-thumb:active {
+            transform: scale(1.2);
+        }
+        
+        /* The vibrant background aura behind the main card */
+        .aura-bg {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            background: radial-gradient(ellipse at center, rgba(255, 69, 58, 0.25) 0%, rgba(255, 149, 0, 0.15) 45%, rgba(246, 248, 251, 0) 70%);
+            filter: blur(40px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* True Glassmorphism Cards */
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(40px) saturate(150%);
+            -webkit-backdrop-filter: blur(40px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px৳5px rgba(0,0,0,0.05), inset 0 2px 10px rgba(255,255,255,0.3);
+            border-radius: 24px;
+        }
+
+        .list-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(40px) saturate(150%);
+            -webkit-backdrop-filter: blur(40px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 10px৳0px rgba(0,0,0,0.03), inset 0 2px 10px rgba(255,255,255,0.3);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .list-card:active { transform: scale(0.98); }
+
+        .btn-deposit {
+            background: linear-gradient(135deg, #ff4d4d 0%, #ff8a3d 100%);
+            box-shadow: 0 8px 20px rgba(255, 77, 77, 0.3);
+            color: white;
+            border-radius: 99px;
+            padding: 7px 16px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: transform 0.2s;
+        }
+        .btn-deposit:active { transform: scale(0.95); }
+
+        .icon-box {
+            background: #e2e8f0;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #334155;
+        }
+
+        /* Horizontal Scroll Hide */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Action Buttons */
+        .action-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05), inset 0 2px 10px rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.8);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            border-right: 1px solid rgba(255,255,255,0.2);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(40px) saturate(150%);
+            -webkit-backdrop-filter: blur(40px) saturate(150%);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .action-box:active { transform: scale(0.95); }
+        .action-box-red {
+            background: linear-gradient(135deg, #ff4d4d 0%, #ff8a3d 100%);
+            border: none;
+            box-shadow: 0 6px 15px rgba(255, 77, 77, 0.3);
+            color: white;
+        }
+        
+        /* Authentic TPR Logo */
+        .tpr-logo-box {
+            background: linear-gradient(135deg, rgba(255,192,203,0.3) 0%, rgba(173,216,230,0.3) 50%, rgba(152,251,152,0.3) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    
+    /* Anti-FOUC Smooth Load */
+    body {
+        animation: smoothLoad 0.4s ease-out forwards;
+        opacity: 0;
+    }
+    @keyframes smoothLoad {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="custom-global-scrollbar">
+  /* Smooth, native-feeling scrollbar */
+  ::-webkit-scrollbar { width: 7px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 7px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.4); }
+
+  /* Perfectly aligned scrollbar buttons (Gray Triangles) */
+  ::-webkit-scrollbar-button:single-button {
+    background-color: transparent;
+    display: block;
+    height: 14px;
+    width: 7px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 7px 7px;
+  }
+  
+  /* Top Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:decrement {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDE3IDE5LDE3IDEwLDUnIGZpbGw9JyM2NDZlNzgnLz48L3N2Zz4=");
+  }
+  
+  /* Bottom Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:increment {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDMgMTksMyAxMCwxNScgZmlsbD0nIzY0NmU3OCcvPjwvc3ZnPg==");
+  }
+</style>
+
+    
+
+
+<style id="stagger-anim">
+@keyframes popUpStagger {
+    0% { opacity: 0; transform: translateY(30px) scale(0.96); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+main > div:not(#tasks-container), #tasks-container > div, .glass-container, .bg-white\\/40 {
+    animation: popUpStagger 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+main > *:nth-child(1), #tasks-container > *:nth-child(1), *:nth-child(1) > .glass-container { animation-delay: 0.08s; }
+main > *:nth-child(2), #tasks-container > *:nth-child(2), *:nth-child(2) > .glass-container { animation-delay: 0.15s; }
+main > *:nth-child(3), #tasks-container > *:nth-child(3), *:nth-child(3) > .glass-container { animation-delay: 0.22s; }
+main > *:nth-child(4), #tasks-container > *:nth-child(4), *:nth-child(4) > .glass-container { animation-delay: 0.29s; }
+main > *:nth-child(5), #tasks-container > *:nth-child(5), *:nth-child(5) > .glass-container { animation-delay: 0.36s; }
+main > *:nth-child(6), #tasks-container > *:nth-child(6), *:nth-child(6) > .glass-container { animation-delay: 0.43s; }
+main > *:nth-child(7) { animation-delay: 0.50s; }
+main > *:nth-child(8) { animation-delay: 0.57s; }
+</style>
+</head>
+<body class="pb-6 relative overflow-x-hidden text-slate-800" style="background: transparent !important;">
+
+    <script>
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            let errStr = "ERROR: " + msg + " @ Line: " + lineNo;
+            console.error(errStr);
+            let div = document.createElement('div');
+            div.style = "position:fixed;top:0;left:0;width:100%;background:red;color:white;z-index:999999;padding:20px;font-size:16px;font-weight:bold;";
+            div.innerText = errStr;
+            document.body.appendChild(div);
+            return false;
+        };
+        window.addEventListener("unhandledrejection", function(event) {
+            let errStr = "PROMISE REJECTION: " + (event.reason ? event.reason.toString() : "Unknown");
+            console.error(errStr);
+            let div = document.createElement('div');
+            div.style = "position:fixed;top:60px;left:0;width:100%;background:orange;color:white;z-index:999999;padding:20px;font-size:16px;font-weight:bold;";
+            div.innerText = errStr;
+            document.body.appendChild(div);
+        });
+    </script>
+    
+    
+    <!-- Global Header and Search are now in index.html -->
+
+    <main class="px-5 space-y-4 pt-4">
+        <!-- Main Balance Card exactly like the top image -->
+        <div class="glass-card p-5 relative overflow-hidden mb-4">
+              <div class="flex justify-between items-center w-full mb-1">
+                  <p class="text-[13px] font-medium text-slate-700">Total Portfolio Value</p>
+                  <div class="flex items-center gap-0.5 text-green-600">
+                      <span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                      <span class="text-[13px] font-bold">+ 5.8%</span>
+                  </div>
+              </div>
+              <h2 class="text-[34px] font-black tracking-tight text-slate-900 mb-6">৳ <span id="user-balance">0.00</span></h2>
+              <div class="flex justify-between items-end w-full">
+                  <div>
+                      <p class="text-[13px] font-medium text-slate-700 mb-1">Available Balance</p>
+                      <h3 class="text-[20px] font-black text-slate-900">৳ <span id="today-income">0.00</span></h3>
+                  </div>
+                  <button class="btn-deposit" onclick="window.parent.loadPage('deposit_glass/code.html', this)">
+                      Deposit <span class="material-symbols-outlined text-[16px] font-bold">add</span>
+                  </button>
+              </div>
+          </div>
+          
+          <!-- Secondary Stats (The 2 cards - Moved Up) -->
+          <div class="grid grid-cols-2 gap-3">
+            <div class="glass-card p-4">
+                <p class="text-[12px] font-medium text-slate-700 mb-1">Total Earnings</p>
+                <h3 class="text-[18px] font-black text-slate-900 mb-1">৳ <span id="user-total-earnings">0.00</span></h3>
+                <p class="text-[12px] font-bold text-green-600">+ 7.2%</p>
+              </div>
+              <div class="glass-card p-4">
+                  <p class="text-[12px] font-medium text-slate-700 mb-1">Invested Capital</p>
+                  <h3 class="text-[18px] font-black text-slate-900 mb-1">৳ <span id="user-invested">0.00</span></h3>
+                  <p class="text-[12px] font-bold text-green-600">+ 4.1%</p>
+              </div>
+          </div>
+          
+          <div class="flex justify-between items-center w-full pt-2 pb-4 px-1">
+            <!-- Withdraw -->
+            <div class="flex flex-col items-center gap-2 cursor-pointer searchable-item" onclick="if(window.parent && window.parent.loadPage) { window.parent.loadPage('withdraw_glass/code.html'); }">
+                <div class="action-box action-box-red">
+                    <span class="material-symbols-outlined text-[26px]">payments</span>
+                </div>
+                <span class="text-[13px] font-bold text-slate-800">Withdraw</span>
+            </div>
+            
+                          <!-- History -->
+              <div class="flex flex-col items-center gap-2 cursor-pointer searchable-item" onclick="window.parent.loadPage('glassmorphic_3/code.html', null)">
+                  <div class="action-box text-slate-700">
+                      <span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'wght' 300;">history</span>
+                  </div>
+                  <span class="text-[13px] font-bold text-slate-800">History</span>
+              </div>
+              <!-- Tasks -->
+            <div class="flex flex-col items-center gap-2 cursor-pointer searchable-item" onclick="window.parent.loadPage('glassmorphic_2/code.html', window.parent.document.querySelectorAll('.nav-btn')[1])">
+                <div class="action-box text-slate-700">
+                    <span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'wght'৳00;">assignment</span>
+                </div>
+                <span class="text-[13px] font-bold text-slate-800">Tasks</span>
+            </div>
+            <!-- Invite -->
+            <div class="flex flex-col items-center gap-2 cursor-pointer searchable-item" onclick="window.parent.loadPage('refer_glass/code.html', null)">
+                <div class="action-box text-slate-700">
+                    <span class="material-symbols-outlined text-[26px]" style="font-variation-settings: 'wght'৳00;">group_add</span>
+                </div>
+                <span class="text-[13px] font-bold text-slate-800">Invite</span>
+            </div>
+        </div>
+
+        <!-- Premium Banners Carousel -->
+        <div class="mt-4 mb-2 px-1">
+            <div class="relative overflow-hidden rounded-[20px] shadow-[0_8px_25px_rgba(0,0,0,0.1)] w-full aspect-video">
+                <!-- Track -->
+                <div id="promo-banner-track" class="flex w-full h-full transition-transform duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)]">
+                    <img src="/assets/banners/deposit.jpg" class="w-full h-full object-cover shrink-0" style="image-rendering: -webkit-optimize-contrast; transform: translateZ(0); backface-visibility: hidden;" alt="First Deposit Bonus">
+                    <img src="/assets/banners/vip.jpg" class="w-full h-full object-cover shrink-0" style="image-rendering: -webkit-optimize-contrast; transform: translateZ(0); backface-visibility: hidden;" alt="VIP Upgrade">
+                    <img src="/assets/banners/referral.jpg" class="w-full h-full object-cover shrink-0" style="image-rendering: -webkit-optimize-contrast; transform: translateZ(0); backface-visibility: hidden;" alt="Referral Bonus">
+                </div>
+                <!-- Indicators -->
+                <div class="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5 z-10">
+                    <button class="promo-dot w-4 h-1.5 rounded-full bg-white transition-all duration-300"></button>
+                    <button class="promo-dot w-1.5 h-1.5 rounded-full bg-white/50 transition-all duration-300"></button>
+                    <button class="promo-dot w-1.5 h-1.5 rounded-full bg-white/50 transition-all duration-300"></button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Banner Slider Logic
+            document.addEventListener('DOMContentLoaded', () => {
+                const track = document.getElementById('promo-banner-track');
+                if(!track) return;
+                const dots = document.querySelectorAll('.promo-dot');
+                let currentIdx = 0;
+                setInterval(() => {
+                    currentIdx = (currentIdx + 1) % 3;
+                    track.style.transform = `translateX(-${currentIdx * 100}%)`;
+                    dots.forEach((dot, i) => {
+                        if(i === currentIdx) {
+                            dot.classList.remove('w-1.5', 'bg-white/50');
+                            dot.classList.add('w-4', 'bg-white');
+                        } else {
+                            dot.classList.remove('w-4', 'bg-white');
+                            dot.classList.add('w-1.5', 'bg-white/50');
+                        }
+                    });
+                }, 3500);
+            });
+        </script>
+
+        <!-- Recent Earnings Grid (Dynamic) -->
+        <div class="pt-6">
+            <h3 class="text-[20px] font-black text-slate-900 mb-4 px-1">Recent Earnings</h3>
+            <div id="recent-earnings-container" class="grid grid-cols-2 gap-2 sm:gap-3">
+                <!-- JS will populate tasks here -->
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/app.js?v=4"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            let token = localStorage.getItem('userToken'); if(!token && window.parent) try { token = window.parent.localStorage.getItem('userToken'); } catch(e) {} if(window.APP && token) {
+                const profile = await window.APP.getProfile();
+                if(profile) {
+                    // 1. Determine VIP level and Invested Capital
+                    const vipLevel = (profile.vip_plan && profile.vip_plan !== 'Free') ? parseInt(profile.vip_plan.replace('VIP ', '')) || 0 : 0;
+                    // Approximate VIP Prices based on standard scaling (can be adjusted if needed)
+                    const investedMap = { 0: 0, 1: 1699, 2: 3199, 3: 6190, 4: 12180, 5: 24150, 6: 48000 }; 
+                    const invested = investedMap[vipLevel] || 0;
+                    
+                    // 2. Real Available Balance
+                    const balance = profile.balance || 0;
+                    
+                    // 3. Real Total Portfolio Value = Balance + Invested
+                    const portfolioValue = balance + invested;
+                    
+                    // Update DOM
+                    document.getElementById('user-balance').innerText = portfolioValue.toLocaleString('en-IN', {minimumFractionDigits: 2}); // Portfolio
+                    document.getElementById('today-income').innerText = balance.toLocaleString('en-IN', {minimumFractionDigits: 2}); // Available Balance
+                    document.getElementById('user-invested').innerText = invested.toLocaleString('en-IN', {minimumFractionDigits: 2}); // Invested Capital
+                    
+                    // 4. Real Total Earnings (Assuming today_income is tracking task earnings or we just use balance)
+                    const totalEarnings = profile.balance || 0; 
+                    document.getElementById('user-total-earnings').innerText = totalEarnings.toLocaleString('en-IN', {minimumFractionDigits: 2});
+                    
+                    // Fetch and render Recent Earnings
+                    let recentTasks = [];
+                    try {
+                        if (typeof window.APP.getRecentEarnings === 'function') {
+                            recentTasks = await window.APP.getRecentEarnings();
+                        }
+                    } catch(e) {
+                        console.error('Error fetching recent tasks', e);
+                    }
+                    if (!Array.isArray(recentTasks)) recentTasks = [];
+
+                    const svgMap = {
+                        'youtube': '<svg class="w-9 h-9 shrink-0 drop-shadow-sm" viewBox="0 0 576 512" fill="#FF0000"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg>',
+                        'facebook': '<svg class="w-9 h-9 shrink-0 drop-shadow-sm" viewBox="0 0 512 512" fill="#1877F2"><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg>',
+                        'telegram': '<svg class="w-9 h-9 shrink-0 drop-shadow-sm" viewBox="0 0 496 512"><path fill="#24A1DE" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg>',
+                        'tiktok': '<svg class="w-8 h-8 mx-0.5 shrink-0 drop-shadow-sm" viewBox="0 0 448 512" fill="#25F4EE"><path d="M448 209.9a210.1 210.1 0 0 1 -122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z"/><path fill="#FE2C55" d="M448 209.9a210.1 210.1 0 0 1 -122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z" transform="translate(10, 10)"/><path fill="#000000" d="M448 209.9a210.1 210.1 0 0 1 -122.8-39.3V349.4A162.6 162.6 0 1 1 185 188.3V278.2a74.6 74.6 0 1 0 52.2 71.2V0l88 0a121.2 121.2 0 0 0 1.9 22.2h0A122.2 122.2 0 0 0 381 102.4a121.4 121.4 0 0 0 67 20.1z" transform="translate(5, 5)"/></svg>',
+                        'default': '<svg class="w-9 h-9 shrink-0 drop-shadow-sm" viewBox="0 0 24 24" fill="#64748b"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>'
+                    };
+
+                    const nameMap = {
+                        'youtube': 'YouTube Task',
+                        'facebook': 'Facebook Task',
+                        'telegram': 'Telegram Task',
+                        'tiktok': 'TikTok Task',
+                        'video': 'Video Task',
+                        'social': 'Social Task',
+                        'quiz': 'Math Quiz'
+                    };
+
+                    const requiredPlatforms = ['youtube', 'facebook', 'telegram', 'tiktok'];
+                    let completedMap = {};
+                    recentTasks.forEach(t => completedMap[t.type] = t);
+                    
+                    let finalTasks = [];
+                    for(let type of requiredPlatforms) {
+                        if(completedMap[type]) {
+                            finalTasks.push(completedMap[type]);
+                        } else {
+                            finalTasks.push({
+                                type: type,
+                                reward: 0,
+                                completed_at: null
+                            });
+                        }
+                    }
+
+                    let html = '';
+                    for (const task of finalTasks) {
+                        let icon = svgMap[task.type] || svgMap['default'];
+                        let name = nameMap[task.type] || (task.type ? (task.type.charAt(0).toUpperCase() + task.type.slice(1) + ' Task') : 'Task');
+                        
+                        let timeStr = '00:00';
+                        if (task.completed_at) {
+                            let timeString = task.completed_at;
+                            if (typeof timeString === 'string' && !timeString.endsWith('Z') && !timeString.includes('T')) {
+                                timeString = timeString.replace(' ', 'T') + 'Z';
+                            } else if (typeof timeString === 'string' && !timeString.endsWith('Z')) {
+                                timeString += 'Z';
+                            }
+                            let dateObj = new Date(timeString);
+                            timeStr = dateObj.toLocaleTimeString('en-US', {hour: '2-digit', minute: '2-digit'});
+                        }
+                        
+                        let rewardHtml = task.reward > 0 
+                            ? `<span class="block text-[14px] font-black text-green-600">+ ৳ ${task.reward}</span>` 
+                            : `<span class="block text-[14px] font-black text-slate-400">00</span>`;
+                        
+                        html += `
+                        <div class="list-card p-3 h-[72px] flex items-center justify-between searchable-item relative overflow-hidden">
+                            <div class="flex items-center gap-2 sm:gap-3 z-10">
+                                ${icon}
+                                <div>
+                                    <h4 class="text-[14px] font-bold text-slate-800 leading-tight whitespace-nowrap tracking-tight">${name}</h4>
+                                    <span class="text-[11px] font-bold text-slate-500 block mt-0.5">${timeStr}</span>
+                                </div>
+                            </div>
+                            <div class="text-right shrink-0 absolute right-3 bottom-3 z-10">
+                                ${rewardHtml}
+                            </div>
+                        </div>
+                        `;
+                    }
+                    
+                    document.getElementById('recent-earnings-container').innerHTML = html;
+                }
+            }
+
+            
+            
+            setTimeout(() => {
+                const container = document.getElementById('recent-earnings-container');
+                if (container && container.innerHTML.trim() === '') {
+                    container.innerHTML = '<div class="col-span-2 text-center text-slate-400 py-6 font-medium text-[13px]">No tasks completed today.</div>';
+                }
+            }, 800);
+
+
+            window.addEventListener('scroll', () => {
+                if (window.parent) {
+                    window.parent.postMessage({
+                        type: 'scroll',
+                        scrollY: window.scrollY
+                    }, '*');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

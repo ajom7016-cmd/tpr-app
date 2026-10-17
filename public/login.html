@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#ea580c">
+    <link rel="manifest" href="/manifest.json">
+    <title>TPR App - The Pet Royal | Official Earning App & Login</title>
+    <meta name="description" content="TPR App (The Pet Royal) - বাংলাদেশের বিশ্বস্ত অনলাইন আর্নিং প্ল্যাটফর্ম। রেজিস্ট্রেশন ও লগইন করে প্রতিদিন সহজ ভিডিও টাস্ক কমপ্লিট করে বিকাশ ও নগদে টাকা ইনকাম করুন।">
+    <meta name="keywords" content="TPR App, The Pet Royal, tpr app login, thepetroyal, thepetroyal.com, tpr app bd, tpr online income, tpr earning app, tpr official, bkash earning app">
+    <meta name="author" content="The Pet Royal">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="TPR App - The Pet Royal Official Platform">
+    <meta property="og:description" content="TPR App এ প্রতিদিন সহজ ভিডিও টাস্ক কমপ্লিট করে বিকাশ ও নগদে আয় করুন। অফিশিয়াল দ্য পেট রয়েল প্ল্যাটফর্ম।">
+    <meta property="og:url" content="https://thepetroyal.com/login.html">
+    <meta property="og:site_name" content="TPR App">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://thepetroyal.com/assets/logo.png">
+    <link rel="canonical" href="https://thepetroyal.com/login.html">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "TPR App",
+      "alternateName": ["The Pet Royal", "TPR", "TPR Earning App", "thepetroyal.com"],
+      "url": "https://thepetroyal.com",
+      "description": "TPR App (The Pet Royal) is an online earning platform where users can complete daily digital tasks to earn money with instant bKash and Nagad withdrawals in Bangladesh.",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "BDT"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "The Pet Royal",
+        "url": "https://thepetroyal.com"
+      }
+    }
+    </script>
+    
+    <script>
+        if (document.fonts) {
+            document.fonts.ready.then(() => {
+                document.documentElement.classList.add('fonts-loaded');
+            }).catch(() => {
+                document.documentElement.classList.add('fonts-loaded');
+            });
+        } else {
+            document.documentElement.classList.add('fonts-loaded');
+        }
+    </script>
+            
+    <link rel="prefetch" href="/index.html">
+    <link rel="preload" href="/index.html" as="document">
+    <link rel="icon" type="image/svg+xml" href="/assets/app-icon.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@400,1,0,24" rel="stylesheet" />
+    <style>
+        /* Prevent Material Icon Text Flashing */
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined' !important;
+            font-weight: normal; font-style: normal; display: inline-block; line-height: 1;
+            text-transform: none; letter-spacing: normal; word-wrap: normal; white-space: nowrap;
+            direction: ltr; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+            font-feature-settings: 'liga'; -webkit-font-feature-settings: 'liga'; overflow: hidden;
+            width: 1em; height: 1em; max-width: 1em; max-height: 1em; vertical-align: middle;
+        }
+        html:not(.fonts-loaded) .material-symbols-outlined {
+            visibility: hidden !important; color: transparent !important; user-select: none;
+        }
+        .hidden, [hidden] { display: none !important; }
+
+        /* === HARDWARE-ACCELERATED ULTRA-SMOOTH GPU SPINNER === */
+        @keyframes smoothGpuSpin {
+            0% { transform: rotate(0deg) translateZ(0); }
+            100% { transform: rotate(360deg) translateZ(0); }
+        }
+        @keyframes smoothGpuPulse {
+            0%, 100% { transform: scale(0.92) translateZ(0); opacity: 0.35; }
+            50% { transform: scale(1.15) translateZ(0); opacity: 0.75; }
+        }
+        .smooth-gpu-spinner {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 3.5px solid rgba(249, 115, 22, 0.18);
+            border-top: 3.5px solid #ea580c;
+            border-right: 3.5px solid #f97316;
+            animation: smoothGpuSpin 0.75s linear infinite !important;
+            will-change: transform;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .smooth-gpu-pulse {
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(234, 88, 12, 0.28) 0%, transparent 70%);
+            animation: smoothGpuPulse 1.6s ease-in-out infinite !important;
+            will-change: transform, opacity;
+            transform: translateZ(0);
+            pointer-events: none;
+        }
+            
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f1f5f9; 
+            color: #1e293b;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+}
+
+        /* Global App Background */
+        .bg-3d {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: url('/assets/bg_main.jpg') center/cover no-repeat fixed;
+            overflow: hidden;
+        }
+        
+        .orb-2 {
+            position: absolute;
+            bottom: -20%;
+            left: -20%;
+            width: 80vh;
+            height: 80vh;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, rgba(249, 115, 22, 0) 70%);
+            border-radius: 50%;
+            filter: blur(16px);
+            animation: float 15s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
+            100% { transform: translateY(0) scale(1); }
+        }
+
+        .bg-block-1 {
+            position: absolute;
+            top: 5%;
+            left: -15%;
+            width: 300px;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 100%);
+            transform: rotate(25deg);
+            border-radius: 60px;
+            box-shadow: 20px 20px 60px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .bg-block-2 {
+            position: absolute;
+            top: 50%;
+            right: -20%;
+            width: 400px;
+            height: 500px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.1) 100%);
+            transform: rotate(-15deg);
+            border-radius: 80px;
+            box-shadow: -20px 20px 60px rgba(0,0,0,0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        /* Glassmorphic White Panels (Ultra Premium) */
+        .glass-panel {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.4) 100%);
+            backdrop-filter: blur(14px) saturate(140%);
+            -webkit-backdrop-filter: blur(14px) saturate(140%);
+            border-top: 1px solid rgba(255, 255, 255, 1);
+            border-left: 1px solid rgba(255, 255, 255, 0.8);
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 50px 100px -20px rgba(50, 50, 93, 0.15),
+                0 30px 60px -30px rgba(0, 0, 0, 0.2),
+                inset 0 2px 3px rgba(255, 255, 255, 1),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.05),
+                inset 0 0 40px rgba(255, 255, 255, 0.7);
+            position: relative;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, transparent 40%, rgba(255,255,255,0.2) 100%);
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        .glass-input-container {
+            position: relative;
+            width: 100%;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            border-radius: 18px;
+            margin-bottom: 0;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1.5px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-input-container:focus-within {
+            background: #ffffff;
+            border-color: #ea580c;
+            box-shadow: 0 0 0 3.5px rgba(234, 88, 12, 0.12), 0 4px 16px rgba(234, 88, 12, 0.06);
+            transform: translateY(-1px);
+        }
+        
+        .glass-input-container.error-shake,
+        .glass-input-container.error-shake-large {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 0 3.5px rgba(239, 68, 68, 0.12) !important;
+        }
+
+        .glass-input-bg, .glass-input-border {
+            display: none !important;
+        }
+
+        /* Input styling */
+        .custom-input {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 0 48px 0 16px;
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 15px;
+            z-index: 10;
+            position: relative;
+        }
+
+        .custom-input::placeholder { color: transparent; transition: color 0.2s ease; }
+        .glass-input-container:focus-within .custom-input::placeholder { color: rgba(148, 163, 184, 0.5); }
+
+        /* Eye Icon Autofill Support */
+        .glass-input-container:has(input:not(:placeholder-shown)) button[id^="btn-eye"] {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+
+        .glass-input-label {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+            color: #94a3b8;
+            font-weight: 600;
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            z-index: 30;
+            padding: 0 6px;
+            border-radius: 4px;
+            background: transparent;
+            line-height: 1;
+            will-change: transform, top, color, background;
+        }
+        
+        .glass-input-container:focus-within .glass-input-label, 
+        .glass-input-container:has(input:-webkit-autofill) .glass-input-label,
+        .glass-input-container:has(input:not(:placeholder-shown)) .glass-input-label {
+            top: 0; 
+            transform: translateY(-50%) scale(0.85);
+            background: #ffffff !important;
+            color: #ea580c; 
+            font-weight: 800;
+        }
+        
+        .glass-input-container:not(:focus-within):has(input:not(:placeholder-shown)) .glass-input-label {
+            color: #64748b;
+            background: #ffffff !important;
+        }
+
+        /* Chrome autofill background fix */
+        .custom-input:-webkit-autofill,
+        .custom-input:-webkit-autofill:hover, 
+        .custom-input:-webkit-autofill:focus, 
+        .custom-input:-webkit-autofill:active {
+            transition: background-color 5000s ease-in-out 0s !important;
+            -webkit-text-fill-color: #1e293b !important;
+        }
+
+        .btn-premium {
+            background: linear-gradient(180deg, #ff9a28 0%, #ff5e00 100%);
+            border-radius: 9999px !important; /* Force pill shape */
+            border: none;
+            box-shadow: 
+                0 4px 10px rgba(0, 0, 0, 0.2),
+                inset 0 3px 6px rgba(255, 255, 255, 0.5),
+                inset 0 1px 1px rgba(255, 255, 255, 0.9),
+                inset 0 -4px 8px rgba(200, 50, 0, 0.8);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            letter-spacing: 1.5px;
+            position: relative;
+            font-weight: 800;
+        }
+
+        .btn-premium:hover {
+            box-shadow: 
+                0 6px 15px rgba(0, 0, 0, 0.25),
+                inset 0 3px 6px rgba(255, 255, 255, 0.6),
+                inset 0 1px 1px rgba(255, 255, 255, 1),
+                inset 0 -4px 8px rgba(200, 50, 0, 0.9);
+            transform: translateY(-2px);
+            background: linear-gradient(180deg, #ffaa42 0%, #ff6b1a 100%);
+        }
+        
+        .btn-premium:active {
+            transform: translateY(1px);
+            background: linear-gradient(180deg, #e85500 0%, #ff9a28 100%);
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.2),
+                inset 0 4px 8px rgba(0,0,0,0.4);
+        }
+
+        .social-btn {
+            background: transparent;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            border: none;
+            outline: none;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-4px) scale(1.1);
+            filter: drop-shadow(0 10px 15px rgba(234, 88, 12, 0.2));
+        }
+        
+        .social-btn:active {
+            transform: translateY(0) scale(0.95);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        
+        .hide { 
+            display: none !important;
+        }
+
+        /* Modal Overlay - Light Theme */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(255,255,255,0.4); backdrop-filter: blur(15px);
+            display: flex; align-items: center; justify-content: center; z-index: 999;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+
+        /* OTP Inputs - Light */
+        .otp-input {
+            width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: 800;
+            border-radius: 12px; background: rgba(255,255,255,0.8); border: 2px solid rgba(203,213,225,0.5);
+            transition: all 0.2s; color: #1e293b; margin: 0 4px; box-shadow: none;
+        }
+        .otp-input:focus { 
+            border-color: #1e293b; 
+            outline: none; 
+            box-shadow: none; 
+            background: white;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+        .error-shake, .error-shake-large, .otp-error {
+            animation: shake 0.4s ease-in-out;
+        }
+        .error-shake {
+            margin-top: 25px !important;
+        }
+        .error-shake-large {
+            margin-top: 36px !important;
+        }
+        .otp-error {
+            border-color: #ef4444 !important; /* red-500 */
+        }
+
+        .bouncing-dots {
+            display: flex; justify-content: center; align-items: center; gap: 7px; height: 24px;
+        }
+        .bouncing-dots div {
+            width: 6px; height: 6px; background-color: #ffffff; border-radius: 10px;
+            animation: stretch-bounce 1s infinite ease-in-out both;
+        }
+        .bouncing-dots div:nth-child(1) { animation-delay: -0.32s; }
+        .bouncing-dots div:nth-child(2) { animation-delay: -0.16s; }
+        .bouncing-dots div:nth-child(3) { animation-delay: 0s; }
+        @keyframes stretch-bounce {
+            0%, 80%, 100% { height: 6px; }
+            40% { height: 20px; }
+        }
+    
+    /* Anti-FOUC Smooth Load */
+    body {
+        animation: smoothLoad 0.3s ease-out forwards;
+        opacity: 0;
+    }
+    @keyframes smoothLoad {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    /* 60 FPS Super Smooth Panel Transitions */
+    .view-fade-slide {
+        animation: panelFadeSlide 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+    @keyframes panelFadeSlide {
+        0% { opacity: 0; transform: translateY(8px) scale(0.985); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+</style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    
+    <!-- SEO Crawler Optimization Block -->
+    <header style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;">
+        <h1>TPR App - The Pet Royal Official Earning Platform</h1>
+        <p>The Pet Royal (TPR App) হলো বাংলাদেশের বিশ্বস্ত অনলাইন আর্নিং প্ল্যাটফর্ম। প্রতিদিন ইউটিউব, ফেসবুক ও টিকটক ভিডিও দেখে সহজে টাকা ইনকাম করে বিকাশ ও নগদে উত্তোলন করুন। এখনই TPR App-এ একাউন্ট তৈরি করুন।</p>
+    </header>
+    <div class="bg-3d">
+        <div class="orb-1"></div>
+        <div class="orb-2"></div>
+        <div class="bg-block-1"></div>
+        <div class="bg-block-2"></div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[1000] flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="w-full max-w-[400px] relative z-10">
+
+        <!-- LOGIN CARD -->
+        <div id="login-container" class="glass-panel w-full rounded-[40px] p-8 pb-10 view-fade-slide">
+            
+            <!-- Logo Section -->
+            <div class="flex flex-col items-center justify-center mb-6 pt-2">
+                <!-- App Logo -->
+                <img src="/assets/app-icon.svg" alt="App Logo" class="w-[80px] h-[80px] mb-2 object-contain drop-shadow-lg rounded-[20px]">
+                <p class="text-[11px] font-bold text-slate-500 tracking-widest uppercase">Premium Digital Assets</p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Email Input -->
+                <div class="glass-input-container">
+                    <label class="glass-input-label">Email Address</label>
+                    <input type="text" id="login-contact" class="custom-input" placeholder=" " oninput="clearError('login-contact')">
+                </div>
+
+                <!-- Password Input -->
+                <div class="glass-input-container">
+                    <label class="glass-input-label">Password</label>
+                    <input type="password" id="login-password" class="custom-input" placeholder=" " oninput="clearError('login-password')">
+                    <button type="button" id="btn-eye-login" onclick="togglePassword('login-password', 'eye-login')" class="absolute right-4 z-20 text-slate-400 hover:text-orange-600 transition-opacity duration-300 focus:outline-none opacity-0 pointer-events-none">
+                        <span id="eye-login" class="material-symbols-outlined text-[20px]">visibility_off</span>
+                    </button>
+                </div>
+
+                <!-- Remember Me & Forgot Password -->
+                <div class="flex items-center justify-between pt-1 pb-3">
+                    <div class="flex items-center">
+                        <label class="relative inline-flex items-center cursor-pointer mr-2">
+                            <input type="checkbox" id="remember-me" value="" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-600"></div>
+                        </label>
+                        <label for="remember-me" class="text-xs font-bold text-slate-600 cursor-pointer">Remember me</label>
+                    </div>
+                    <button onclick="switchView('forgot-container')" class="text-xs font-bold text-orange-600 hover:text-red-600 transition-colors">Forgot Password?</button>
+                </div>
+
+                <button onclick="handleLogin()" id="btn-login" class="btn-premium w-full py-4 rounded-2xl font-bold text-[16px] tracking-wide mt-2">LOG IN</button>
+            </div>
+
+            <!-- Social Login -->
+            <div class="mt-8 text-center">
+                <p class="text-xs font-bold text-slate-400 mb-4 uppercase tracking-wider">Or sign in with</p>
+                <div class="flex justify-center gap-8 items-center mt-2">
+                    <button id="btn-google" onclick="handleSocialLogin('Google')" class="social-btn flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 relative w-[42px] h-[42px] rounded-full">
+                        <svg viewBox="0 0 48 48" class="w-[34px] h-[34px] mt-[4px]">
+                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.7 17.74 9.5 24 9.5z"/>
+                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                        </svg>
+                    </button>
+                    <button id="btn-apple" onclick="handleSocialLogin('Apple')" class="social-btn flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 relative w-[42px] h-[42px] rounded-full">
+                        <svg viewBox="0 0 384 512" class="w-11 h-11">
+                            <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" fill="#000000"/>
+                        </svg>
+                    </button>
+                    <button id="btn-facebook" onclick="handleSocialLogin('Facebook')" class="social-btn flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 relative w-[42px] h-[42px] rounded-full">
+                        <svg viewBox="0 0 48 48" class="w-[34px] h-[34px]">
+                            <path fill="#1877F2" d="M24 0C10.745 0 0 10.745 0 24c0 11.979 8.776 21.908 20.25 23.708v-16.77h-6.094V24h6.094v-5.281c0-6.014 3.585-9.338 9.065-9.338 2.625 0 5.372.469 5.372.469v5.906h-3.026c-2.981 0-3.911 1.849-3.911 3.75V24h6.656l-1.064 6.938H27.75v16.77C39.224 45.908 48 35.979 48 24 48 10.745 37.255 0 24 0z"/>
+                            <path fill="#ffffff" d="M33.342 30.938L34.406 24h-6.656v-4.5c0-1.901.93-3.75 3.911-3.75h3.026v-5.906s-2.747-.469-5.372-.469c-5.48 0-9.065 3.324-9.065 9.338V24h-6.094v6.938h6.094v16.77A24.116 24.116 0 0024 48c1.286 0 2.548-.101 3.75-.292V30.938h5.592z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <p class="text-center mt-10 text-sm font-bold text-slate-500">Don't have an account? <button onclick="switchView('register-container')" class="text-orange-600 font-extrabold hover:text-red-600 transition-colors">Sign Up</button></p>
+        </div>
+
+        <!-- REGISTER CONTAINER -->
+        <div id="register-container" class="glass-panel w-full rounded-[40px] p-8 pb-10 hide">
+            <!-- Logo Section -->
+            <div class="flex flex-col items-center justify-center mb-6 pt-2">
+                <!-- Holographic Glass Logo -->
+                <div class="w-[70px] h-[70px] mb-2 rounded-[18px] flex items-center justify-center relative box-border bg-gradient-to-br from-[rgba(255,192,203,0.3)] via-[rgba(173,216,230,0.3)] to-[rgba(152,251,152,0.3)] backdrop-blur-[20px] shadow-[0_12px_25px_rgba(0,0,0,0.05)] border border-[rgba(255,255,255,0.8)]">
+                    <div class="text-white font-black tracking-tighter text-[28px] drop-shadow-[2px_2px_8px_rgba(0,0,0,0.1)]" style="font-family: 'Montserrat', 'Inter', sans-serif;">TPR</div>
+                </div>
+                <p class="text-[10px] font-bold text-slate-500 mt-1 uppercase tracking-widest">Create Account</p>
+            </div>
+
+            <div class="space-y-3">
+                <div class="glass-input-container">
+                    <label class="glass-input-label">Full Name</label>
+                    <input type="text" id="reg-name" class="custom-input text-sm" placeholder=" " oninput="clearError('reg-name')">
+                </div>
+
+                <div class="glass-input-container">
+                    <label class="glass-input-label">Phone Number</label>
+                    <input type="tel" id="reg-phone" class="custom-input text-sm" placeholder=" " oninput="clearError('reg-phone')">
+                </div>
+
+                <div class="glass-input-container">
+                    <label class="glass-input-label">Email Address</label>
+                    <input type="email" id="reg-email" class="custom-input text-sm" placeholder=" " oninput="clearError('reg-email')">
+                </div>
+
+                <div class="glass-input-container">
+                    <label class="glass-input-label">Password</label>
+                    <input type="password" id="reg-password" class="custom-input text-sm" placeholder=" " oninput="clearError('reg-password')">
+                    <button type="button" id="btn-eye-reg" onclick="togglePassword('reg-password', 'eye-reg1')" class="absolute right-4 z-20 text-slate-400 hover:text-orange-600 transition-opacity duration-300 focus:outline-none opacity-0 pointer-events-none">
+                        <span id="eye-reg1" class="material-symbols-outlined text-[18px]">visibility_off</span>
+                    </button>
+                </div>
+
+                <div class="glass-input-container">
+                    <label class="glass-input-label">Confirm Password</label>
+                    <input type="password" id="reg-password-confirm" class="custom-input text-sm" placeholder=" ">
+                    <button type="button" id="btn-eye-reg-confirm" onclick="togglePassword('reg-password-confirm', 'eye-reg2')" class="absolute right-4 z-20 text-slate-400 hover:text-orange-600 transition-opacity duration-300 focus:outline-none opacity-0 pointer-events-none">
+                        <span id="eye-reg2" class="material-symbols-outlined text-[18px]">visibility_off</span>
+                    </button>
+                </div>
+
+                <div class="glass-input-container">
+                    <label class="glass-input-label">Referral Code (Optional)</label>
+                    <input type="text" id="reg-referral" class="custom-input text-sm uppercase" placeholder=" " maxlength="15" oninput="clearError('reg-referral')">
+                </div>
+
+                <button onclick="initiateRegistration()" class="btn-premium w-full py-4 rounded-2xl font-bold text-[16px] tracking-wide mt-2">SIGN UP</button>
+            </div>
+
+            <!-- Social Signup (Google 1-Click Fast Register) -->
+            <div class="mt-6 text-center">
+                <p class="text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider">Or register with</p>
+                <div class="flex justify-center gap-6 items-center">
+                    <button type="button" onclick="handleSocialLogin('Google')" class="social-btn flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 relative w-[42px] h-[42px] rounded-full">
+                        <svg viewBox="0 0 48 48" class="w-[34px] h-[34px] mt-[4px]">
+                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.7 17.74 9.5 24 9.5z"/>
+                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                        </svg>
+                    </button>
+                    <button type="button" onclick="handleSocialLogin('Apple')" class="social-btn flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 relative w-[42px] h-[42px] rounded-full">
+                        <svg viewBox="0 0 384 512" class="w-10 h-10">
+                            <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" fill="#000000"/>
+                        </svg>
+                    </button>
+                    <button type="button" onclick="handleSocialLogin('Facebook')" class="social-btn flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 relative w-[42px] h-[42px] rounded-full">
+                        <svg viewBox="0 0 48 48" class="w-[34px] h-[34px]">
+                            <path fill="#1877F2" d="M24 0C10.745 0 0 10.745 0 24c0 11.979 8.776 21.908 20.25 23.708v-16.77h-6.094V24h6.094v-5.281c0-6.014 3.585-9.338 9.065-9.338 2.625 0 5.372.469 5.372.469v5.906h-3.026c-2.981 0-3.911 1.849-3.911 3.75V24h6.656l-1.064 6.938H27.75v16.77C39.224 45.908 48 35.979 48 24 48 10.745 37.255 0 24 0z"/>
+                            <path fill="#ffffff" d="M33.342 30.938L34.406 24h-6.656v-4.5c0-1.901.93-3.75 3.911-3.75h3.026v-5.906s-2.747-.469-5.372-.469c-5.48 0-9.065 3.324-9.065 9.338V24h-6.094v6.938h6.094v16.77A24.116 24.116 0 0024 48c1.286 0 2.548-.101 3.75-.292V30.938h5.592z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <p class="text-center mt-6 text-sm font-bold text-slate-500">Already have an account? <button onclick="switchView('login-container')" class="text-orange-600 font-extrabold hover:text-red-600 transition-colors">Log In</button></p>
+        </div>
+
+        <!-- FORGOT PASSWORD CONTAINER -->
+        <div id="forgot-container" class="glass-panel w-full rounded-[40px] p-8 pb-10 hide">
+            <button onclick="switchView('login-container')" class="absolute top-8 left-8 w-10 h-10 bg-white/80 rounded-full shadow-sm flex items-center justify-center text-slate-500 hover:text-orange-600 transition-colors">
+                <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+            </button>
+            <div class="text-center mb-8 mt-12">
+                <h1 class="text-2xl font-black text-slate-800 mb-2">Reset Password</h1>
+                <p class="text-slate-500 font-semibold text-sm">Enter your email to recover access</p>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="glass-input-container">
+                    <label class="glass-input-label">Email Address</label>
+                    <input type="email" id="forgot-contact" class="custom-input" placeholder=" " oninput="clearError('forgot-contact')">
+                </div>
+                <p id="forgot-contact-error" class="text-red-500 text-xs font-bold pl-2 hide"></p>
+
+                <button onclick="requestResetOTP()" class="btn-premium w-full py-4 rounded-2xl font-bold text-[15px] tracking-wide mt-4">SEND OTP</button>
+            </div>
+        </div>
+
+        <!-- SET NEW PASSWORD CONTAINER -->
+        <div id="new-password-container" class="glass-panel w-full rounded-[40px] p-8 pb-10 hide">
+            <div class="text-center mb-8 pt-4">
+                <h1 class="text-2xl font-black text-slate-800 mb-2">New Password</h1>
+                <p class="text-slate-500 font-semibold text-sm">Secure your account</p>
+            </div>
+            <div class="space-y-6">
+                <div class="glass-input-container">
+                    <label class="glass-input-label">New Password</label>
+                    <input type="password" id="new-pass" class="custom-input" placeholder=" ">
+                    <button type="button" onclick="togglePassword('new-pass', 'eye-new1')" class="absolute right-4 z-20 text-slate-400 hover:text-orange-600 transition-colors focus:outline-none">
+                        <span id="eye-new1" class="material-symbols-outlined text-[20px]">visibility_off</span>
+                    </button>
+                </div>
+                <button onclick="finalizePasswordReset()" class="btn-premium w-full py-4 rounded-2xl font-bold text-[15px] tracking-wide mt-4">SAVE PASSWORD</button>
+            </div>
+        </div>
+
+    </div> <!-- END MAIN CONTAINER -->
+
+    <!-- OTP VERIFICATION MODAL -->
+    <div id="otp-modal" class="modal-overlay">
+        <div class="modal-content glass-panel w-full max-w-sm rounded-[32px] p-8 text-center m-4 shadow-2xl">
+            <h2 class="text-2xl font-black text-slate-800 mb-2">Verification Code</h2>
+            <p id="otp-hint" class="text-sm font-semibold text-slate-500 mb-2">Enter the 6-digit code sent to your email</p>
+            
+            <p id="otp-error" class="text-center text-red-500 text-[13px] font-bold h-5 mb-4 flex items-center justify-center"></p>
+
+            <div class="flex justify-center mb-8" id="otp-inputs">
+                    <input type="text" id="otp1" maxlength="1" class="otp-input" onkeyup="focusNext(this, 'otp2', event)">
+                    <input type="text" id="otp2" maxlength="1" class="otp-input" onkeyup="focusNext(this, 'otp3', event)">
+                    <input type="text" id="otp3" maxlength="1" class="otp-input" onkeyup="focusNext(this, 'otp4', event)">
+                    <input type="text" id="otp4" maxlength="1" class="otp-input" onkeyup="focusNext(this, 'otp5', event)">
+                    <input type="text" id="otp5" maxlength="1" class="otp-input" onkeyup="focusNext(this, 'otp6', event)">
+                    <input type="text" id="otp6" maxlength="1" class="otp-input" onkeyup="focusNext(this, null, event)">
+                </div>
+            
+            <button onclick="verifyOTP()" id="btn-verify" class="btn-premium w-full py-3.5 rounded-2xl font-bold text-[15px] tracking-wide mb-4">VERIFY</button>
+            <div class="flex justify-between items-center w-full px-2">
+                <button onclick="resendOTP()" id="btn-resend" class="text-[13px] font-bold text-[#ea580c] hover:text-[#c2410c] transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Resend OTP <span id="resend-timer" class="text-slate-500 hidden">(30s)</span></button>
+                <button onclick="closeOTPModal()" class="text-[13px] font-bold text-slate-500 hover:text-red-600 transition-colors">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/app.js?v=2.5.0"></script>
+    <script>
+        if (localStorage.getItem('userToken')) {
+            window.location.replace('/index.html'); 
+        }
+
+
+        // State variables
+        let authMethods = { login: 'email', reg: 'email', forgot: 'email' };
+        let currentOTPAction = null;
+        let pendingRegistrationData = null;
+        
+        let googleTokenClient;
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '2096893647914783',
+                cookie     : true,
+                xfbml      : true,
+                version    : 'v20.0'
+            });
+        };
+        function handleGoogleAuthCallback(response) {
+            if (response && response.access_token) {
+                showGlobalLoginLoader('Signing in...');
+                
+                // Fetch user details from Google
+                fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                    headers: { Authorization: `Bearer ${response.access_token}` }
+                })
+                .then(res => res.json())
+                .then(userInfo => {
+                    fetch('/api/google-login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: userInfo.email, name: userInfo.name })
+                    })
+                    .then(res2 => res2.json())
+                    .then(data => {
+                        if(data.token) {
+                            localStorage.setItem('userToken', data.token);
+                            if (data.user) {
+                                localStorage.setItem('currentUser', JSON.stringify(data.user));
+                            }
+                            localStorage.setItem('tpr_auth_provider', 'google');
+                            finishLoginTransition('/index.html');
+                        } else {
+                            hideGlobalLoginLoader();
+                            showToast(data.error || 'Google login failed', 'error');
+                        }
+                    }).catch(err => {
+                        hideGlobalLoginLoader();
+                        showToast('Server error, please try again', 'error');
+                    });
+                }).catch(err => {
+                    hideGlobalLoginLoader();
+                    showToast('Google authentication error', 'error');
+                });
+            } else {
+                showToast('Google sign-in cancelled', 'error');
+            }
+        }
+
+        window.addEventListener('load', () => {
+            if (window.google && window.google.accounts && window.google.accounts.oauth2) {
+                try {
+                    googleTokenClient = google.accounts.oauth2.initTokenClient({
+                        client_id: '372466366464-obr3lafasl7p9dqisghb98v4j143sq9g.apps.googleusercontent.com',
+                        scope: 'email profile openid',
+                        callback: handleGoogleAuthCallback
+                    });
+                } catch(e) {
+                    console.warn('Google client init failed:', e);
+                }
+            }
+        });
+
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|net|org|edu|gov|info|bd)$/i;
+        const phoneRegex = /^01[3-9]\d{8}$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        
+        function clearError(inputId) {
+            const input = document.getElementById(inputId)?.closest('.glass-input-container');
+            if (input) {
+                input.classList.remove('error-shake', 'error-shake-large');
+                let errorSpan = input.querySelector('.error-text');
+                if (errorSpan && errorSpan.parentNode) { errorSpan.parentNode.removeChild(errorSpan); }
+            }
+        }
+
+        function showInlineError(inputId, message) {
+            const input = document.getElementById(inputId);
+            const container = input?.closest('.glass-input-container');
+            
+            if (container) {
+                container.classList.remove('error-shake', 'error-shake-large');
+                void container.offsetWidth; // trigger reflow
+                if (inputId === 'reg-password') {
+                    container.classList.add('error-shake-large');
+                } else {
+                    container.classList.add('error-shake');
+                }
+                
+                let errorSpan = container.querySelector('.error-text');
+                if (!errorSpan) {
+                    errorSpan = document.createElement('span');
+                    errorSpan.className = 'error-text text-red-600 text-[11px] font-extrabold absolute bottom-full left-4 mb-[9px] z-10 leading-tight';
+                    container.appendChild(errorSpan);
+                }
+                errorSpan.textContent = message;
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const isError = type === 'error';
+            toast.className = `transform transition-all duration-300 opacity-0 translate-y-4 max-w-sm w-max bg-white/90 backdrop-blur-xl border border-white shadow-[0_10px_25px_rgba(0,0,0,0.1)] rounded-2xl px-6 py-4 font-bold flex items-center gap-3 ${isError ? 'text-red-500' : 'text-green-500'}`;
+            
+            toast.innerHTML = `
+                <span class="material-symbols-outlined text-[24px]">
+                    ${isError ? 'error' : 'check_circle'}
+                </span>
+                <span class="text-slate-800">${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            
+            requestAnimationFrame(() => {
+                toast.classList.remove('opacity-0', 'translate-y-4');
+                toast.classList.add('opacity-100', 'translate-y-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-4');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        const views = ['login-container', 'register-container', 'forgot-container', 'new-password-container'];
+        function switchView(viewId) {
+            views.forEach(v => {
+                const el = document.getElementById(v);
+                if (el) {
+                    el.classList.add('hide');
+                    el.classList.remove('view-fade-slide');
+                }
+            });
+            const target = document.getElementById(viewId);
+            if (target) {
+                target.classList.remove('hide');
+                target.classList.add('view-fade-slide');
+            }
+            document.querySelectorAll('.error-shake').forEach(el => el.classList.remove('error-shake'));
+            document.querySelectorAll('[id$="-error"]').forEach(el => el.classList.add('hide'));
+            
+            // Smooth 0ms Focus
+            setTimeout(() => {
+                const firstInput = target?.querySelector('input:not([type="checkbox"])');
+                if (firstInput) firstInput.focus();
+            }, 60);
+        }
+
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.innerText = 'visibility';
+            } else {
+                input.type = 'password';
+                icon.innerText = 'visibility_off';
+            }
+        }
+
+        // Show eye icon only when typing
+        document.querySelectorAll('input[type="password"]').forEach(input => {
+            input.addEventListener('input', function() {
+                const btn = this.nextElementSibling;
+                if(btn && btn.tagName === 'BUTTON') {
+                    const icon = btn.querySelector('span');
+                    if(this.value.length > 0) icon.classList.remove('hide');
+                    else if(this.type === 'password') icon.classList.add('hide');
+                }
+            });
+        });
+
+        // OTP Flow
+        function showOTPModal(action, contactMethod, contactValue) {
+            currentOTPAction = action;
+            document.getElementById('otp-modal').classList.add('active');
+            document.querySelectorAll('.otp-input').forEach(i => i.value = '');
+            document.querySelector('.otp-input').focus();
+            
+            const hint = document.getElementById('otp-hint');
+            hint.innerText = `Enter the 6-digit code sent to ${contactValue}`;
+            startResendTimer();
+        }
+
+        function closeOTPModal() {
+            document.getElementById('otp-modal').classList.remove('active');
+        }
+
+        function focusNext(current, nextId, event) {
+            if (event && event.key === 'Backspace' && current.value === '') {
+                const prevId = 'otp' + (parseInt(current.id.replace('otp', '')) - 1);
+                const prev = document.getElementById(prevId);
+                if (prev) { prev.focus(); prev.value = ''; }
+                return;
+            }
+            if (current.value.length === 1) {
+                if (nextId) document.getElementById(nextId).focus();
+                else checkAndAutoVerifyOTP();
+            }
+        }
+
+        function checkAndAutoVerifyOTP() {
+            const inputs = document.querySelectorAll('.otp-input');
+            const code = Array.from(inputs).map(i => i.value).join('');
+            if (code.length === 6) verifyOTP();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Dynamic eye icons for passwords
+            ['login-password', 'reg-password', 'reg-password-confirm'].forEach(id => {
+                const input = document.getElementById(id);
+                if (input) {
+                    const btnId = id === 'login-password' ? 'btn-eye-login' : (id === 'reg-password' ? 'btn-eye-reg' : 'btn-eye-reg-confirm');
+                    if (btnId) {
+                        const btn = document.getElementById(btnId);
+                        input.addEventListener('input', function() {
+                            if (this.value.length > 0) {
+                                btn.classList.remove('opacity-0', 'pointer-events-none');
+                                btn.classList.add('opacity-100', 'pointer-events-auto');
+                            } else {
+                                btn.classList.remove('opacity-100', 'pointer-events-auto');
+                                btn.classList.add('opacity-0', 'pointer-events-none');
+                            }
+                        });
+                    }
+                }
+            });
+
+
+
+            // Remember me initialization
+            const savedEmail = localStorage.getItem('tpr_remember_email');
+            const savedPassword = localStorage.getItem('tpr_remember_password');
+            if (savedEmail && savedPassword) {
+                const emailInput = document.getElementById('login-contact');
+                const pwInput = document.getElementById('login-password');
+                emailInput.value = savedEmail;
+                pwInput.value = savedPassword;
+                document.getElementById('remember-me').checked = true;
+            }
+
+            const otpInputs = document.querySelectorAll('.otp-input');
+            otpInputs.forEach(input => {
+                input.addEventListener('paste', (e) => {
+                    e.preventDefault();
+                    const text = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 6);
+                    if(text) {
+                        otpInputs.forEach((inp, i) => { if(text[i]) inp.value = text[i]; });
+                        checkAndAutoVerifyOTP();
+                    }
+                });
+                
+                input.addEventListener('input', (e) => {
+                    if (e.target.value.trim() !== '') {
+                        const errEl = document.getElementById('otp-error');
+                        errEl.innerHTML = '';
+                        otpInputs.forEach(i => i.classList.remove('otp-error'));
+                    }
+                });
+            });
+        });
+
+        let resendInterval;
+        function startResendTimer() {
+            const btn = document.getElementById('btn-resend');
+            const timerSpan = document.getElementById('resend-timer');
+            let timeLeft = 30;
+            
+            btn.disabled = true;
+            timerSpan.classList.remove('hidden');
+            timerSpan.textContent = `(${timeLeft}s)`;
+            
+            clearInterval(resendInterval);
+            resendInterval = setInterval(() => {
+                timeLeft--;
+                timerSpan.textContent = `(${timeLeft}s)`;
+                if (timeLeft <= 0) {
+                    clearInterval(resendInterval);
+                    btn.disabled = false;
+                    timerSpan.classList.add('hidden');
+                }
+            }, 1000);
+        }
+
+        async function resendOTP() {
+            const btn = document.getElementById('btn-resend');
+            if (btn.disabled) return;
+            
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Sending...';
+            btn.disabled = true;
+            
+            let res;
+            if (currentOTPAction === 'register' && pendingRegistrationData) {
+                res = await window.APP.sendOTP(pendingRegistrationData.email, pendingRegistrationData.phone, pendingRegistrationData.name);
+            } else if (currentOTPAction === 'reset') {
+                const contact = document.getElementById('forgot-contact').value;
+                res = await window.APP.sendForgotOTP(contact);
+            }
+            
+            if (res && res.success) {
+                btn.innerHTML = originalText; // Restore HTML before timer tries to find the span
+                showOTPError('New OTP sent successfully!');
+                document.getElementById('otp-error').style.color = '#10b981'; // Green for success
+                setTimeout(() => { document.getElementById('otp-error').style.color = '#ef4444'; }, 3000); // Reset to red
+                startResendTimer();
+            } else {
+                showOTPError((res && res.error) ? res.error : 'Failed to resend OTP.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        function showOTPError(message) {
+            const errEl = document.getElementById('otp-error');
+            errEl.classList.remove('hide');
+            errEl.style.color = '#ef4444'; // default red
+            errEl.innerHTML = message || 'Invalid OTP!';
+        }
+
+        async function verifyOTP() {
+            const btn = document.getElementById('btn-verify');
+            if (btn.disabled) return; // Prevent double submission
+            
+            const inputs = document.querySelectorAll('.otp-input');
+            const code = Array.from(inputs).map(i => i.value).join('');
+            if (code.length !== 6) return showOTPError('Enter 6-digit code!');
+            
+            const og = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<div class="bouncing-dots"><div></div><div></div><div></div></div>'; showGlobalLoginLoader('Signing in...');
+            
+            let isValid = false;
+            try {
+                let contact = pendingRegistrationData ? pendingRegistrationData.email : document.getElementById('forgot-contact').value;
+                const [res] = await Promise.all([
+                    window.APP.verifyOTP(contact, code)
+                ]);
+                if (res.success) {
+                    isValid = true;
+                } else {
+                    let backendError = (res.data && res.data.error) ? res.data.error : res.error;
+                    let errMsg = 'Invalid OTP!';
+                    
+                    if (backendError === 'Expired OTP!') {
+                        errMsg = 'OTP Expired! Please Resend.';
+                    } else if (backendError === 'No OTP found!') {
+                        errMsg = 'Please request an OTP first.';
+                    } else if (backendError) {
+                        errMsg = backendError;
+                    }
+                    
+                    showOTPError(errMsg);
+                    inputs.forEach(i => {
+                        i.classList.remove('otp-error');
+                        void i.offsetWidth;
+                        i.classList.add('otp-error');
+                        i.value = ''; // Reset value
+                    });
+                    document.getElementById('otp1').focus();
+                }
+            } catch (err) {
+                showOTPError('Something went wrong!');
+            } finally {
+                btn.innerHTML = og;
+                btn.disabled = false;
+            }
+
+            if (isValid) {
+                closeOTPModal();
+                if (currentOTPAction === 'register') finalizeRegistration();
+                else if (currentOTPAction === 'reset') switchView('new-password-container');
+            }
+        }
+
+        async function handleLogin() {
+            ['login-contact', 'login-password'].forEach(clearError);
+
+            const contact = document.getElementById('login-contact').value.trim().toLowerCase();
+            const pw = document.getElementById('login-password').value;
+            
+            let isValid = true;
+            if(!contact) { 
+                showInlineError('login-contact', 'Please enter your email or phone number.'); 
+                isValid = false; 
+            } else {
+                if (contact.includes('@')) {
+                    if (!emailRegex.test(contact)) {
+                        showInlineError('login-contact', 'Enter a valid email (e.g. name@gmail.com)');
+                        isValid = false;
+                    }
+                } else {
+                    if (!phoneRegex.test(contact)) {
+                        showInlineError('login-contact', 'Enter a valid 11-digit phone number');
+                        isValid = false;
+                    }
+                }
+            }
+            if(!pw) { showInlineError('login-password', 'Please enter your password.'); isValid = false; }
+            if (!isValid) return;
+            
+            const btn = document.getElementById('btn-login');
+            const og = btn.innerHTML;
+            btn.innerHTML = '<div class="bouncing-dots"><div></div><div></div><div></div></div>';
+            
+            
+            
+            
+            let res = { success: false, error: 'Connection error' };
+            try {
+                const req = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contact, password: pw })
+                });
+                const data = await req.json();
+                if (req.ok && data.token) {
+                    localStorage.setItem('userToken', data.token);
+                    localStorage.setItem('tpr_auth_provider', 'email');
+                    res = { success: true };
+                } else {
+                    res = { success: false, error: data.error || 'Login failed' };
+                }
+            } catch (e) {
+                res = { success: false, error: 'Network error. Please try again.' };
+            }
+
+            if (res.success) {
+                // Handle Remember Me
+                if (document.getElementById('remember-me').checked) {
+                    localStorage.setItem('tpr_remember_email', contact);
+                    localStorage.setItem('tpr_remember_password', pw);
+                } else {
+                    localStorage.removeItem('tpr_remember_email');
+                    localStorage.removeItem('tpr_remember_password');
+                }
+                finishLoginTransition('/index.html');
+            }
+            else {
+                hideGlobalLoginLoader();
+                btn.innerHTML = og;
+                if (res.error.toLowerCase().includes('found')) {
+                    showInlineError('login-contact', res.error);
+                } else if (res.error.toLowerCase().includes('password')) {
+                    showInlineError('login-password', res.error);
+                } else {
+                    showInlineError('login-password', res.error); // Catch-all inline error
+                }
+            }
+        }
+
+        async function initiateRegistration() {
+            ['reg-name', 'reg-phone', 'reg-email', 'reg-password', 'reg-password-confirm'].forEach(clearError);
+
+            const n = document.getElementById('reg-name').value.trim();
+            const phone = document.getElementById('reg-phone').value.trim();
+            const email = document.getElementById('reg-email').value.trim().toLowerCase();
+            const pw = document.getElementById('reg-password').value;
+            const pwc = document.getElementById('reg-password-confirm').value;
+            
+            if(!n || !phone || !email || !pw || !pwc) return showToast('Fill all fields', 'error');
+            
+            let isValidForm = true;
+            if (!emailRegex.test(email)) { showInlineError('reg-email', 'Enter a valid email (e.g. name@gmail.com)'); isValidForm = false; }
+            if (!phoneRegex.test(phone)) { showInlineError('reg-phone', 'Enter a valid 11-digit phone number (e.g. 017...)'); isValidForm = false; }
+            const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!pwRegex.test(pw)) { showInlineError('reg-password', 'Password must be at least 8 chars, 1 uppercase, 1 number, 1 special char.'); isValidForm = false; }
+            if (pw !== pwc) { showInlineError('reg-password-confirm', 'Passwords do not match!'); isValidForm = false; }
+
+            if (!isValidForm) return;
+
+            const btn = document.querySelector('#register-container .btn-premium');
+            const og = btn.innerHTML;
+            btn.innerHTML = '<div class="bouncing-dots"><div></div><div></div><div></div></div>';
+            
+            
+            btn.innerHTML = og;
+
+            try {
+                const res = await fetch('/api/send-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email, phone: phone, name: n })
+                });
+                const data = await res.json();
+                
+                if (!res.ok) {
+                    if (data.multiple) {
+                        data.errors.forEach(e => {
+                            if (e.field === 'name') showInlineError('reg-name', e.error);
+                            if (e.field === 'phone') showInlineError('reg-phone', e.error);
+                            if (e.field === 'email') showInlineError('reg-email', e.error);
+                        });
+                        return;
+                    }
+                    return showToast(data.error || 'Failed to send OTP.', 'error');
+                }
+                
+                const refCode = (document.getElementById('reg-referral')?.value || localStorage.getItem('pending_ref_code') || '').trim();
+                pendingRegistrationData = { name: n, phone: phone, email: email, password: pw, referral_code: refCode };
+                showOTPModal('register', 'email', email);
+                
+            } catch (e) {
+                showToast('Network error', 'error');
+            }
+        }
+
+        async function finalizeRegistration() {
+            if (!pendingRegistrationData) return;
+            showGlobalLoginLoader('Creating account & signing in...');
+            const { name, phone, email, password, referral_code } = pendingRegistrationData;
+            const res = await window.APP.register(name, phone, email, password, referral_code);
+            if (res.success) {
+                localStorage.removeItem('tpr_pin');
+                if (res.token || (res.data && res.data.token)) {
+                    localStorage.setItem('userToken', res.token || res.data.token);
+                    localStorage.setItem('tpr_auth_provider', 'email');
+                    finishLoginTransition('/index.html');
+                    return;
+                }
+                const loginRes = await window.APP.login(email, password);
+                if (loginRes.success) {
+                    finishLoginTransition('/index.html');
+                } else {
+                    hideGlobalLoginLoader();
+                    switchView('login-container');
+                    document.getElementById('login-contact').value = email;
+                    document.getElementById('login-password').value = password;
+                }
+            } else {
+                hideGlobalLoginLoader();
+                showToast('Registration failed: ' + res.error, 'error');
+            }
+        }
+
+        async function requestResetOTP() {
+            const contact = document.getElementById('forgot-contact').value.trim();
+            if(!contact) return showInlineError('forgot-contact', 'Enter email address');
+            if (!emailRegex.test(contact)) return showInlineError('forgot-contact', 'Enter a valid email (e.g. name@gmail.com)');
+            
+            const btn = document.querySelector('#forgot-container button.btn-premium');
+            const og = btn.innerHTML;
+            btn.innerHTML = '<div class="bouncing-dots"><div></div><div></div><div></div></div>';
+            
+            
+            
+            const res = await window.APP.sendForgotOTP(contact);
+            btn.innerHTML = og;
+            
+            if (res.success) showOTPModal('reset', 'email', contact);
+            else showInlineError('forgot-contact', res.error || 'No account found with this email!');
+        }
+
+        function finalizePasswordReset() {
+            const newPass = document.getElementById('new-pass').value;
+            if(!newPass) return showToast('Enter new password', 'error');
+            showToast('Password reset successfully! Please login.');
+            switchView('login-container');
+        }
+
+        function handleSocialLogin(provider) {
+            if (provider === 'Google') {
+                try {
+                    if (typeof googleTokenClient !== 'undefined' && googleTokenClient) {
+                        googleTokenClient.requestAccessToken();
+                    } else if (window.google && window.google.accounts && window.google.accounts.oauth2) {
+                        googleTokenClient = google.accounts.oauth2.initTokenClient({
+                            client_id: '372466366464-obr3lafasl7p9dqisghb98v4j143sq9g.apps.googleusercontent.com',
+                            scope: 'email profile openid',
+                            callback: handleGoogleAuthCallback
+                        });
+                        googleTokenClient.requestAccessToken();
+                    } else {
+                        window.location.href = '/mock_oauth.html?provider=google';
+                    }
+                } catch (e) {
+                    window.location.href = '/mock_oauth.html?provider=google';
+                }
+                return;
+            }
+            if (provider === 'Apple') {
+                showToast('Apple Sign-In is not supported currently.', 'error');
+                return;
+            }
+            if (provider === 'Facebook') {
+                showToast('Facebook Login is not supported currently.', 'error');
+                return;
+            }
+        }
+
+        // Ensure Service Worker is unregistered and cache is cleared
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then((regs) => {
+                for (let r of regs) r.unregister();
+            });
+        }
+        if ('caches' in window) {
+            caches.keys().then((names) => {
+                for (let n of names) caches.delete(n);
+            });
+        }
+    </script>
+
+    <!-- High-End True Glassmorphism Global Transition Loader (Hardware-Accelerated Zero-Stutter) -->
+    <div id="global-login-loader" class="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-slate-900/20 backdrop-blur-xl transition-all duration-300 opacity-0 pointer-events-none" style="will-change: opacity; transform: translateZ(0);">
+        <div id="global-login-card" style="background: rgba(255, 255, 255, 0.94); border: 1.5px solid rgba(255, 255, 255, 0.9); padding: 32px 28px; border-radius: 32px; box-shadow: 0 25px 60px rgba(0,0,0,0.12); display: flex; flex-direction: column; align-items: center; gap: 16px; max-width: 280px; width: 100%; text-align: center; transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease; will-change: transform, opacity;">
+            <div class="relative flex items-center justify-center w-14 h-14" style="flex-shrink: 0;">
+                <div class="smooth-gpu-pulse"></div>
+                <div id="global-spinner-ring" class="smooth-gpu-spinner"></div>
+            </div>
+            <div class="flex flex-col items-center">
+                <h4 class="text-slate-900 text-sm font-bold tracking-tight" id="global-login-msg" style="margin: 0; font-family: 'Outfit', 'Inter', sans-serif;">Signing in...</h4>
+                <p class="text-slate-400 text-xs font-medium mt-1" id="global-login-submsg" style="margin-top: 4px; font-family: 'Outfit', 'Inter', sans-serif;">Please wait a moment</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let loginLoaderStartTime = 0;
+
+        function showGlobalLoginLoader(msg) {
+            loginLoaderStartTime = performance.now();
+            const el = document.getElementById('global-login-loader');
+            const card = document.getElementById('global-login-card');
+            if (el) {
+                if (msg) document.getElementById('global-login-msg').innerText = msg;
+                const sub = document.getElementById('global-login-submsg');
+                if (sub) sub.innerText = 'Please wait a moment';
+                el.classList.remove('opacity-0', 'pointer-events-none');
+                el.classList.add('opacity-100', 'pointer-events-auto');
+                if (card) {
+                    card.style.transform = 'scale(1)';
+                    card.style.opacity = '1';
+                }
+            }
+        }
+
+        function hideGlobalLoginLoader() {
+            const el = document.getElementById('global-login-loader');
+            const card = document.getElementById('global-login-card');
+            if (el) {
+                el.classList.remove('opacity-100', 'pointer-events-auto');
+                el.classList.add('opacity-0', 'pointer-events-none');
+                if (card) {
+                    card.style.transform = 'scale(0.95)';
+                    card.style.opacity = '0';
+                }
+            }
+        }
+
+        function finishLoginTransition(targetUrl) {
+            targetUrl = targetUrl || '/index.html';
+            try {
+                sessionStorage.setItem('tpr_just_logged_in', 'true');
+            } catch(e) {}
+
+            const elapsed = performance.now() - loginLoaderStartTime;
+            const minSpinDuration = 600; // Guarantees a smooth complete rotational cycle
+            const remainingWait = Math.max(0, minSpinDuration - elapsed);
+
+            setTimeout(() => {
+                const msg = document.getElementById('global-login-msg');
+                const sub = document.getElementById('global-login-submsg');
+                if (msg) msg.innerText = 'Welcome to TPR';
+                if (sub) sub.innerText = 'Entering app...';
+
+                window.location.replace(targetUrl);
+            }, remainingWait);
+        }
+
+        // Auto-detect referral code from URL parameter (e.g. login.html?ref=TPR123)
+        (function() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const ref = urlParams.get('ref') || urlParams.get('code');
+                if (ref) {
+                    const cleanRef = ref.trim().toUpperCase();
+                    localStorage.setItem('pending_ref_code', cleanRef);
+                    const applyRef = () => {
+                        const refInput = document.getElementById('reg-referral');
+                        if (refInput) refInput.value = cleanRef;
+                        setTimeout(() => {
+                            if (typeof switchView === 'function') switchView('register-container');
+                        }, 150);
+                    };
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', applyRef);
+                    } else {
+                        applyRef();
+                    }
+                }
+            } catch(e) {}
+        })();
+    </script>
+
+</body>
+</html>

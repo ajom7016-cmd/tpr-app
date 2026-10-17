@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>JMJ Earning App - Ultra Premium</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@400,1,0,24" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: {
+                        primary: "#ea580c", // orange-600
+                        "primary-light": "#f97316", // orange-500
+                        surface: "#ffffff",
+                        "on-surface": "#1e293b", // slate-800
+                        "on-surface-light": "#64748b" // slate-500
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            color: #1e293b; 
+            background: #ffffff;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Solid White Background */
+        .bg-premium-mesh {
+            background-color: #ffffff;
+        }
+
+        /* Hyper-Realistic 3D Deep Glass Card */
+        .glass-3d {
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        /* Hyper-Realistic Soft Glass -> Now True Glassmorphism */
+        .glass-soft {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(40px) saturate(150%);
+            -webkit-backdrop-filter: blur(40px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05), inset 0 2px 10px rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #ea580c, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Super Smooth Premium Button */
+        .btn-premium {
+            background: linear-gradient(135deg, #ea580c, #fb923c);
+            color: white;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn-premium:hover {
+            box-shadow: 0 20px 40px rgba(234, 88, 12, 0.35);
+            transform: translateY(-3px) scale(1.02);
+            background: linear-gradient(135deg, #f97316, #fdba74);
+        }
+        .btn-premium:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        /* Floating iOS style nav */
+        .floating-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(32px);
+            -webkit-backdrop-filter: blur(32px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+        
+        
+    
+    /* Anti-FOUC Smooth Load */
+    body {
+        
+        
+    }
+    
+    }
+
+
+    /* Badge 42 CSS */
+        /* White True Glassmorphic Spinning Badge */
+        .badge-42-wrap {
+            position: relative;
+            width: 72px; height: 32px; border-radius: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); overflow: hidden;
+            z-index: 1;
+        }
+        
+        /* The Glass Core (White Glassmorphism) */
+        .badge-42-glass {
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.45); /* White glass tint */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1.5px solid rgba(255, 255, 255, 0.6);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 2;
+        }
+        
+        /* The Masked Border Wrapper (Prevents bleeding into center) */
+        .badge-42-border-wrap {
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 1.5px; /* Border thickness */
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            z-index: 3;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        /* The Spinning Gradient */
+        .badge-42-border {
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(from 0deg, transparent 0%, transparent 20%, #ea580c 30%, transparent 40%, transparent 70%, #fbbf24 80%, transparent 90%);
+            animation: spin-border 2.5s linear infinite;
+        }
+        
+        .badge-42-glass .vip-txt { font-weight: 900; font-size: 11px; color: #ea580c; letter-spacing: 1px; line-height: 1; margin-bottom: 1px; margin-top: 2px; position: relative;}
+        .badge-42-glass .b42-star { font-size: 10px; color: #fbbf24; font-variation-settings: 'FILL' 1; filter: drop-shadow(0 1px 2px rgba(234, 88, 12, 0.5)); margin: 0 -1px; }
+        .star-row { display: flex; align-items: center; justify-content: center; position: relative; }
+        @keyframes spin-border { 100% { transform: rotate(360deg); } } } }
+        .text-transparent bg-clip-text bg-gradient-to-br from-orange-400 to-orange-600 drop-shadow-md tracking-tighter {
+            background: linear-gradient(180deg, #ffffff 0%, #ffedd5 40%, #ff8a3d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.9);
+            filter: drop-shadow(0 15px 20px rgba(234, 88, 12, 0.3)) drop-shadow(0 4px 6px rgba(234, 88, 12, 0.5));
+            letter-spacing: -3px;
+        }
+    @keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="custom-global-scrollbar">
+  /* Smooth, native-feeling scrollbar */
+  ::-webkit-scrollbar { width: 7px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 7px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.4); }
+
+  /* Perfectly aligned scrollbar buttons (Gray Triangles) */
+  ::-webkit-scrollbar-button:single-button {
+    background-color: transparent;
+    display: block;
+    height: 14px;
+    width: 7px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 7px 7px;
+  }
+  
+  /* Top Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:decrement {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDE3IDE5LDE3IDEwLDUnIGZpbGw9JyM2NDZlNzgnLz48L3N2Zz4=");
+  }
+  
+  /* Bottom Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:increment {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDMgMTksMyAxMCwxNScgZmlsbD0nIzY0NmU3OCcvPjwvc3ZnPg==");
+  }
+</style>
+
+      <style>
+        /* White True Glassmorphic Spinning Badge */
+        .badge-42-wrap {
+            position: relative;
+            width: 72px; height: 32px; border-radius: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); overflow: hidden;
+            z-index: 1;
+        }
+        
+        /* The Glass Core (White Glassmorphism) */
+        .badge-42-glass {
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.45); /* White glass tint */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1.5px solid rgba(255, 255, 255, 0.6);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 2;
+        }
+        
+        /* The Masked Border Wrapper (Prevents bleeding into center) */
+        .badge-42-border-wrap {
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            padding: 1.5px; /* Border thickness */
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            z-index: 3;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        /* The Spinning Gradient */
+        .badge-42-border {
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(from 0deg, transparent 0%, transparent 20%, #ea580c 30%, transparent 40%, transparent 70%, #fbbf24 80%, transparent 90%);
+            animation: spin-border 2.5s linear infinite;
+        }
+        
+        .badge-42-glass .vip-txt { font-weight: 900; font-size: 11px; color: #ea580c; letter-spacing: 1px; line-height: 1; margin-bottom: 1px; margin-top: 2px; position: relative;}
+        .badge-42-glass .b42-star { font-size: 10px; color: #fbbf24; font-variation-settings: 'FILL' 1; filter: drop-shadow(0 1px 2px rgba(234, 88, 12, 0.5)); margin: 0 -1px; }
+        .star-row { display: flex; align-items: center; justify-content: center; position: relative; }
+        @keyframes spin-border { 100% { transform: rotate(360deg); } } } }
+      </style>
+
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen pb-6" style="background-color: transparent !important;">
+
+    <script>
+        window.onerror = function(msg, url, lineNo, columnNo, error) { return true; };
+        window.addEventListener("unhandledrejection", function(event) {
+            let errStr = "PROMISE REJECTION: " + (event.reason ? event.reason.toString() : "Unknown");
+            console.error(errStr);
+            let div = document.createElement('div');
+            div.style = "position:fixed;top:60px;left:0;width:100%;background:orange;color:white;z-index:999999;padding:20px;font-size:16px;font-weight:bold;";
+            div.innerText = errStr;
+            document.body.appendChild(div);
+        });
+    </script>
+    
+
+<main class="max-w-[1280px] mx-auto px-4 sm:px-6 md:px-8 pt-4">
+    <!-- Header Area -->
+    <div id="tasks-container" class="max-w-3xl mx-auto flex flex-col gap-4 mb-2">
+        <!-- JS will populate tasks here -->
+    </div>
+    
+    <script>
+        const svgMap = {
+            'YouTube': 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg',
+            'Facebook': 'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg',
+            'Instagram': 'https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg',
+            'TikTok': 'https://www.vectorlogo.zone/logos/tiktok/tiktok-icon.svg'
+        };
+
+        
+
+
+window.taskLinks = {};
+async function fetchTaskLinks() {
+    try {
+        const token = (() => { try { return window.parent.localStorage.getItem('userToken'); } catch(e) { return localStorage.getItem('userToken'); } })();
+        const res = await fetch('/api/tasks', { headers: { 'Authorization': 'Bearer ' + token } });
+        const data = await res.json();
+        data.forEach(t => { window.taskLinks[t.id] = t.link; });
+    } catch(e) {}
+}
+async function generateTasks() {
+    await fetchTaskLinks();
+    window.completedTasks = window.completedTasks || 0;
+    const vipInfo = (window.APP && typeof window.APP.getUserVip === 'function') ? window.APP.getUserVip() : { level: 0, planName: 'Free', dailyTasks: 1, dailyEarning: 50 };
+    window.vipLevelGlobal = vipInfo.level;
+    const limitMap = {0: 1, 1: 4, 2: 6, 3: 8, 4: 10, 5: 12, 6: 14};
+    const limit = limitMap[vipInfo.level] || 1;
+    let dynamicReward = (vipInfo.dailyEarning / limit).toFixed(2);
+    
+    let limits = { youtube: 0, facebook: 0, telegram: 0, tiktok: 0 };
+    if(limit === 1) { limits.youtube = 1; }
+    else if(limit === 4) { limits.youtube=1; limits.facebook=1; limits.telegram=1; limits.tiktok=1; }
+    else if(limit === 6) { limits.youtube=2; limits.facebook=2; limits.telegram=1; limits.tiktok=1; }
+    else if(limit === 8) { limits.youtube=2; limits.facebook=2; limits.telegram=2; limits.tiktok=2; }
+    else if(limit === 10) { limits.youtube=3; limits.facebook=3; limits.telegram=2; limits.tiktok=2; }
+    else if(limit === 12) { limits.youtube=3; limits.facebook=3; limits.telegram=3; limits.tiktok=3; }
+    else if(limit === 14) { limits.youtube=4; limits.facebook=4; limits.telegram=3; limits.tiktok=3; }
+    
+    const tasksConfig = [
+        { id: 1, key: 'youtube', title: 'YouTube', iconPath: '<img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" style="width:44px; height:44px; object-fit:contain; drop-shadow: 0 4px 6px rgba(0,0,0,0.1);" />' },
+        { id: 2, key: 'facebook', title: 'Facebook', iconPath: '<img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" style="width:44px; height:44px; object-fit:contain; drop-shadow: 0 4px 6px rgba(0,0,0,0.1);" />' },
+        { id: 3, key: 'telegram', title: 'Telegram', iconPath: '<img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" style="width:44px; height:44px; object-fit:contain; drop-shadow: 0 4px 6px rgba(0,0,0,0.1);" />' },
+        { id: 4, key: 'tiktok', title: 'TikTok', iconPath: '<img src="https://www.vectorlogo.zone/logos/tiktok/tiktok-icon.svg" style="width:44px; height:44px; object-fit:contain; drop-shadow: 0 4px 6px rgba(0,0,0,0.1);" />' }
+    ];
+    
+    let html = '';
+    const vipTitle = vipInfo.level === 0 ? 'FREE PROFILE' : 'VIP LEVEL ' + vipInfo.level;
+    let progressPercent = limit > 0 ? (window.completedTasks / limit) * 100 : 0;
+    
+    html += `
+    <div class="relative w-full rounded-[32px] overflow-hidden p-3 mb-2 mt-1" style="background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.5); box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+        <!-- Top Row: Icon & User -->
+        <div class="flex justify-between items-start mb-1.5">
+            ${vipInfo.level === 0 ? `
+            <div class="badge-42-wrap" style="transform: scale(0.9); transform-origin: top left;">    
+                <div class="badge-42-glass">        
+                    <span class="vip-txt" style="font-size:11px; margin-bottom: 2px;">FREE</span>        
+                    <div class="star-row"></div>    
+                </div>    
+                <div class="badge-42-border-wrap">        
+                    <div class="badge-42-border"></div>    
+                </div>
+            </div>
+            ` : `
+            <div class="badge-42-wrap" style="transform: scale(0.9); transform-origin: top left;">    
+                <div class="badge-42-glass">        
+                    <span class="vip-txt">VIP ${vipInfo.level}</span>        
+                    <div class="star-row">
+                        ${'<span class="material-symbols-outlined b42-star">star</span>'.repeat(vipInfo.level)}
+                    </div>    
+                </div>    
+                <div class="badge-42-border-wrap">        
+                    <div class="badge-42-border"></div>    
+                </div>
+            </div>
+            `}
+            
+            <div class="flex items-center gap-2 bg-white/30 backdrop-blur-md border border-white/40 rounded-full pr-3 pl-1 py-1 shadow-[0_2px_8px_rgba(0,0,0,0.05)] h-8">
+                
+    <div id="vip-user-pic-container" class="w-6 h-6 rounded-full bg-slate-200 flex items-center justify-center overflow-hidden shrink-0 border border-white/20">
+        <svg id="vip-user-default" class="w-5 h-5 text-slate-400 mt-1" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        <img id="vip-user-pic" src="" class="w-full h-full object-cover hidden" />
+    </div>
+    
+                <span id="vip-user-name" class="text-white text-[12px] font-black tracking-wider uppercase">${window.userName || 'USER'}</span>
+            </div>
+        </div>
+        
+        <!-- Middle Text -->
+        <div class="mb-1">
+            <p class="text-white/70 text-[10px] font-black tracking-[0.2em] uppercase mb-0">VIP STATUS CARD</p>
+            <h2 id="vip-level-display" class="text-white text-[36px] font-black leading-none tracking-tight">${vipTitle}</h2>
+        </div>
+        
+        <!-- Progress Bar Area -->
+        <div class="mt-2 bg-white/20 rounded-xl p-2.5 border border-white/30 shadow-[inset_0_2px_10px_rgba(255,255,255,0.2)]">
+            <div class="flex items-end gap-2 mb-2">
+                <span id="task-progress-text" class="text-white text-[20px] font-black leading-none">${window.completedTasks || 0}/${limit}</span>
+                <span class="text-white/80 text-[13px] font-bold leading-none mb-0.5">Tasks Completed</span>
+            </div>
+            <div class="w-full h-2 bg-black/10 rounded-full overflow-hidden">
+                <div id="task-progress-bar" class="h-full rounded-full transition-all duration-500" style="width: ${progressPercent}%; background: linear-gradient(90deg, #ff9a28, #ff5e00);"></div>
+            </div>
+        </div>
+        
+        <!-- Bottom Row -->
+        <div class="flex items-center gap-4 mt-2 pl-1">
+            <div class="flex items-center gap-1.5">
+                <div class="w-2 h-2 rounded-full bg-[#ff5e00] shadow-[0_0_8px_#ff5e00]"></div>
+                <span class="text-white/90 text-[11px] font-bold">Earn Bonus: +0%</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+                <div class="w-2 h-2 rounded-full bg-[#ff5e00] shadow-[0_0_8px_#ff5e00]"></div>
+                <span class="text-white/90 text-[11px] font-bold">Standard User</span>
+            </div>
+        </div>
+    </div>`;
+    
+    const isGloballyLocked = (window.completedTasks >= limit);
+    tasksConfig.forEach(task => {
+        let pLimit = limits[task.key];
+        let showStartButton = (pLimit > 0) && !isGloballyLocked;
+        
+        html += `
+        <div class="relative bg-white/5 border border-white/10 rounded-[32px] p-3 mb-3 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="flex items-center justify-center" style="width:44px; height:44px;">
+                    ${task.iconPath}
+                </div>
+                <div>
+                    <h3 class="text-white font-bold text-[15px]">${task.title}</h3>
+                    <p id="task-limit-${task.id}" data-limit="${pLimit}" class="text-white/50 text-[10px] font-bold tracking-wider mt-0.5 uppercase">${pLimit} TASKS TODAY</p>
+                </div>
+            </div>
+            <div class="flex flex-col items-end gap-1">
+                <span class="text-white font-black text-[15px] tracking-tight">৳ ${dynamicReward} <span class="text-white/50 text-[10px] font-medium tracking-normal">/task</span></span>
+                ` + (showStartButton ? `
+                <button onclick="startMultiTask(${task.id}, ${dynamicReward})" id="btn-task-${task.id}" class="text-white text-[12px] font-black px-7 py-1.5 rounded-full transition-transform hover:scale-105 active:scale-95" style="background: linear-gradient(180deg, #ff9a28 0%, #ff5e00 100%); box-shadow: 0 4px 15px rgba(255, 94, 0, 0.4);">Start</button>
+                ` : `
+                <button disabled class="flex items-center justify-center text-white/50 bg-white/10 px-7 py-1.5 rounded-full cursor-not-allowed" style="border: 1px solid rgba(255,255,255,0.1);"><span class="material-symbols-outlined text-[14px]">lock</span></button>
+                `) + `
+            </div>
+        </div>`;
+    });
+    
+    document.getElementById('tasks-container').innerHTML = html;
+    
+    // Apply picture directly after drawing the HTML
+    try {
+        let pic = null;
+        try { pic = window.parent.localStorage.getItem('userProfilePic'); } catch(e){}
+        if(!pic) { try { pic = localStorage.getItem('userProfilePic'); } catch(e){} }
+        if(!pic) {
+            try { 
+                let hdr = window.parent.document.getElementById('header-profile-img');
+                if(hdr && hdr.src && hdr.src.length > 20 && !hdr.src.includes('.html')) { pic = hdr.src; }
+            } catch(e){}
+        }
+        
+        if (pic && pic.length > 10) {
+            const picEl = document.getElementById('vip-user-pic');
+            const defEl = document.getElementById('vip-user-default');
+            if (picEl && defEl) {
+                picEl.src = pic;
+                picEl.classList.remove('hidden');
+                defEl.classList.add('hidden');
+            }
+        }
+    } catch(e) {}
+    
+    
+    
+}
+
+    // Set username dynamically for the new VIP card
+    try {
+        const fetchAndSetName = async () => {
+            try {
+                let token = localStorage.getItem('userToken');
+                if (!token && window.parent) {
+                    try { token = window.parent.localStorage.getItem('userToken'); } catch(e) {}
+                }
+                if (token) {
+                    const res = await fetch('/api/profile?t=' + new Date().getTime(), {
+                        headers: { 'Authorization': 'Bearer ' + token }
+                    });
+                    if (res.ok) {
+                        const profile = await res.json();
+                        if (profile) {
+                            window.completedTasks = profile.today_tasks || 0;
+                            localStorage.setItem('lastCompletedTasks', window.completedTasks);
+                            if (profile.name) {
+                                window.userName = profile.name;
+                                const nameEl = document.getElementById('vip-user-name');
+                                if (nameEl) nameEl.innerText = profile.name;
+                            }
+                        }
+                    }
+                }
+            } catch(e) {
+                console.error("Error fetching username:", e);
+            }
+        };
+        // MUST call generateTasks() AFTER we definitely know how many tasks are completed!
+        // Optimistic instant render
+        window.completedTasks = parseInt(localStorage.getItem('lastCompletedTasks')) || 0;
+        generateTasks();
+        
+        fetchAndSetName().finally(() => {
+            generateTasks(); // Re-render with fresh server data
+        });
+        
+        // Add Profile Pic Logic
+        
+        function tryLoadPic() {
+            try {
+                let pic = null;
+                try { pic = window.parent.localStorage.getItem('userProfilePic'); } catch(e){}
+                if(!pic) { try { pic = localStorage.getItem('userProfilePic'); } catch(e){} }
+                if(!pic) {
+                    try { 
+                        let hdr = window.parent.document.getElementById('header-profile-img');
+                        // A valid base64 image or a true URL (not the app.html url which is empty src default)
+                        if(hdr && hdr.src && hdr.src.length > 20 && !hdr.src.includes('.html')) { pic = hdr.src; }
+                    } catch(e){}
+                }
+                
+                if (pic && pic.length > 10) {
+                    const picEl = document.getElementById('vip-user-pic');
+                    const defEl = document.getElementById('vip-user-default');
+                    if (picEl && defEl) {
+                        picEl.src = pic;
+                        picEl.classList.remove('hidden');
+                        defEl.classList.add('hidden');
+                        return true;
+                    }
+                }
+            } catch(e) {}
+            return false;
+        }
+        
+        if(!tryLoadPic()) {
+            let attempts = 0;
+            let intv = setInterval(() => {
+                if(tryLoadPic() || ++attempts > 20) clearInterval(intv);
+            }, 500);
+        }
+        
+        // Listen for profile pic updates from parent frame
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'profilePicUpdated') {
+                let newPic = null;
+                try { newPic = window.parent.localStorage.getItem('userProfilePic'); } catch(e) { newPic = localStorage.getItem('userProfilePic'); }
+                if (newPic && newPic.length > 10) {
+                    const picEl = document.getElementById('vip-user-pic');
+                    if (picEl) {
+                        picEl.src = newPic;
+                        picEl.classList.remove('hidden'); if(document.getElementById('vip-user-default')) document.getElementById('vip-user-default').classList.add('hidden');
+                    }
+                }
+            }
+        });
+    } catch(e) {}
+    
+    function startTask(taskId) {
+    if (window.parent && window.parent.loadPage) {
+        window.parent.loadPage('task_action/code.html?taskId=' + taskId);
+    } else {
+        window.location.href = '../task_action/code.html?taskId=' + taskId;
+    }
+}
+
+// ensure APP object is loaded before generating tasks if we need to fetch
+
+</script>
+<script src="/js/app.js?v=4"></script>
+</main>
+
+<style>
+    @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+    @keyframes spin-slow {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .animate-spin-slow {
+        animation: spin-slow 8s linear infinite;
+    }
+</style>
+
+<script>
+async function startMultiTask(taskId, reward) {
+    try {
+        let token = localStorage.getItem('userToken');
+        if (!token && window.parent) {
+            try { token = window.parent.localStorage.getItem('userToken'); } catch(e) {}
+        }
+        
+        if (token) {
+            let limitEl = document.getElementById('task-limit-' + taskId);
+            let currentLimit = parseInt(limitEl.getAttribute('data-limit'));
+            
+            if (currentLimit <= 0) return;
+            
+            // OPTIONAL: Add a small alert or visual feedback here so the user knows it's working
+            
+            const res = await fetch('/api/tasks/complete', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({ taskId })
+            });
+            
+            if (res.ok) {
+                const data = await res.json();
+                
+                currentLimit--;
+                limitEl.setAttribute('data-limit', currentLimit);
+                limitEl.innerText = currentLimit + ' TASKS TODAY';
+                
+                if (currentLimit <= 0) {
+                    let btn = document.getElementById('btn-task-' + taskId);
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="material-symbols-outlined text-[14px]">lock</span>';
+                    btn.className = 'flex items-center justify-center text-white/50 bg-white/10 px-7 py-1.5 rounded-full cursor-not-allowed';
+                    btn.style = 'border: 1px solid rgba(255,255,255,0.1);';
+                }
+                
+                // Update Progress Bar
+                window.completedTasks++;
+                const limitMap = {0: 1, 1: 4, 2: 6, 3: 8, 4: 10, 5: 12, 6: 14};
+                const totalLimit = limitMap[window.vipLevelGlobal] || 1;
+                
+                document.getElementById('task-progress-text').innerText = window.completedTasks + '/' + totalLimit;
+                let progressPercent = totalLimit > 0 ? (window.completedTasks / totalLimit) * 100 : 0;
+                document.getElementById('task-progress-bar').style.width = progressPercent + '%';
+                
+                let currentEarnings = parseFloat(document.getElementById('user-total-earnings').innerText.replace(/,/g, ''));
+                currentEarnings += reward;
+                document.getElementById('user-total-earnings').innerText = currentEarnings.toLocaleString('en-IN', {minimumFractionDigits: 2});
+            } else {
+                const err = await res.json();
+                alert(err.error || 'Failed to complete task');
+            }
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+</script>
+
+</body></html>

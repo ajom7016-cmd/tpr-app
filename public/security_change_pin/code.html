@@ -1,0 +1,633 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>Withdrawal PIN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@400,0,0,24" rel="stylesheet"/>
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: transparent !important; 
+            color: #1e293b;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Global App Background */
+        
+        
+        
+
+        
+
+        .bg-block-1 {
+            position: absolute;
+            top: 5%;
+            left: -15%;
+            width: 300px;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 100%);
+            transform: rotate(25deg);
+            border-radius: 60px;
+            box-shadow: 20px 20px 60px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .bg-block-2 {
+            position: absolute;
+            top: 50%;
+            right: -20%;
+            width: 400px;
+            height: 500px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.1) 100%);
+            transform: rotate(-15deg);
+            border-radius: 80px;
+            box-shadow: -20px 20px 60px rgba(0,0,0,0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        /* Glassmorphic White Panels (Ultra Premium) */
+        .glass-panel {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.4) 100%);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-top: 1px solid rgba(255, 255, 255, 1);
+            border-left: 1px solid rgba(255, 255, 255, 0.8);
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 50px 100px -20px rgba(50, 50, 93, 0.15),
+                0 30px 60px -30px rgba(0, 0, 0, 0.2),
+                inset 0 2px 3px rgba(255, 255, 255, 1),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.05),
+                inset 0 0 40px rgba(255, 255, 255, 0.7);
+            position: relative;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, transparent 40%, rgba(255,255,255,0.2) 100%);
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        .glass-input-container {
+            position: relative;
+            width: 100%;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            border-radius: 16px;
+            margin-bottom: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .glass-input-container:focus-within, .glass-input-container.active-input {
+            transform: translateY(-2px);
+        }
+        
+        .glass-input-bg {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            pointer-events: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-input-border {
+            position: absolute;
+            inset: 0;
+            border: 1px solid rgba(0, 0, 0, 0.2); /* light and thin */
+            border-radius: 16px;
+            pointer-events: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-input-container:focus-within .glass-input-bg, .glass-input-container.active-input .glass-input-bg {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .glass-input-container:focus-within .glass-input-border, .glass-input-container.active-input .glass-input-border {
+            border-color: #000; /* dark/black */
+            border-width: 2px; /* thick */
+        }
+        
+        .glass-input-container.error-shake .glass-input-border,
+        .glass-input-container.error-shake-large .glass-input-border {
+            border-color: #ef4444 !important; /* red-500 */
+            border-width: 2px !important;
+        }
+
+        /* Pure CSS Mask magic */
+        .glass-input-container:has(input:not(:placeholder-shown)) .glass-input-border,
+        .glass-input-container:focus-within .glass-input-border {
+            -webkit-mask-image: 
+                linear-gradient(to right, black 14px, transparent 14px, transparent calc(14px + var(--gap-width, 60px)), black calc(14px + var(--gap-width, 60px))),
+                linear-gradient(black, black);
+            -webkit-mask-size: 100% 2px, 100% 100%;
+            -webkit-mask-position: 0 0, 0 2px;
+            -webkit-mask-repeat: no-repeat;
+            mask-image: 
+                linear-gradient(to right, black 14px, transparent 14px, transparent calc(14px + var(--gap-width, 60px)), black calc(14px + var(--gap-width, 60px))),
+                linear-gradient(black, black);
+            mask-size: 100% 2px, 100% 100%;
+            mask-position: 0 0, 0 2px;
+            mask-repeat: no-repeat;
+        }
+
+        /* Input styling */
+        .custom-input {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 0 48px 0 16px;
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 15px;
+            z-index: 10;
+            position: relative;
+        }
+
+        .custom-input::placeholder { color: transparent; transition: color 0.3s ease; }
+        .glass-input-container:focus-within .custom-input::placeholder { color: rgba(148, 163, 184, 0.6); }
+
+        /* Eye Icon Autofill Support */
+        .glass-input-container:has(input:not(:placeholder-shown)) button[id^="btn-eye"] {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+
+        .glass-input-label {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 15px;
+            color: #64748b;
+            font-weight: 500;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            z-index: 10;
+            transform-origin: left top;
+            will-change: transform, top, color;
+            backface-visibility: hidden;
+        }
+        
+        .glass-input-container:focus-within .glass-input-label, 
+        .glass-input-container:has(input:-webkit-autofill) .glass-input-label,
+        .glass-input-container:has(input:not(:placeholder-shown)) .glass-input-label {
+            top: 0; 
+            transform: translateY(-50%) scale(0.8);
+            color: #0f172a; 
+            font-weight: 700;
+        }
+        
+        .glass-input-container:not(:focus-within):has(input:not(:placeholder-shown)) .glass-input-label {
+            color: #5f6368;
+        }
+
+        /* Chrome autofill background fix */
+        .custom-input:-webkit-autofill,
+        .custom-input:-webkit-autofill:hover, 
+        .custom-input:-webkit-autofill:focus, 
+        .custom-input:-webkit-autofill:active {
+            transition: background-color 5000s ease-in-out 0s !important;
+            -webkit-text-fill-color: #1e293b !important;
+        }
+
+        .btn-premium {
+            background: linear-gradient(180deg, #ff9a28 0%, #ff5e00 100%);
+            border-radius: 9999px !important; /* Force pill shape */
+            border: none;
+            box-shadow: 
+                0 4px 10px rgba(0, 0, 0, 0.2),
+                inset 0 3px 6px rgba(255, 255, 255, 0.5),
+                inset 0 1px 1px rgba(255, 255, 255, 0.9),
+                inset 0 -4px 8px rgba(200, 50, 0, 0.8);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            letter-spacing: 1.5px;
+            position: relative;
+            font-weight: 800;
+        }
+
+        .btn-premium:hover {
+            box-shadow: 
+                0 6px 15px rgba(0, 0, 0, 0.25),
+                inset 0 3px 6px rgba(255, 255, 255, 0.6),
+                inset 0 1px 1px rgba(255, 255, 255, 1),
+                inset 0 -4px 8px rgba(200, 50, 0, 0.9);
+            transform: translateY(-2px);
+            background: linear-gradient(180deg, #ffaa42 0%, #ff6b1a 100%);
+        }
+        
+        .btn-premium:active {
+            transform: translateY(1px);
+            background: linear-gradient(180deg, #e85500 0%, #ff9a28 100%);
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.2),
+                inset 0 4px 8px rgba(0,0,0,0.4);
+        }
+
+        .social-btn {
+            background: transparent;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            border: none;
+            outline: none;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-4px) scale(1.1);
+            filter: drop-shadow(0 10px 15px rgba(234, 88, 12, 0.2));
+        }
+        
+        .social-btn:active {
+            transform: translateY(0) scale(0.95);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        
+        .hide { 
+            display: none !important;
+        }
+
+        /* Modal Overlay - Light Theme */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(255,255,255,0.4); backdrop-filter: blur(15px);
+            display: flex; align-items: center; justify-content: center; z-index: 999;
+             pointer-events: none; transition: opacity 0.3s;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+
+        /* OTP Inputs - Light */
+        .otp-input {
+            width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: 800;
+            border-radius: 12px; background: rgba(255,255,255,0.8); border: 2px solid rgba(203,213,225,0.5);
+            transition: all 0.2s; color: #1e293b; margin: 0 4px; box-shadow: none;
+        }
+        .otp-input:focus { 
+            border-color: #1e293b; 
+            outline: none; 
+            box-shadow: none; 
+            background: white;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+        .error-shake, .error-shake-large, .otp-error {
+            animation: shake 0.4s ease-in-out;
+        }
+        .error-shake {
+            margin-top: 25px !important;
+        }
+        .error-shake-large {
+            margin-top: 36px !important;
+        }
+        .otp-error {
+            border-color: #ef4444 !important; /* red-500 */
+        }
+
+        .bouncing-dots {
+            display: flex; justify-content: center; align-items: center; gap: 7px; height: 24px;
+        }
+        .bouncing-dots div {
+            width: 6px; height: 6px; background-color: #ffffff; border-radius: 10px;
+            animation: stretch-bounce 1s infinite ease-in-out both;
+        }
+        .bouncing-dots div:nth-child(1) { animation-delay: -0.32s; }
+        .bouncing-dots div:nth-child(2) { animation-delay: -0.16s; }
+        .bouncing-dots div:nth-child(3) { animation-delay: 0s; }
+        @keyframes stretch-bounce {
+            0%, 80%, 100% { height: 6px; }
+            40% { height: 20px; }
+        }
+    
+    
+
+
+    /* === ULTRA-FAST 0.15s NO-LAG GPU NATIVE ENTRANCE === */
+    @keyframes fastNativeEntrance {
+        0% { opacity: 0; transform: translateY(6px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    body {
+        animation: fastNativeEntrance 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        will-change: opacity, transform;
+    }
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="custom-global-scrollbar">
+  /* Smooth, native-feeling scrollbar */
+  ::-webkit-scrollbar { width: 7px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 7px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.4); }
+
+  /* Perfectly aligned scrollbar buttons (Gray Triangles) */
+  ::-webkit-scrollbar-button:single-button {
+    background-color: transparent;
+    display: block;
+    height: 14px;
+    width: 7px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 7px 7px;
+  }
+  
+  /* Top Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:decrement {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDE3IDE5LDE3IDEwLDUnIGZpbGw9JyM2NDZlNzgnLz48L3N2Zz4=");
+  }
+  
+  /* Bottom Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:increment {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDMgMTksMyAxMCwxNScgZmlsbD0nIzY0NmU3OCcvPjwvc3ZnPg==");
+  }
+</style>
+</head>
+<body class="pb-28 pt-2 relative overflow-x-hidden text-slate-800" style="overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch;" style="background: transparent !important; background-color: transparent !important;">
+
+    <!-- Back Button (Static) -->
+    <div class="mb-4 mt-2 ml-2 flex-none relative z-50">
+        <button class="text-slate-500 hover:text-slate-900 bg-white/70 hover:bg-white/95 backdrop-blur-xl rounded-full shadow-[0_4px_15px_rgba(0,0,0,0.08)] border border-white/80 flex items-center p-2 transition-all duration-300 hover:scale-110 active:scale-95" onclick="window.parent.loadPage('security_glass/code.html', null)">
+            <span class="material-symbols-outlined text-[20px] ml-[-2px]">arrow_back_ios_new</span>
+        </button>
+    </div>
+    
+
+    
+
+    <div class="max-w-[400px] mx-auto px-6 relative z-10 pb-8">
+        
+        <div class="glass-panel w-full rounded-[40px] p-8 pb-10">
+            <div class="mb-10 text-center">
+                <div class="w-20 h-20 mx-auto bg-white/70 backdrop-blur-xl border border-white shadow-[0_10px_30px_rgba(0,0,0,0.06)] rounded-full flex items-center justify-center mb-4 relative" id="icon-container">
+                    <div class="absolute inset-0 border border-slate-200/50 rounded-full opacity-40 z-0"></div>
+                    <span class="material-symbols-outlined text-[36px] text-blue-600 relative z-10" style="font-variation-settings: 'FILL' 1;">dialpad</span>
+                </div>
+                <p class="text-[18px] font-black text-slate-800" id="step-title">Withdrawal PIN</p>
+                <p class="text-[13px] font-semibold text-slate-500 mt-1" id="step-desc">Set your secure 6-digit PIN for withdrawals.</p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Current PIN -->
+                <div id="current-pin-section" style="display: none;">
+                    <div class="glass-input-container mb-4" style="--gap-width: 73px;">
+                        <div class="glass-input-bg"></div>
+                        <div class="glass-input-border"></div>
+                        <label class="glass-input-label">Current PIN</label>
+                        <input type="password" id="current-pin" class="custom-input" placeholder=" " maxlength="6" inputmode="numeric">
+                        <button type="button" onclick="togglePassword('current-pin', 'eye-curr')" class="absolute right-4 z-20 text-slate-400 hover:text-orange-600 transition-colors focus:outline-none">
+                            <span id="eye-curr" class="material-symbols-outlined text-[20px] hide">visibility_off</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- New PIN -->
+                <div class="glass-input-container mb-4" style="--gap-width: 54px;">
+                    <div class="glass-input-bg"></div>
+                    <div class="glass-input-border"></div>
+                    <label class="glass-input-label">New PIN</label>
+                    <input type="password" id="new-pin" class="custom-input" placeholder=" " maxlength="6" inputmode="numeric">
+                    <button type="button" onclick="togglePassword('new-pin', 'eye-new')" class="absolute right-4 z-20 text-slate-400 hover:text-orange-600 transition-colors focus:outline-none">
+                        <span id="eye-new" class="material-symbols-outlined text-[20px] hide">visibility_off</span>
+                    </button>
+                </div>
+
+                <!-- Confirm New PIN -->
+                <div class="glass-input-container mb-4" style="--gap-width: 104px;">
+                    <div class="glass-input-bg"></div>
+                    <div class="glass-input-border"></div>
+                    <label class="glass-input-label">Confirm New PIN</label>
+                    <input type="password" id="confirm-pin" class="custom-input" placeholder=" " maxlength="6" inputmode="numeric">
+                    <button type="button" onclick="togglePassword('confirm-pin', 'eye-conf')" class="absolute right-4 z-20 text-slate-400 hover:text-orange-600 transition-colors focus:outline-none">
+                        <span id="eye-conf" class="material-symbols-outlined text-[20px] hide">visibility_off</span>
+                    </button>
+                </div>
+            </div>
+
+            <button class="btn-premium w-full py-4 rounded-2xl font-bold tracking-wide mt-6" id="saveBtn" onclick="handlePinAction()">
+                Save Secure PIN
+                <span class="material-symbols-outlined text-[20px]">lock_person</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const saveBtn = document.getElementById('saveBtn');
+        let storedPin = false; // We'll update this from the backend
+        
+        const currentSection = document.getElementById('current-pin-section');
+        const currentPinInput = document.getElementById('current-pin');
+        const newPinInput = document.getElementById('new-pin');
+        const confirmPinInput = document.getElementById('confirm-pin');
+
+        // Fetch user profile to check if they have a PIN
+        async function checkPinStatus() {
+            const profile = await window.parent.APP.getProfile();
+            if (profile && profile.has_pin) {
+                storedPin = true;
+                currentSection.style.display = 'block';
+                document.getElementById('step-desc').innerText = "Change your existing withdrawal PIN.";
+                currentPinInput.focus();
+            } else {
+                storedPin = false;
+                newPinInput.focus();
+            }
+        }
+        checkPinStatus();
+
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.innerText = 'visibility';
+                icon.classList.remove('hide');
+            } else {
+                input.type = 'password';
+                icon.innerText = 'visibility_off';
+                if(input.value === '') icon.classList.add('hide');
+            }
+        }
+
+        // Show/hide icons based on typing
+        document.querySelectorAll('.custom-input').forEach(input => {
+            input.addEventListener('input', function() {
+                const icon = this.parentElement.querySelector('.material-symbols-outlined');
+                if(this.value.length > 0) {
+                    icon.classList.remove('hide');
+                } else {
+                    if(this.type === 'password') icon.classList.add('hide');
+                }
+                
+                // Auto focus to next field if full
+                if(this.value.length === 6) {
+                    if(this.id === 'current-pin') newPinInput.focus();
+                    else if(this.id === 'new-pin') confirmPinInput.focus();
+                }
+                
+                checkFull();
+            });
+        });
+
+        function checkFull() {
+            let full = true;
+            if(storedPin && currentPinInput.value.length < 6) full = false;
+            if(newPinInput.value.length < 6) full = false;
+            if(confirmPinInput.value.length < 6) full = false;
+
+            if(full) saveBtn.classList.add('active');
+            else saveBtn.classList.remove('active');
+        }
+
+        function clearError(inputId) {
+            const input = document.getElementById(inputId);
+            const container = input ? input.closest('.glass-input-container') : null;
+            if (container) {
+                container.classList.remove('error-shake', 'error-shake-large');
+                let errorSpan = container.querySelector('.error-text');
+                if (errorSpan && errorSpan.parentNode) {
+                    errorSpan.parentNode.removeChild(errorSpan);
+                }
+            }
+        }
+
+        function showInlineError(inputId, message) {
+            const input = document.getElementById(inputId);
+            const container = input?.closest('.glass-input-container');
+            if (container) {
+                clearError(inputId);
+                const errorHTML = `<span class="error-text text-red-600 text-[11px] font-bold absolute -top-5 left-2 tracking-wide">${message}</span>`;
+                container.insertAdjacentHTML('beforeend', errorHTML);
+                container.classList.add(message.length > 25 ? 'error-shake-large' : 'error-shake');
+            }
+        }
+
+        // Clear errors on retype
+        const inputs = document.querySelectorAll('.custom-input');
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener('input', function() {
+                clearError(this.id);
+            });
+        }
+
+        async function handlePinAction() {
+            if(saveBtn.innerHTML.includes('bouncing-dots')) return;
+
+            ['current-pin', 'new-pin', 'confirm-pin'].forEach(clearError);
+
+            const newPin = newPinInput.value;
+            const confirmPin = confirmPinInput.value;
+            const currentPin = storedPin ? currentPinInput.value : null;
+
+            let hasError = false;
+
+            if(storedPin && currentPin.length < 6) {
+                showInlineError('current-pin', 'Enter 6-digit PIN');
+                hasError = true;
+            }
+            if(newPin.length < 6) {
+                showInlineError('new-pin', 'Enter 6-digit new PIN');
+                hasError = true;
+            }
+            if(confirmPin.length < 6) {
+                showInlineError('confirm-pin', 'Confirm 6-digit new PIN');
+                hasError = true;
+            }
+            if(newPin.length === 6 && confirmPin.length === 6 && newPin !== confirmPin) {
+                showInlineError('confirm-pin', 'PINs do not match');
+                hasError = true;
+            }
+            if(currentPin && newPin && currentPin === newPin) {
+                showInlineError('new-pin', 'New PIN must be different');
+                hasError = true;
+            }
+
+            if(hasError) return;
+
+            saveBtn.innerHTML = `<div class="bouncing-dots"><div></div><div></div><div></div></div>`;
+            saveBtn.classList.remove('active');
+
+            try {
+                const res = await window.parent.APP.setWithdrawPin(currentPin, newPin);
+
+                if (res && res.success) {
+                    localStorage.setItem('temp_pin_lock', new Date().getTime());
+                    saveBtn.innerHTML = `<span class="material-symbols-outlined text-emerald-600">check_circle</span> <span class="text-emerald-700">PIN Saved</span>`;
+                    saveBtn.style.background = 'rgba(209, 250, 229, 0.9)'; // emerald-100
+                    saveBtn.style.borderColor = '#34d399'; // emerald-400
+                    
+                    setTimeout(() => {
+                        window.parent.loadPage('security_glass/code.html', null);
+                    }, 1000);
+                } else {
+                    saveBtn.innerHTML = `Save Secure PIN <span class="material-symbols-outlined text-[20px]">lock_person</span>`;
+                    saveBtn.classList.add('active');
+                    
+                    const errMsg = (res && res.error) ? res.error : 'Failed to save PIN';
+                    if (errMsg.toLowerCase().includes('current')) {
+                        showInlineError('current-pin', errMsg);
+                    } else {
+                        showInlineError('current-pin', errMsg);
+                    }
+                }
+            } catch(err) {
+                saveBtn.innerHTML = `Save Secure PIN <span class="material-symbols-outlined text-[20px]">lock_person</span>`;
+                saveBtn.classList.add('active');
+                showInlineError('current-pin', 'Connection error');
+            }
+        }
+    </script>
+</body>
+</html>

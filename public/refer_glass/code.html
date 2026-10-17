@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TPR My Team</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@400,0,0,24" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: transparent !important;
+            color: #111827;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+}
+
+
+
+        /* True Glassmorphism Cards */
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(14px) saturate(135%);
+            -webkit-backdrop-filter: blur(14px) saturate(135%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05), inset 0 2px 10px rgba(255,255,255,0.3);
+            border-radius: 24px;
+            transform: translateZ(0);
+}
+
+        /* Action Buttons (True Glassmorphism) */
+        .action-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05), inset 0 2px 10px rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.8);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            border-right: 1px solid rgba(255,255,255,0.2);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(14px) saturate(135%);
+            -webkit-backdrop-filter: blur(14px) saturate(135%);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .action-box:active { transform: scale(0.95); }
+
+        .header-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            color: #1e293b;
+        }
+        
+        .qr-wrapper {
+            background: white;
+            padding: 10px;
+            border-radius: 16px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            display: inline-block;
+        }
+
+        .list-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(14px) saturate(135%);
+            -webkit-backdrop-filter: blur(14px) saturate(135%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03), inset 0 2px 10px rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            transform: translateZ(0);
+    content-visibility: auto;
+    contain-intrinsic-size: 0 80px;
+}
+    
+    
+
+
+    /* === ULTRA-FAST 0.15s NO-LAG GPU NATIVE ENTRANCE === */
+    @keyframes fastNativeEntrance {
+        0% { opacity: 0; transform: translateY(6px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    body {
+        animation: fastNativeEntrance 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        will-change: opacity, transform;
+    }
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="custom-global-scrollbar">
+  /* Smooth, native-feeling scrollbar */
+  ::-webkit-scrollbar { width: 7px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 7px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.4); }
+
+  /* Perfectly aligned scrollbar buttons (Gray Triangles) */
+  ::-webkit-scrollbar-button:single-button {
+    background-color: transparent;
+    display: block;
+    height: 14px;
+    width: 7px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 7px 7px;
+  }
+  
+  /* Top Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:decrement {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDE3IDE5LDE3IDEwLDUnIGZpbGw9JyM2NDZlNzgnLz48L3N2Zz4=");
+  }
+  
+  /* Bottom Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:increment {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDMgMTksMyAxMCwxNScgZmlsbD0nIzY0NmU3OCcvPjwvc3ZnPg==");
+  }
+</style>
+</head>
+<body class="pb-6 relative overflow-x-hidden text-slate-800" style="background: transparent !important; background-color: transparent !important;">
+    <!-- Back Button (Static) -->
+    <div class="mb-4 mt-2 ml-2 flex-none relative z-50">
+        <button class="text-slate-500 hover:text-slate-900 bg-white/70 hover:bg-white/95 backdrop-blur-xl rounded-full shadow-[0_4px_15px_rgba(0,0,0,0.08)] border border-white/80 flex items-center p-2 transition-all duration-300 hover:scale-110 active:scale-95" onclick="window.parent.loadPage('user_profile_premium_glass/code.html', null)">
+            <span class="material-symbols-outlined text-[20px] ml-[-2px]">arrow_back_ios_new</span>
+        </button>
+    </div>
+    
+
+<div class="max-w-[400px] mx-auto px-6 relative z-10 space-y-6">
+        <div class="flex items-center justify-center mb-2">
+            <h1 class="text-[24px] font-black tracking-tight text-slate-800">My Team</h1>
+        </div>
+        
+        <!-- Promo Banner (Referral) -->
+        <div class="w-full relative overflow-hidden rounded-[20px] shadow-[0_8px_25px_rgba(0,0,0,0.1)] mb-2 aspect-video">
+            <img src="/assets/banners/referral.jpg" class="w-full h-full object-cover" style="image-rendering: -webkit-optimize-contrast; transform: translateZ(0); backface-visibility: hidden;" alt="10% Referral Bonus">
+        </div>
+        
+        <div class="glass-card mb-6 flex flex-col items-center relative overflow-hidden p-6 w-full text-center">
+            
+            <div class="qr-wrapper mb-6">
+                <img id="qr-code-img" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://tpr.app/ref/ofuptt" alt="QR Code" class="w-[120px] h-[120px]">
+            </div>
+            <div class="w-full text-left">
+                <p class="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-2 pl-1">Your Referral Link</p>
+                <div class="list-card py-3 px-4">
+                    <div class="overflow-hidden">
+                        <p id="ref-link-text" class="text-[14px] font-bold text-slate-800 truncate">https://tpr.app/ref/ofuptt</p>
+                        <p id="ref-code-text" class="text-[12px] font-semibold text-slate-500 mt-0.5">Code: OFUPTT</p>
+                    </div>
+                    <button class="w-10 h-10 rounded-full bg-transparent text-slate-800 flex items-center justify-center flex-shrink-0 ml-2 hover:bg-black/5 transition-colors" onclick="copyLink()">
+                        <span id="copy-icon" class="material-symbols-outlined text-[22px]">content_copy</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Share (Action Boxes) -->
+        <div>
+            <h3 class="text-[15px] font-bold text-slate-800 mb-3 pl-1">Share via</h3>
+            <div class="flex justify-between items-center px-1">
+                <div class="flex flex-col items-center gap-2">
+                    <button class="action-box" onclick="shareWhatsApp()">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="w-12 h-12">
+                    </button>
+                    <span class="text-[11px] font-semibold text-slate-600">WhatsApp</span>
+                </div>
+                
+                <div class="flex flex-col items-center gap-2">
+                    <button class="action-box" onclick="shareFacebook()">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" alt="Facebook" class="w-10 h-10">
+                    </button>
+                    <span class="text-[11px] font-semibold text-slate-600">Facebook</span>
+                </div>
+                
+                <div class="flex flex-col items-center gap-2">
+                    <button class="action-box" onclick="shareTelegram()">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="w-10 h-10">
+                    </button>
+                    <span class="text-[11px] font-semibold text-slate-600">Telegram</span>
+                </div>
+                
+                <div class="flex flex-col items-center gap-2">
+                    <button class="action-box" onclick="shareNative()">
+                        <span class="material-symbols-outlined text-[24px] text-slate-700">more_horiz</span>
+                    </button>
+                    <span class="text-[11px] font-semibold text-slate-600">More</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 gap-3 mt-4">
+            <div class="glass-card p-4 text-center">
+                <p class="text-[12px] font-medium text-slate-700 mb-1">Total Team</p>
+                <h3 id="total-team-stat" class="text-[22px] font-black text-slate-900">0</h3>
+            </div>
+            <div class="glass-card p-4 text-center">
+                <p class="text-[12px] font-medium text-slate-700 mb-1">Total Earnings</p>
+                <h3 id="total-earnings-stat" class="text-[22px] font-black text-green-600">৳ 0</h3>
+            </div>
+        </div>
+
+        <!-- Team Members List -->
+        <div id="team-section" class="mt-4 pb-6">
+            <h3 class="text-[15px] font-bold text-slate-800 mb-3 pl-1">Team Members</h3>
+            <div id="team-list" class="space-y-2">
+                <div class="glass-card p-4 text-center text-slate-400 text-[13px] font-semibold">
+                    No team members joined yet. Share your link to start earning!
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentShareUrl = '';
+        let currentShareText = '';
+
+        function getAuthToken() {
+            let token = localStorage.getItem('userToken');
+            if (!token && window.parent) {
+                try { token = window.parent.localStorage.getItem('userToken'); } catch(e){}
+            }
+            return token;
+        }
+
+        async function initReferralSystem() {
+            const token = getAuthToken();
+            let refCode = localStorage.getItem('user_referral_code');
+
+            if (token) {
+                try {
+                    const res = await fetch('/api/referrals?t=' + Date.now(), {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.referral_code) {
+                            refCode = data.referral_code;
+                            localStorage.setItem('user_referral_code', refCode);
+                        }
+                        if (data.total_team !== undefined) {
+                            document.getElementById('total-team-stat').innerText = data.total_team;
+                            document.getElementById('total-earnings-stat').innerText = `৳ ${data.total_earnings || 0}`;
+                        }
+                        // Render Team List if members exist
+                        if (data.team && data.team.length > 0) {
+                            const listEl = document.getElementById('team-list');
+                            listEl.innerHTML = '';
+                            data.team.forEach(member => {
+                                const row = document.createElement('div');
+                                row.className = 'list-card py-2.5 px-4 flex items-center justify-between';
+                                const dateStr = member.joined ? new Date(member.joined).toLocaleDateString() : 'Active';
+                                row.innerHTML = `
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 font-black text-xs flex items-center justify-center">
+                                            ${member.name ? member.name.charAt(0) : 'U'}
+                                        </div>
+                                        <div>
+                                            <p class="text-[13px] font-bold text-slate-800">${member.name}</p>
+                                            <p class="text-[11px] font-medium text-slate-400">${member.phone}</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-green-100 text-green-700">${member.vip_plan}</span>
+                                        <p class="text-[10px] text-slate-400 mt-0.5">${dateStr}</p>
+                                    </div>
+                                `;
+                                listEl.appendChild(row);
+                            });
+                        }
+                    }
+                } catch (e) {
+                    console.error("Referral fetch error:", e);
+                }
+            }
+
+            // Fallback code if not logged in
+            if (!refCode) {
+                refCode = 'TPR' + Math.random().toString(36).substring(2, 7).toUpperCase();
+                localStorage.setItem('user_referral_code', refCode);
+            }
+
+            // Use the real website domain
+            const origin = window.location.origin.includes('http') ? window.location.origin : 'https://thepetroyal.com';
+            currentShareUrl = `${origin}/login.html?ref=${refCode}`;
+            currentShareText = `Join my team on TPR with my code: ${refCode} and start earning daily!`;
+
+            // Populate UI
+            document.getElementById('ref-code-text').innerText = `Code: ${refCode}`;
+            document.getElementById('ref-link-text').innerText = currentShareUrl;
+
+            // Render High-Quality QR Code (with fallback)
+            const qrImg = document.getElementById('qr-code-img');
+            if (qrImg) {
+                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(currentShareUrl)}`;
+                qrImg.src = qrUrl;
+                qrImg.onerror = function() {
+                    qrImg.src = `https://quickchart.io/qr?text=${encodeURIComponent(currentShareUrl)}&size=250`;
+                };
+            }
+        }
+
+        // Initialize immediately
+        initReferralSystem();
+
+        // Share Functions
+        function shareWhatsApp() {
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(currentShareText + '\n' + currentShareUrl)}`, '_blank');
+        }
+
+        function shareFacebook() {
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentShareUrl)}`, '_blank');
+        }
+
+        function shareTelegram() {
+            window.open(`https://t.me/share/url?url=${encodeURIComponent(currentShareUrl)}&text=${encodeURIComponent(currentShareText)}`, '_blank');
+        }
+
+        function shareNative() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Join TPR',
+                    text: currentShareText,
+                    url: currentShareUrl
+                }).catch(err => console.log('Error sharing:', err));
+            } else {
+                copyLink();
+            }
+        }
+
+        // Copy functionality
+        function copyLink() {
+            if (!currentShareUrl) return;
+            navigator.clipboard.writeText(currentShareUrl).then(() => {
+                const icon = document.getElementById('copy-icon');
+                if (icon) {
+                    icon.innerText = 'done_all';
+                    icon.classList.add('text-green-600');
+                    setTimeout(() => {
+                        icon.innerText = 'content_copy';
+                        icon.classList.remove('text-green-600');
+                    }, 2000);
+                }
+            }).catch(() => {
+                // Fallback copy
+                const textarea = document.createElement('textarea');
+                textarea.value = currentShareUrl;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert("Link copied!");
+            });
+        }
+    </script>
+</body>
+</html>

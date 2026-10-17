@@ -1,0 +1,685 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Change Password</title>
+    <script src="https://cdn.tailwindcss.com">
+        // Input Focus Logic to handle active-input styling
+        document.querySelectorAll('.custom-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                document.querySelectorAll('.glass-input-container').forEach(c => c.classList.remove('active-input'));
+                this.closest('.glass-input-container').classList.add('active-input');
+            });
+        });
+
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@400,1,0,24" rel="stylesheet" />
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: transparent !important; 
+            color: #1e293b;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Global App Background */
+        
+        
+        
+
+        
+
+        .bg-block-1 {
+            position: absolute;
+            top: 5%;
+            left: -15%;
+            width: 300px;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 100%);
+            transform: rotate(25deg);
+            border-radius: 60px;
+            box-shadow: 20px 20px 60px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .bg-block-2 {
+            position: absolute;
+            top: 50%;
+            right: -20%;
+            width: 400px;
+            height: 500px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.1) 100%);
+            transform: rotate(-15deg);
+            border-radius: 80px;
+            box-shadow: -20px 20px 60px rgba(0,0,0,0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        /* Glassmorphic White Panels (Ultra Premium) */
+        .glass-panel {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.4) 100%);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-top: 1px solid rgba(255, 255, 255, 1);
+            border-left: 1px solid rgba(255, 255, 255, 0.8);
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 50px 100px -20px rgba(50, 50, 93, 0.15),
+                0 30px 60px -30px rgba(0, 0, 0, 0.2),
+                inset 0 2px 3px rgba(255, 255, 255, 1),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.05),
+                inset 0 0 40px rgba(255, 255, 255, 0.7);
+            position: relative;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, transparent 40%, rgba(255,255,255,0.2) 100%);
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        .glass-input-container {
+            position: relative;
+            width: 100%;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            border-radius: 16px;
+            margin-bottom: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .glass-input-container:focus-within, .glass-input-container.active-input {
+            transform: translateY(-2px);
+        }
+        
+        .glass-input-bg {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            pointer-events: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-input-border {
+            position: absolute;
+            inset: 0;
+            border: 1px solid rgba(0, 0, 0, 0.2); /* light and thin */
+            border-radius: 16px;
+            pointer-events: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-input-container:focus-within .glass-input-bg, .glass-input-container.active-input .glass-input-bg {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .glass-input-container:focus-within .glass-input-border, .glass-input-container.active-input .glass-input-border {
+            border-color: #000; /* dark/black */
+            border-width: 2px; /* thick */
+        }
+        
+        .glass-input-container.error-shake .glass-input-border,
+        .glass-input-container.error-shake-large .glass-input-border {
+            border-color: #ef4444 !important; /* red-500 */
+            border-width: 2px !important;
+        }
+
+        /* Pure CSS Mask magic */
+        .glass-input-container:has(input:not(:placeholder-shown)) .glass-input-border,
+        .glass-input-container:focus-within .glass-input-border {
+            -webkit-mask-image: 
+                linear-gradient(to right, black 14px, transparent 14px, transparent calc(14px + var(--gap-width, 60px)), black calc(14px + var(--gap-width, 60px))),
+                linear-gradient(black, black);
+            -webkit-mask-size: 100% 2px, 100% 100%;
+            -webkit-mask-position: 0 0, 0 2px;
+            -webkit-mask-repeat: no-repeat;
+            mask-image: 
+                linear-gradient(to right, black 14px, transparent 14px, transparent calc(14px + var(--gap-width, 60px)), black calc(14px + var(--gap-width, 60px))),
+                linear-gradient(black, black);
+            mask-size: 100% 2px, 100% 100%;
+            mask-position: 0 0, 0 2px;
+            mask-repeat: no-repeat;
+        }
+
+        /* Input styling */
+        .custom-input {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 0 48px 0 16px;
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 15px;
+            z-index: 10;
+            position: relative;
+        }
+
+        .custom-input::placeholder { color: transparent; transition: color 0.3s ease; }
+        .glass-input-container:focus-within .custom-input::placeholder { color: rgba(148, 163, 184, 0.6); }
+
+        /* Eye Icon Autofill Support */
+        .glass-input-container:has(input:not(:placeholder-shown)) button[id^="btn-eye"] {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+
+        .glass-input-label {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 15px;
+            color: #64748b;
+            font-weight: 500;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            z-index: 10;
+            transform-origin: left top;
+            will-change: transform, top, color;
+            backface-visibility: hidden;
+        }
+        
+        .glass-input-container:focus-within .glass-input-label, 
+        .glass-input-container:has(input:-webkit-autofill) .glass-input-label,
+        .glass-input-container:has(input:not(:placeholder-shown)) .glass-input-label {
+            top: 0; 
+            transform: translateY(-50%) scale(0.8);
+            color: #0f172a; 
+            font-weight: 700;
+        }
+        
+        .glass-input-container:not(:focus-within):has(input:not(:placeholder-shown)) .glass-input-label {
+            color: #5f6368;
+        }
+
+        /* Chrome autofill background fix */
+        .custom-input:-webkit-autofill,
+        .custom-input:-webkit-autofill:hover, 
+        .custom-input:-webkit-autofill:focus, 
+        .custom-input:-webkit-autofill:active {
+            transition: background-color 5000s ease-in-out 0s !important;
+            -webkit-text-fill-color: #1e293b !important;
+        }
+
+        .btn-premium {
+            background: linear-gradient(180deg, #ff9a28 0%, #ff5e00 100%);
+            border-radius: 9999px !important; /* Force pill shape */
+            border: none;
+            box-shadow: 
+                0 4px 10px rgba(0, 0, 0, 0.2),
+                inset 0 3px 6px rgba(255, 255, 255, 0.5),
+                inset 0 1px 1px rgba(255, 255, 255, 0.9),
+                inset 0 -4px 8px rgba(200, 50, 0, 0.8);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            letter-spacing: 1.5px;
+            position: relative;
+            font-weight: 800;
+        }
+
+        .btn-premium:hover {
+            box-shadow: 
+                0 6px 15px rgba(0, 0, 0, 0.25),
+                inset 0 3px 6px rgba(255, 255, 255, 0.6),
+                inset 0 1px 1px rgba(255, 255, 255, 1),
+                inset 0 -4px 8px rgba(200, 50, 0, 0.9);
+            transform: translateY(-2px);
+            background: linear-gradient(180deg, #ffaa42 0%, #ff6b1a 100%);
+        }
+        
+        .btn-premium:active {
+            transform: translateY(1px);
+            background: linear-gradient(180deg, #e85500 0%, #ff9a28 100%);
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.2),
+                inset 0 4px 8px rgba(0,0,0,0.4);
+        }
+
+        .social-btn {
+            background: transparent;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            border: none;
+            outline: none;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-4px) scale(1.1);
+            filter: drop-shadow(0 10px 15px rgba(234, 88, 12, 0.2));
+        }
+        
+        .social-btn:active {
+            transform: translateY(0) scale(0.95);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        
+        .hide { 
+            display: none !important;
+        }
+
+        /* Modal Overlay - Light Theme */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(255,255,255,0.4); backdrop-filter: blur(15px);
+            display: flex; align-items: center; justify-content: center; z-index: 999;
+             pointer-events: none; transition: opacity 0.3s;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+
+        /* OTP Inputs - Light */
+        .otp-input {
+            width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: 800;
+            border-radius: 12px; background: rgba(255,255,255,0.8); border: 2px solid rgba(203,213,225,0.5);
+            transition: all 0.2s; color: #1e293b; margin: 0 4px; box-shadow: none;
+        }
+        .otp-input:focus { 
+            border-color: #1e293b; 
+            outline: none; 
+            box-shadow: none; 
+            background: white;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+        .error-shake, .error-shake-large, .otp-error {
+            animation: shake 0.4s ease-in-out;
+        }
+        .error-shake {
+            margin-top: 25px !important;
+        }
+        .error-shake-large {
+            margin-top: 36px !important;
+        }
+        .otp-error {
+            border-color: #ef4444 !important; /* red-500 */
+        }
+
+        .bouncing-dots {
+            display: flex; justify-content: center; align-items: center; gap: 7px; height: 24px;
+        }
+        .bouncing-dots div {
+            width: 6px; height: 6px; background-color: #ffffff; border-radius: 10px;
+            animation: stretch-bounce 1s infinite ease-in-out both;
+        }
+        .bouncing-dots div:nth-child(1) { animation-delay: -0.32s; }
+        .bouncing-dots div:nth-child(2) { animation-delay: -0.16s; }
+        .bouncing-dots div:nth-child(3) { animation-delay: 0s; }
+        @keyframes stretch-bounce {
+            0%, 80%, 100% { height: 6px; }
+            40% { height: 20px; }
+        }
+    
+    
+
+
+    /* === ULTRA-FAST 0.15s NO-LAG GPU NATIVE ENTRANCE === */
+    @keyframes fastNativeEntrance {
+        0% { opacity: 0; transform: translateY(6px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    body {
+        animation: fastNativeEntrance 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        will-change: opacity, transform;
+    }
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="custom-global-scrollbar">
+  /* Smooth, native-feeling scrollbar */
+  ::-webkit-scrollbar { width: 7px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 7px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.4); }
+
+  /* Perfectly aligned scrollbar buttons (Gray Triangles) */
+  ::-webkit-scrollbar-button:single-button {
+    background-color: transparent;
+    display: block;
+    height: 14px;
+    width: 7px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 7px 7px;
+  }
+  
+  /* Top Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:decrement {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDE3IDE5LDE3IDEwLDUnIGZpbGw9JyM2NDZlNzgnLz48L3N2Zz4=");
+  }
+  
+  /* Bottom Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:increment {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDMgMTksMyAxMCwxNScgZmlsbD0nIzY0NmU3OCcvPjwvc3ZnPg==");
+  }
+</style>
+</head>
+<body class="pb-28 pt-2 relative overflow-x-hidden text-slate-800" style="overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch;" style="background: transparent !important; background-color: transparent !important;">
+
+    <!-- Back Button (Static) -->
+    <div class="mb-4 mt-2 ml-2 flex-none relative z-50">
+        <button class="text-slate-500 hover:text-slate-900 bg-white/70 hover:bg-white/95 backdrop-blur-xl rounded-full shadow-[0_4px_15px_rgba(0,0,0,0.08)] border border-white/80 flex items-center p-2 transition-all duration-300 hover:scale-110 active:scale-95" onclick="window.parent.loadPage('security_glass/code.html', null)">
+            <span class="material-symbols-outlined text-[20px] ml-[-2px]">arrow_back_ios_new</span>
+        </button>
+    </div>
+    
+
+    
+
+    <div class="max-w-[400px] mx-auto px-6 relative z-10 pb-8">
+        
+        <!-- Standard Password UI -->
+        <div id="standard-password-ui" class="glass-panel w-full rounded-[40px] p-8 pb-10">
+            <div class="mb-10 text-center">
+                <div class="w-20 h-20 mx-auto bg-white/70 backdrop-blur-xl border border-white shadow-[0_10px_30px_rgba(0,0,0,0.06)] rounded-full flex items-center justify-center mb-4 relative">
+                    <div class="absolute inset-0 border border-slate-200/50 rounded-full opacity-40 z-0"></div>
+                    <span class="material-symbols-outlined text-[36px] text-slate-700 relative z-10" style="font-variation-settings: 'FILL' 1;">password</span>
+                </div>
+                <p class="text-[18px] font-black text-slate-800">Change Password</p>
+                <p class="text-[13px] font-semibold text-slate-500 mt-1">Your password must be at least 8 characters.</p>
+            </div>
+
+            <form onsubmit="savePassword(event)" novalidate>
+                <div class="space-y-6">
+                    <div class="glass-input-container mb-4" style="--gap-width: 107px;">
+                        <div class="glass-input-bg"></div>
+                        <div class="glass-input-border"></div>
+                        <label class="glass-input-label">Current Password</label>
+                        <input type="password" id="currPass" class="custom-input" placeholder=" " required>
+                        <button type="button" onclick="togglePassword('currPass', 'eye-curr')" class="absolute right-4 z-20 text-slate-400 hover:text-orange-600 transition-colors focus:outline-none">
+                            <span id="eye-curr" class="material-symbols-outlined text-[20px] hide">visibility_off</span>
+                        </button>
+                    </div>
+                    
+                    <div class="glass-input-container mb-4" style="--gap-width: 88px;">
+                        <div class="glass-input-bg"></div>
+                        <div class="glass-input-border"></div>
+                        <label class="glass-input-label">New Password</label>
+                        <input type="password" id="newPass" class="custom-input" placeholder=" " required minlength="8">
+                        <button type="button" onclick="togglePassword('newPass', 'eye-new')" class="absolute right-4 z-20 text-slate-400 hover:text-orange-600 transition-colors focus:outline-none">
+                            <span id="eye-new" class="material-symbols-outlined text-[20px] hide">visibility_off</span>
+                        </button>
+                    </div>
+
+                    <div class="glass-input-container mb-4" style="--gap-width: 137px;">
+                        <div class="glass-input-bg"></div>
+                        <div class="glass-input-border"></div>
+                        <label class="glass-input-label">Confirm New Password</label>
+                        <input type="password" id="confPass" class="custom-input" placeholder=" " required minlength="8">
+                        <button type="button" onclick="togglePassword('confPass', 'eye-conf')" class="absolute right-4 z-20 text-slate-400 hover:text-orange-600 transition-colors focus:outline-none">
+                            <span id="eye-conf" class="material-symbols-outlined text-[20px] hide">visibility_off</span>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-premium w-full py-4 rounded-2xl font-bold tracking-wide mt-6">
+                    Update Password
+                    <span class="material-symbols-outlined text-[20px] font-bold">arrow_forward</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Google Auth UI (Premium High Quality) -->
+        <div id="google-auth-ui" style="display: none;" class="text-center mt-4 w-full">
+            
+            <!-- Glowing Orb Container -->
+            <div class="relative w-28 h-28 mx-auto mb-8 flex items-center justify-center">
+                <!-- Outer Glow -->
+                <div class="absolute inset-0 bg-blue-400/20 rounded-full blur-2xl animate-pulse"></div>
+                <!-- Glass Ring -->
+                <div class="absolute inset-0 border border-white/40 rounded-full opacity-60 z-0 shadow-[0_0_30px_rgba(255,255,255,0.4)]"></div>
+                <!-- Core Glass Orb -->
+                <div class="relative z-10 w-20 h-20 bg-white/80 backdrop-blur-2xl border border-white shadow-[0_15px_35px_rgba(0,0,0,0.1),inset_0_4px_15px_rgba(255,255,255,1)] rounded-full flex items-center justify-center">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" class="w-10 h-10 drop-shadow-md">
+                </div>
+            </div>
+
+            <!-- Typography -->
+            <h2 class="text-[26px] font-black tracking-tight text-slate-800 mb-3 drop-shadow-sm">Linked to Google</h2>
+            <p class="text-[14px] font-semibold text-slate-500 leading-relaxed max-w-[300px] mx-auto mb-10 px-2">
+                You signed up for TPR using your <strong class="text-slate-700">Google Account</strong>. Therefore, you do not have a separate app password to manage.
+            </p>
+            
+            <!-- Premium Glass Card Info -->
+            <div class="relative p-5 rounded-3xl shadow-[0_15px_35px_rgba(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] group">
+                <!-- Glass Background -->
+                <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-white/60 to-white/10 backdrop-blur-3xl -z-10"></div>
+                <div class="absolute inset-0 border border-white/80 rounded-3xl -z-10 pointer-events-none"></div>
+                <div class="absolute inset-0 border-b border-r border-white/20 rounded-3xl -z-10 pointer-events-none"></div>
+                
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-blue-50/80 border border-blue-100 shadow-inner flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <span class="material-symbols-outlined text-[22px] text-blue-600 drop-shadow-sm">gpp_good</span>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-[15px] font-black text-slate-800 tracking-wide mb-1">Maximum Security</p>
+                        <p class="text-[12px] font-semibold text-slate-500 leading-snug">Your account is secured natively by Google's advanced authentication system and OAuth 2.0.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8">
+                
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function clearError(inputId) {
+            const input = document.getElementById(inputId);
+            const container = input ? input.closest('.glass-input-container') : null;
+            if (container) {
+                container.classList.remove('error-shake', 'error-shake-large');
+                let errorSpan = container.querySelector('.error-text');
+                if (errorSpan && errorSpan.parentNode) {
+                    errorSpan.parentNode.removeChild(errorSpan);
+                }
+            }
+        }
+
+        function showInlineError(inputId, message) {
+            const input = document.getElementById(inputId);
+            const container = input?.closest('.glass-input-container');
+            if (container) {
+                container.classList.remove('error-shake', 'error-shake-large');
+                void container.offsetWidth; // trigger reflow
+                container.classList.add('error-shake');
+                
+                let errorSpan = container.querySelector('.error-text');
+                if (!errorSpan) {
+                    errorSpan = document.createElement('span');
+                    errorSpan.className = 'error-text text-red-600 text-[11px] font-extrabold absolute bottom-full left-4 mb-1.5 z-10 leading-tight';
+                    container.appendChild(errorSpan);
+                }
+                errorSpan.textContent = message;
+            }
+        }
+
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.innerText = 'visibility';
+                icon.classList.remove('hide');
+            } else {
+                input.type = 'password';
+                icon.innerText = 'visibility_off';
+                icon.classList.add('hide'); 
+            }
+        }
+
+        // Show eye icon only when typing
+        document.querySelectorAll('input[type="password"]').forEach(input => {
+            input.addEventListener('input', function() {
+                const btn = this.nextElementSibling;
+                if(btn && btn.tagName === 'BUTTON') {
+                    const icon = btn.querySelector('span');
+                    if(this.value.length > 0) icon.classList.remove('hide');
+                    else if(this.type === 'password') icon.classList.add('hide');
+                }
+            });
+        });
+
+        // Check if user is logged in with Google
+        if (localStorage.getItem('tpr_auth_provider') === 'google') {
+            document.getElementById('standard-password-ui').style.display = 'none';
+            document.getElementById('google-auth-ui').style.display = 'block';
+        }
+
+        // Set a default fake password if none exists
+        if(!localStorage.getItem('tpr_password')) {
+            localStorage.setItem('tpr_password', '12345678');
+        }
+
+        // Clear errors on retype
+        const inputs = document.querySelectorAll('.custom-input');
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener('input', function() {
+                clearError(this.id);
+            });
+        }
+
+        // Live verification of current password
+        let verifyTimer;
+        document.getElementById('currPass').addEventListener('input', function() {
+            clearTimeout(verifyTimer);
+            const val = this.value;
+            if(!val) return;
+            
+            verifyTimer = setTimeout(async () => {
+                try {
+                    const res = await window.parent.APP.verifyPassword(val);
+                    if(res && res.success === false) {
+                        showInlineError('currPass', res.error || 'Incorrect current password');
+                    }
+                } catch(e) {}
+            }, 1000);
+        });
+
+        async function savePassword(e) {
+            e.preventDefault();
+            ['currPass', 'newPass', 'confPass'].forEach(clearError);
+            
+            const curr = document.getElementById('currPass').value;
+            const newP = document.getElementById('newPass').value;
+            const confP = document.getElementById('confPass').value;
+
+            let hasError = false;
+
+            if(!curr) {
+                showInlineError('currPass', "Enter current password");
+                hasError = true;
+            }
+            const pwRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if(!newP || !pwRegex.test(newP)) {
+                showInlineError('newPass', "Use 8+ letters, 1 number & 1 symbol (@,#)");
+                hasError = true;
+            }
+            if(!confP || !pwRegex.test(confP)) {
+                showInlineError('confPass', "Confirm your new password");
+                hasError = true;
+            }
+            if(newP.length >= 8 && confP.length >= 8 && newP !== confP) {
+                showInlineError('confPass', "Passwords do not match");
+                hasError = true;
+            }
+            if(curr && newP && curr === newP) {
+                showInlineError('newPass', "New password must be different");
+                hasError = true;
+            }
+
+            if(hasError) return;
+
+            const btn = document.querySelector('.btn-premium');
+            btn.innerHTML = `<div class="bouncing-dots"><div></div><div></div><div></div></div>`;
+            btn.style.opacity = '0.8';
+            btn.disabled = true;
+            
+            try {
+                const res = await window.parent.APP.changePassword(curr, newP);
+
+                if (res && res.success) {
+                    localStorage.setItem('tpr_password', newP);
+                    localStorage.setItem('temp_password_lock', new Date().getTime());
+                    btn.innerHTML = `<span class="material-symbols-outlined text-emerald-600">check_circle</span> <span class="text-emerald-700">Password Updated</span>`;
+                    btn.style.background = 'rgba(209, 250, 229, 0.9)';
+                    btn.style.borderColor = '#34d399';
+                    btn.style.opacity = '1';
+                    
+                    setTimeout(() => {
+                        window.parent.loadPage('security_glass/code.html', null);
+                    }, 1000);
+                } else {
+                    btn.innerHTML = `Update Password <span class="material-symbols-outlined text-[20px] font-bold">arrow_forward</span>`;
+                    btn.style.opacity = '1';
+                    btn.disabled = false;
+
+                    const errMsg = (res && res.error) ? res.error : 'Failed to update password';
+                    if (errMsg.toLowerCase().includes('current')) {
+                        showInlineError('currPass', errMsg);
+                    } else {
+                        showInlineError('currPass', errMsg);
+                    }
+                }
+            } catch(err) {
+                btn.innerHTML = `Update Password <span class="material-symbols-outlined text-[20px] font-bold">arrow_forward</span>`;
+                btn.style.opacity = '1';
+                btn.disabled = false;
+                showInlineError('currPass', 'Connection error');
+            }
+        }
+    </script>
+</body>
+</html>

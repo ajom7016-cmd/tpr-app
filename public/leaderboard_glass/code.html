@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>JMJ Earning App - Leaderboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@400,1,0,24" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                    colors: {
+                        primary: "#ea580c",
+                        "primary-light": "#f97316",
+                        surface: "#ffffff",
+                        "on-surface": "#1e293b",
+                        "on-surface-light": "#64748b"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            color: #1e293b; 
+            background: #ffffff;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .bg-premium-mesh {
+            background-color: transparent !important;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(255, 240, 230, 1) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(255, 255, 255, 1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(255, 235, 220, 1) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(255, 255, 255, 1) 0px, transparent 50%);
+            animation: pulse-bg 15s ease-in-out infinite alternate;
+        }
+
+        
+
+        .glass-3d {
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .glass-soft {
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #ea580c, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-premium {
+            background: linear-gradient(135deg, #ea580c, #fb923c);
+            color: white;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .gold-badge { background: linear-gradient(135deg, #FDE68A, #F59E0B); }
+        .silver-badge { background: linear-gradient(135deg, #E2E8F0, #94A3B8); }
+        .bronze-badge { background: linear-gradient(135deg, #FED7AA, #B45309); }
+
+        ::-webkit-scrollbar { width: 7px; height: 7px; }
+        ::-webkit-scrollbar-track { background: transparent; margin-top: 40px; margin-bottom: 40px; }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.35); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.5); }
+    
+    
+
+
+    /* === ULTRA-FAST 0.15s NO-LAG GPU NATIVE ENTRANCE === */
+    @keyframes fastNativeEntrance {
+        0% { opacity: 0; transform: translateY(6px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    body {
+        animation: fastNativeEntrance 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        will-change: opacity, transform;
+    }
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="custom-global-scrollbar">
+  /* Smooth, native-feeling scrollbar */
+  ::-webkit-scrollbar { width: 7px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 7px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.4); }
+
+  /* Perfectly aligned scrollbar buttons (Gray Triangles) */
+  ::-webkit-scrollbar-button:single-button {
+    background-color: transparent;
+    display: block;
+    height: 14px;
+    width: 7px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 7px 7px;
+  }
+  
+  /* Top Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:decrement {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDE3IDE5LDE3IDEwLDUnIGZpbGw9JyM2NDZlNzgnLz48L3N2Zz4=");
+  }
+  
+  /* Bottom Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:increment {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDMgMTksMyAxMCwxNScgZmlsbD0nIzY0NmU3OCcvPjwvc3ZnPg==");
+  }
+
+    /* === ULTRA-FAST 0.15s GPU NATIVE ENTRANCE === */
+    
+    body {
+        
+        will-change: opacity, transform;
+    }
+
+</style>
+</head>
+<body class="pb-6 relative overflow-x-hidden text-slate-800" style="background: transparent !important; background-color: transparent !important;">
+
+                    <img src="https://i.pravatar.cc/150?u=a1" class="w-full h-full object-cover"/>
+                    <div class="absolute bottom-0 w-full h-1/3 silver-badge opacity-90"></div>
+                </div>
+                <div class="w-6 h-6 rounded-full silver-badge text-white font-bold text-xs flex items-center justify-center absolute -top-2 -right-1 shadow-md">2</div>
+                <span class="text-xs font-bold text-on-surface">à¦†à¦°à¦¿à¦«</span>
+                <span class="text-[10px] font-black text-primary">৳ à§ª,à§¨à§¦à§¦</span>
+            </div>
+            
+            <!-- Gold -->
+            <div class="flex flex-col items-center relative z-20">
+                <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-[#FDE68A] shadow-[0_15px_30px_rgba(245,158,11,0.4)] mb-2 relative">
+                    <img src="https://i.pravatar.cc/150?u=a2" class="w-full h-full object-cover"/>
+                    <div class="absolute bottom-0 w-full h-1/3 gold-badge opacity-90"></div>
+                    <span class="material-symbols-outlined absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white/40 text-[48px]">workspace_premium</span>
+                </div>
+                <div class="w-8 h-8 rounded-full gold-badge text-white font-black text-sm flex items-center justify-center absolute -top-3 -right-2 shadow-lg ring-4 ring-white">1</div>
+                <span class="text-sm font-extrabold text-on-surface">à¦«à¦¾à¦¹à¦¿à¦® (à¦†à¦ªà¦¨à¦¿)</span>
+                <span class="text-xs font-black text-primary">৳ à§«,à§«à§¦à§¦</span>
+            </div>
+
+            <!-- Bronze -->
+            <div class="flex flex-col items-center relative z-10 translate-y-8">
+                <div class="w-14 h-14 rounded-full overflow-hidden border-4 border-[#FED7AA] shadow-[0_10px_20px_rgba(180,83,9,0.2)] mb-2 relative">
+                    <img src="https://i.pravatar.cc/150?u=a3" class="w-full h-full object-cover"/>
+                    <div class="absolute bottom-0 w-full h-1/3 bronze-badge opacity-90"></div>
+                </div>
+                <div class="w-5 h-5 rounded-full bronze-badge text-white font-bold text-[10px] flex items-center justify-center absolute -top-1 -right-1 shadow-md">3</div>
+                <span class="text-[10px] font-bold text-on-surface">à¦¸à¦¾à¦•à¦¿à¦¬</span>
+                <span class="text-[10px] font-black text-primary">৳ à§©,à§®à§¦à§¦</span>
+            </div>
+        </section>
+
+        <!-- Leaderboard List -->
+        <section class="glass-soft rounded-[32px] p-2 flex flex-col gap-2">
+            
+            <!-- Rank 4 -->
+            <div class="flex items-center justify-between p-4 rounded-2xl hover:bg-white/60 transition-colors">
+                <div class="flex items-center gap-4">
+                    <span class="w-6 text-center font-bold text-on-surface-light">4</span>
+                    <div class="w-10 h-10 rounded-full overflow-hidden">
+                        <img src="https://i.pravatar.cc/150?u=a4" class="w-full h-full object-cover"/>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-on-surface">Rakib Hasan</h4>
+                        <p class="text-[10px] font-semibold text-on-surface-light">à§ªà§« à¦Ÿà¦¾à¦¸à§à¦• à¦¸à¦®à§à¦ªà§‚à¦°à§à¦£</p>
+                    </div>
+                </div>
+                <span class="font-black text-sm text-primary">৳ 2,900</span>
+            </div>
+
+            <!-- Rank 5 -->
+            <div class="flex items-center justify-between p-4 rounded-2xl hover:bg-white/60 transition-colors">
+                <div class="flex items-center gap-4">
+                    <span class="w-6 text-center font-bold text-on-surface-light">5</span>
+                    <div class="w-10 h-10 rounded-full overflow-hidden">
+                        <img src="https://i.pravatar.cc/150?u=a5" class="w-full h-full object-cover"/>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-on-surface">Tasnim</h4>
+                        <p class="text-[10px] font-semibold text-on-surface-light">à§©à§® à¦Ÿà¦¾à¦¸à§à¦• à¦¸à¦®à§à¦ªà§‚à¦°à§à¦£</p>
+                    </div>
+                </div>
+                <span class="font-black text-sm text-primary">৳ 2,400</span>
+            </div>
+
+            <!-- Rank 6 -->
+            <div class="flex items-center justify-between p-4 rounded-2xl hover:bg-white/60 transition-colors">
+                <div class="flex items-center gap-4">
+                    <span class="w-6 text-center font-bold text-on-surface-light">6</span>
+                    <div class="w-10 h-10 rounded-full overflow-hidden">
+                        <img src="https://i.pravatar.cc/150?u=a6" class="w-full h-full object-cover"/>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-on-surface">Imran</h4>
+                        <p class="text-[10px] font-semibold text-on-surface-light">à§©à§¦ à¦Ÿà¦¾à¦¸à§à¦• à¦¸à¦®à§à¦ªà§‚à¦°à§à¦£</p>
+                    </div>
+                </div>
+                <span class="font-black text-sm text-primary">৳ 1,800</span>
+            </div>
+
+            <div class="p-2 flex justify-center mt-2">
+                <button class="text-xs font-bold text-primary hover:underline px-4 py-2">à¦†à¦°à¦“ à¦¦à§‡à¦–à§à¦¨</button>
+            </div>
+        </section>
+
+    </main>
+            </div>
+
+            <div class="p-2 flex justify-center mt-2">
+                <button class="text-xs font-bold text-primary hover:underline px-4 py-2">আরও দেখুন</button>
+            </div>
+        </section>
+
+    </main>
+</body>
+</html>

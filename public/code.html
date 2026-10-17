@@ -1,0 +1,367 @@
+﻿<!DOCTYPE html>
+
+<html class="light" lang="bn"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kinetic Ledger - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#d0e4ff",
+                        "on-secondary": "#ffffff",
+                        "background": "#fff8f6",
+                        "inverse-surface": "#3d2d26",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#5a4136",
+                        "on-tertiary-fixed-variant": "#00497b",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container": "#ffeae1",
+                        "surface-tint": "#a04100",
+                        "tertiary-container": "#059eff",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "surface-container-high": "#fee3d8",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#ffdbcc",
+                        "secondary-container": "#dae2fd",
+                        "surface-bright": "#fff8f6",
+                        "on-primary-fixed-variant": "#7a3000",
+                        "on-background": "#261812",
+                        "primary-fixed-dim": "#ffb693",
+                        "on-secondary-container": "#5c647a",
+                        "primary-container": "#ff6b00",
+                        "on-surface": "#261812",
+                        "on-tertiary-container": "#003357",
+                        "on-primary-fixed": "#351000",
+                        "secondary-fixed": "#dae2fd",
+                        "tertiary": "#0062a1",
+                        "surface": "#fff8f6",
+                        "surface-dim": "#efd5ca",
+                        "on-primary-container": "#572000",
+                        "inverse-on-surface": "#ffede6",
+                        "on-secondary-fixed": "#131b2e",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#ffb693",
+                        "tertiary-fixed-dim": "#9ccaff",
+                        "outline-variant": "#e2bfb0",
+                        "primary": "#a04100",
+                        "on-error-container": "#93000a",
+                        "secondary": "#565e74",
+                        "on-tertiary-fixed": "#001d35",
+                        "surface-variant": "#f8ddd2",
+                        "surface-container-highest": "#f8ddd2",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "outline": "#8e7164",
+                        "surface-container-low": "#fff1eb"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "unit": "8px",
+                        "margin-desktop": "64px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+        }
+        
+        .glass-card-high {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .bg-gradient-ethereal {
+            background: radial-gradient(circle at top right, rgba(255, 107, 0, 0.1), transparent 50%),
+                        radial-gradient(circle at bottom left, rgba(0, 98, 161, 0.05), transparent 50%);
+            background-color: theme('colors.background');
+        }
+    
+    /* Anti-FOUC Smooth Load */
+    body {
+        animation: smoothLoad 0.4s ease-out forwards;
+        opacity: 0;
+    }
+    @keyframes smoothLoad {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="custom-global-scrollbar">
+  /* Smooth, native-feeling scrollbar */
+  ::-webkit-scrollbar { width: 7px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 7px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.4); }
+
+  /* Perfectly aligned scrollbar buttons (Gray Triangles) */
+  ::-webkit-scrollbar-button:single-button {
+    background-color: transparent;
+    display: block;
+    height: 14px;
+    width: 7px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 7px 7px;
+  }
+  
+  /* Top Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:decrement {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDE3IDE5LDE3IDEwLDUnIGZpbGw9JyM2NDZlNzgnLz48L3N2Zz4=");
+  }
+  
+  /* Bottom Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:increment {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDMgMTksMyAxMCwxNScgZmlsbD0nIzY0NmU3OCcvPjwvc3ZnPg==");
+  }
+</style>
+</head>
+<body class="bg-gradient-ethereal text-on-background min-h-screen font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="sticky top-0 w-full z-50 px-margin-mobile py-4 flex justify-between items-center bg-white/70 dark:bg-surface/70 backdrop-blur-xl border-b border-white/50 dark:border-outline-variant/30 shadow-[0_20_40px_rgba(0,0,0,0.04)] rounded-b-xl md:hidden">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-white/50 shadow-sm shrink-0">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="Close up portrait of a young professional wearing modern, stylish glasses. The setting is bright and well-lit with natural daylight. The overall mood is optimistic and approachable, fitting a high-end financial application context. Clean white and subtle orange hues in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7eghCcxICbbwZsNIC3cyFQoB27n2M4XcDPt9Eiml4v9lhNE2AHC3wwMNch9ZFo5aUj30jKJSrbdaYJ1aX-aKAX_nCTm69rKO1b3l9oRyjAqz0ByvtrIEBBi0fcf2ok2pZn51B4gpsTo6tULAXUdQYxpIAMZSBLM4u8XcbaLkSjakTcfPn0lfEmJIhkY7gMCWcgbxdG6JmEmjgEiiZzS9-G9Tg8c4QKTpcf5Hl3sCSTJQF_yiFui74Qw"/>
+</div>
+<h1 class="font-headline-md text-headline-md tracking-tight font-bold text-primary dark:text-primary-fixed">Kinetic Ledger</h1>
+</div>
+<div class="font-label-md text-label-md font-bold text-primary-container bg-primary-container/10 px-3 py-1.5 rounded-full border border-primary-container/20">
+            ৳ ১,২৫০.০০
+        </div>
+</header>
+<!-- Desktop Nav (Hidden on Mobile) -->
+<nav class="hidden md:flex sticky top-0 w-full z-50 px-margin-desktop py-4 justify-between items-center bg-white/70 backdrop-blur-xl border-b border-white/50 shadow-[0_20_40px_rgba(0,0,0,0.04)]">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden border border-white/50 shadow-sm shrink-0">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="Close up portrait of a young professional wearing modern, stylish glasses. The setting is bright and well-lit with natural daylight. The overall mood is optimistic and approachable, fitting a high-end financial application context. Clean white and subtle orange hues in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBv3NKklu3OXUgbB6aXBds48xPgzYvIsCDWpZmcCpHcjB6RHPzXixutoL2pFg6ioWsI_fHll6-cFgntdzaRweJleDhK3cm19z6CCFehR7tXkgmGRTc8KEy1FU3TBZAu40seRfMz4HfYQ8ZYxCOZ-n3LO2clYLvsu0eh5a0mIPKt1go1XnGpmDllnwhpxnq2x0Uc8OO3dn30xYi7hsH11oudgT4JtId27WU2MBr7rYNNzf4hwJUq3V2fpg"/>
+</div>
+<h1 class="font-headline-lg text-headline-lg font-extrabold text-primary tracking-tight">Kinetic Ledger</h1>
+</div>
+<div class="flex items-center gap-8">
+<a class="font-label-md text-label-md text-primary font-bold hover:bg-white/40 px-4 py-2 rounded-lg transition-colors" href="#">Home</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary hover:bg-white/40 px-4 py-2 rounded-lg transition-colors" href="#">Tasks</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary hover:bg-white/40 px-4 py-2 rounded-lg transition-colors" href="#">Wallet</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary hover:bg-white/40 px-4 py-2 rounded-lg transition-colors" href="#">Profile</a>
+</div>
+<div class="font-headline-md text-headline-md font-bold text-primary-container bg-primary-container/10 px-4 py-2 rounded-full border border-primary-container/20">
+            ৳ ১,২৫০.০০
+        </div>
+</nav>
+<!-- Main Canvas -->
+<main class="max-w-[1280px] mx-auto px-margin-mobile md:px-margin-desktop py-6 pb-6 space-y-8">
+<!-- Balance Card (Glassmorphic) -->
+<section class="glass-card-high rounded-[32px] p-6 md:p-10 relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+
+<div class="z-10 space-y-2">
+<p class="font-label-md text-label-md text-on-surface-variant">মোট ব্যালেন্স</p>
+<h2 class="font-headline-xl text-headline-xl text-on-surface">৳ ১,২৫০.<span class="text-on-surface-variant text-headline-lg">০০</span></h2>
+<div class="inline-flex items-center gap-2 bg-white/50 px-3 py-1 rounded-full border border-white/50 mt-2">
+<span class="material-symbols-outlined text-[16px] text-green-600">trending_up</span>
+<span class="font-label-sm text-label-sm text-green-700">+৳ ২৫০.০০ (আজ)</span>
+</div>
+</div>
+<div class="z-10 flex gap-4 w-full md:w-auto">
+<button class="flex-1 md:flex-none bg-primary-container text-on-primary rounded-full py-3 px-8 font-label-md text-label-md shadow-lg shadow-primary-container/30 hover:bg-primary-container/90 active:scale-95 transition-all">
+                    উত্তোলন
+                </button>
+<button class="flex-1 md:flex-none glass-card text-primary rounded-full py-3 px-8 font-label-md text-label-md hover:bg-white/80 active:scale-95 transition-all">
+                    ডিপোজিট
+                </button>
+</div>
+</section>
+<!-- Quick Actions Grid -->
+<section class="grid grid-cols-4 gap-4 md:gap-8">
+<button class="glass-card rounded-2xl p-4 flex flex-col items-center justify-center gap-3 hover:bg-white/80 active:scale-95 transition-all group">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center group-hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined text-primary-container text-[24px]">account_balance</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface text-center">ডিপোজিট</span>
+</button>
+<button class="glass-card rounded-2xl p-4 flex flex-col items-center justify-center gap-3 hover:bg-white/80 active:scale-95 transition-all group">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center group-hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined text-primary-container text-[24px]">payments</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface text-center">উত্তোলন</span>
+</button>
+<button class="glass-card rounded-2xl p-4 flex flex-col items-center justify-center gap-3 hover:bg-white/80 active:scale-95 transition-all group">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center group-hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined text-primary-container text-[24px]">leaderboard</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface text-center">লিডারবোর্ড</span>
+</button>
+<button class="glass-card rounded-2xl p-4 flex flex-col items-center justify-center gap-3 hover:bg-white/80 active:scale-95 transition-all group">
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center group-hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined text-primary-container text-[24px]">trending_up</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface text-center">ইনভেস্ট</span>
+</button>
+</section>
+<!-- Invite Banner -->
+<section class="glass-card rounded-2xl p-6 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="absolute inset-0 z-0">
+
+</div>
+<div class="z-10 text-center md:text-left space-y-2">
+<h3 class="font-headline-md text-headline-md md:text-headline-lg text-on-surface">বন্ধু আমন্ত্রণ করুন, আয় করুন</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">প্রতিটি সফল আমন্ত্রণের জন্য ৳ ৫০ বোনাস পান। আপনার নেটওয়ার্ক বাড়ান এবং বেশি আয় করুন।</p>
+</div>
+<div class="z-10 w-full md:w-auto">
+<button class="w-full md:w-auto glass-card bg-white/50 text-primary-container border-primary-container/30 rounded-full py-3 px-8 font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-white/80 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[20px]">share</span>
+                    লিংক কপি করুন
+                </button>
+</div>
+</section>
+<!-- Top Tasks -->
+<section class="space-y-4">
+<div class="flex justify-between items-end">
+<h3 class="font-headline-md text-headline-md text-on-surface">শীর্ষ কাজসমূহ</h3>
+<a class="font-label-md text-label-md text-primary-container hover:underline" href="#">সব দেখুন</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<!-- Task 1 -->
+<div class="glass-card rounded-xl p-5 flex flex-col gap-4 hover:shadow-[0_24px_48px_rgba(0,0,0,0.06)] transition-all">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-blue-600">play_circle</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-white/50 px-2 py-1 rounded-md border border-white/60">১০ মিনিট</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-1">ভিডিও বিজ্ঞাপন দেখুন</h4>
+<p class="font-label-sm text-label-sm text-primary-container">রিওয়ার্ড: ৳ ১০</p>
+</div>
+<button class="mt-auto bg-primary-container/10 text-primary-container hover:bg-primary-container hover:text-on-primary rounded-lg py-2 font-label-md text-label-md transition-colors w-full border border-primary-container/20">
+                        শুরু করুন
+                    </button>
+</div>
+<!-- Task 2 -->
+<div class="glass-card rounded-xl p-5 flex flex-col gap-4 hover:shadow-[0_24px_48px_rgba(0,0,0,0.06)] transition-all">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-green-600">rate_review</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-white/50 px-2 py-1 rounded-md border border-white/60">৫ মিনিট</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-1">অ্যাপ রিভিউ দিন</h4>
+<p class="font-label-sm text-label-sm text-primary-container">রিওয়ার্ড: ৳ ১৫</p>
+</div>
+<button class="mt-auto bg-primary-container/10 text-primary-container hover:bg-primary-container hover:text-on-primary rounded-lg py-2 font-label-md text-label-md transition-colors w-full border border-primary-container/20">
+                        শুরু করুন
+                    </button>
+</div>
+<!-- Task 3 -->
+<div class="glass-card rounded-xl p-5 flex flex-col gap-4 hover:shadow-[0_24px_48px_rgba(0,0,0,0.06)] transition-all">
+<div class="flex justify-between items-start">
+<div class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-purple-600">article</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-white/50 px-2 py-1 rounded-md border border-white/60">১৫ মিনিট</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-1">সার্ভে পূরণ করুন</h4>
+<p class="font-label-sm text-label-sm text-primary-container">রিওয়ার্ড: ৳ ২৫</p>
+</div>
+<button class="mt-auto bg-primary-container/10 text-primary-container hover:bg-primary-container hover:text-on-primary rounded-lg py-2 font-label-md text-label-md transition-colors w-full border border-primary-container/20">
+                        শুরু করুন
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 bg-white/70 dark:bg-surface/70 backdrop-blur-xl border-t border-white/50 dark:border-outline-variant/30 shadow-[0_-20_40px_rgba(0,0,0,0.04)] rounded-t-xl md:hidden font-label-sm text-label-sm">
+<button class="flex flex-col items-center justify-center bg-primary dark:bg-primary-container text-on-primary dark:text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-all active:scale-90">
+<span class="material-symbols-outlined">assignment_turned_in</span>
+<span class="mt-1">Tasks</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-all active:scale-90">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span class="mt-1">Wallet</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-all active:scale-90">
+<span class="material-symbols-outlined">person</span>
+<span class="mt-1">Profile</span>
+</button>
+</nav>
+</body></html>

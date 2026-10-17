@@ -1,0 +1,350 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Biometric App Lock</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@400,1,0,24" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: #1e293b;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+            background-color: transparent;
+        }
+
+        .header-btn {
+            width: 48px; height: 48px; border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.6); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.9);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+            color: #1e293b; transition: transform 0.2s;
+        }
+        .header-btn:active { transform: scale(0.9); }
+
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 100%);
+            backdrop-filter: blur(40px) saturate(150%);
+            -webkit-backdrop-filter: blur(40px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05), inset 0 2px 10px rgba(255,255,255,0.4);
+            border-radius: 24px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .icon-circle {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: white;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05), inset 0 2px 10px rgba(16,185,129,0.1);
+            border: 1px solid rgba(16,185,129,0.2);
+            margin: 0 auto 20px auto;
+            position: relative;
+        }
+        
+        .scanner-line {
+            position: absolute;
+            top: 10px; left: 15%; width: 70%; height: 2px;
+            background: #10b981;
+            box-shadow: 0 0 10px #10b981, 0 0 20px #10b981;
+            animation: scan 2s ease-in-out infinite alternate;
+            border-radius: 50%; opacity: 0.8;
+        }
+        @keyframes scan {
+            0% { top: 15px;  }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 65px;  }
+        }
+
+        /* Premium True Glass Button */
+        .btn-primary {
+            width: 100%; padding: 18px; border-radius: 20px;
+            background: linear-gradient(135deg, rgba(255, 122, 0, 0.95) 0%, rgba(249, 115, 22, 0.85) 100%);
+            backdrop-filter: blur(20px);
+            color: #ffffff; font-size: 18px; font-weight: 900;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            outline: none; transition: all 0.2s;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05), inset 0 2px 5px rgba(255, 255, 255, 0.4);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin-top: 24px;
+        }
+        .btn-primary:active { transform: scale(0.97); }
+
+        .btn-danger {
+            background: rgba(254, 226, 226, 0.6);
+            color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2);
+            box-shadow: none;
+        }
+        .btn-danger:active { transform: scale(0.97); background: rgba(254, 226, 226, 0.8); }
+
+        .icon-orb {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06), inset 0 2px 20px rgba(255,255,255,0.8);
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+        }
+
+        .icon-orb .material-symbols-outlined {
+            background: linear-gradient(135deg, #10b981, #059669);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 40px;
+            filter: drop-shadow(0 4px 8px rgba(16,185,129,0.3));
+        }
+
+        .glass-badge {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            padding: 10px 16px;
+            display: inline-flex; align-items: center; gap: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+    
+    
+
+
+    /* === ULTRA-FAST 0.15s NO-LAG GPU NATIVE ENTRANCE === */
+    @keyframes fastNativeEntrance {
+        0% { opacity: 0; transform: translateY(6px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    body {
+        animation: fastNativeEntrance 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+        will-change: opacity, transform;
+    }
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="custom-global-scrollbar">
+  /* Smooth, native-feeling scrollbar */
+  ::-webkit-scrollbar { width: 7px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 7px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.4); }
+
+  /* Perfectly aligned scrollbar buttons (Gray Triangles) */
+  ::-webkit-scrollbar-button:single-button {
+    background-color: transparent;
+    display: block;
+    height: 14px;
+    width: 7px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 7px 7px;
+  }
+  
+  /* Top Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:decrement {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDE3IDE5LDE3IDEwLDUnIGZpbGw9JyM2NDZlNzgnLz48L3N2Zz4=");
+  }
+  
+  /* Bottom Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:increment {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDMgMTksMyAxMCwxNScgZmlsbD0nIzY0NmU3OCcvPjwvc3ZnPg==");
+  }
+</style>
+</head>
+<body class="pb-28 pt-2 relative overflow-x-hidden text-slate-800" style="overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch;" style="background: transparent !important; background-color: transparent !important;">
+
+    <!-- Back Button (Static) -->
+    <div class="mb-4 mt-2 ml-2 flex-none relative z-50">
+        <button class="text-slate-500 hover:text-slate-900 bg-white/70 hover:bg-white/95 backdrop-blur-xl rounded-full shadow-[0_4px_15px_rgba(0,0,0,0.08)] border border-white/80 flex items-center p-2 transition-all duration-300 hover:scale-110 active:scale-95" onclick="window.parent.loadPage('security_glass/code.html', null)">
+            <span class="material-symbols-outlined text-[20px] ml-[-2px]">arrow_back_ios_new</span>
+        </button>
+    </div>
+    
+
+    
+
+    <div class="flex-1 flex flex-col justify-center pb-20"><div class="max-w-[400px] mx-auto px-6 relative z-10 w-full">
+        
+        <div class="glass-card mb-6">
+            
+            <div class="flex justify-center gap-6 mb-6">
+                <div class="icon-orb">
+                    <span class="material-symbols-outlined">fingerprint</span>
+                </div>
+                <div class="icon-orb">
+                    <span class="material-symbols-outlined">face</span>
+                </div>
+            </div>
+            
+            <h2 class="text-[24px] font-black tracking-tight text-slate-800 mb-2">Enhance Security</h2>
+            <p class="text-[13px] font-semibold text-slate-500 mb-6 px-2 leading-relaxed">Enable Touch ID or Face ID to lock the app. Without biometric authentication, no one can enter.</p>
+            
+            <div class="glass-badge">
+                <span class="material-symbols-outlined text-[20px] text-emerald-600">verified_user</span>
+                <span class="text-[12px] font-bold text-slate-700 uppercase tracking-widest">Bank-Grade Encryption</span>
+            </div>
+        </div>
+
+        <div id="action-container">
+            <!-- Dynamically filled by JS -->
+        </div>
+
+    </div>
+
+    </div><script>
+        function renderUI() {
+            const container = document.getElementById('action-container');
+            const isEnabled = localStorage.getItem('tpr_bio_enabled') === 'true';
+
+            if(isEnabled) {
+                container.innerHTML = `
+                    <div class="glass-card mb-6 p-4 flex items-start gap-4" style="background: rgba(255,255,255,0.7);">
+                        <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 shadow-inner">
+                            <span class="material-symbols-outlined text-[24px] text-emerald-600">shield_locked</span>
+                        </div>
+                        <div class="text-left pt-1">
+                            <p class="text-[15px] font-black text-slate-800">App Lock is Active</p>
+                            <p class="text-[12px] font-semibold text-slate-500 mt-1">Your app is protected. You will be asked to authenticate every time you open the app.</p>
+                        </div>
+                    </div>
+                    <button class="btn-primary btn-danger" onclick="disableBio()">
+                        Disable App Lock
+                        <span class="material-symbols-outlined text-[20px]">lock_open</span>
+                    </button>
+                `;
+            } else {
+                container.innerHTML = `
+                    <button class="btn-primary" onclick="enableBio()">
+                        Enable App Lock
+                        <span class="material-symbols-outlined text-[20px] font-bold">lock</span>
+                    </button>
+                `;
+            }
+        }
+
+        async function disableBio() {
+            const btn = document.querySelector('.btn-primary');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = `<span class="material-symbols-outlined animate-spin">sync</span> Authenticating...`;
+            btn.style.opacity = '0.8';
+
+            // Require biometric verification before disabling!
+            if (window.PublicKeyCredential) {
+                try {
+                    const publicKey = {
+                        challenge: new Uint8Array(32),
+                        rpId: window.location.hostname,
+                        userVerification: "required"
+                    };
+
+                    // Trigger OS Prompt to verify user (GET credential, not create)
+                    const credential = await navigator.credentials.get({ publicKey });
+                    
+                    if (credential) {
+                        localStorage.setItem('tpr_bio_enabled', 'false');
+                        renderUI();
+                        return;
+                    }
+                } catch (err) {
+                    console.error("Disable failed:", err);
+                    alert("Authentication required to disable App Lock. Or no matching passkey found on this device.");
+                }
+            } else {
+                // Fallback for devices without biometric support
+                setTimeout(() => {
+                    localStorage.setItem('tpr_bio_enabled', 'false');
+                    renderUI();
+                }, 800);
+                return;
+            }
+
+            // If failed or cancelled, reset button
+            btn.innerHTML = originalHTML;
+            btn.style.opacity = '1';
+        }
+
+        async function enableBio() {
+            const btn = document.querySelector('.btn-primary');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = `<span class="material-symbols-outlined animate-spin">sync</span> Authenticating...`;
+            btn.style.opacity = '0.8';
+
+            // GENUINE WebAuthn API to trigger native hardware biometric scanner!
+            if (window.PublicKeyCredential) {
+                try {
+                    const publicKey = {
+                        challenge: new Uint8Array(32),
+                        rp: { name: "TPR Security" },
+                        user: {
+                            id: new Uint8Array(16),
+                            name: "user@tpr.app",
+                            displayName: "TPR User"
+                        },
+                        pubKeyCredParams: [{ type: "public-key", alg: -7 }], // ECDSA
+                        authenticatorSelection: {
+                            authenticatorAttachment: "platform", // Forces built-in TouchID/FaceID
+                            userVerification: "required"
+                        },
+                        timeout: 60000,
+                        attestation: "none"
+                    };
+
+                    // This calls the OS Native Fingerprint/Face ID prompt!
+                    const credential = await navigator.credentials.create({ publicKey });
+                    
+                    if (credential) {
+                        localStorage.setItem('tpr_bio_enabled', 'true');
+                        renderUI();
+                        return;
+                    }
+                } catch (err) {
+                    console.error("Biometric failed:", err);
+                    alert("Biometric setup failed or was cancelled.");
+                }
+            } else {
+                alert("Your device or browser does not support Native Web Biometrics (WebAuthn).");
+            }
+            
+            // If failed or cancelled, reset button
+            btn.innerHTML = originalHTML;
+            btn.style.opacity = '1';
+        }
+
+        renderUI();
+    </script>
+</body>
+</html>

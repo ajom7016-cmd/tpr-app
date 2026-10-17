@@ -1,0 +1,705 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TPR AI Support</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@400,0,0,24" rel="stylesheet" />
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff !important;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff !important;
+            color: #1e293b;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            height: 100dvh;
+        }
+
+        /* Clean Header */
+        .glass-header {
+            background: #ffffff;
+            border-bottom: 1px solid #f1f5f9;
+            z-index: 50;
+            padding: 12px 16px;
+        }
+
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 16px 20px 16px;
+            scroll-behavior: smooth;
+            background-color: #ffffff;
+        }
+
+        .chat-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Message Styles */
+        .msg-bubble {
+            font-size: 15px;
+            line-height: 1.6;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .msg-ai {
+            background: transparent;
+            color: #1e293b;
+            max-width: 90%;
+            margin-right: auto;
+        }
+
+        .msg-user {
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 12px 18px;
+            border-radius: 24px;
+            border-top-right-radius: 4px;
+            margin-left: auto;
+            max-width: 85%;
+        }
+
+        /* AI Sparkle Icon */
+        /* AI Avatar Image */
+        .ai-avatar-img {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+            background: transparent;
+        }
+        
+        .ai-avatar-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transform: scale(1.3); /* Zoom in to hide whitespace edges */
+            filter: contrast(1.15) saturate(1.2); /* Enhance colors to prevent washout */
+        }
+
+        /* Typing Indicator (Gemini Wave Style) */
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            height: 24px;
+            padding-left: 4px;
+        }
+        .typing-dot {
+            width: 3.5px;
+            height: 3.5px;
+            background-color: #000000; /* Pure black as requested */
+            border-radius: 50%;
+            animation: gemini-wave 1.3s infinite ease-in-out;
+        }
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.18s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.36s; }
+        
+        @keyframes gemini-wave {
+            0%, 50%, 100% { 
+                transform: translateY(0); 
+                opacity: 0.3;
+            }
+            25% { 
+                transform: translateY(-6px); 
+                opacity: 1;
+            }
+        }
+
+        /* Input Area */
+        .input-area-wrapper {
+            padding: 10px 16px;
+            padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+            background: #ffffff;
+            border-top: 1px solid #f1f5f9;
+            flex-shrink: 0;
+            width: 100%;
+        }
+
+        .input-box {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 4px 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #e2e8f0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02), 0 2px 10px rgba(0,0,0,0.02);
+        }
+        .input-box:focus-within {
+            background: #ffffff;
+            border-color: #cbd5e1;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.01), 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        /* Message Actions */
+        .msg-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+            color: #64748b;
+        }
+        
+        .msg-actions span {
+            font-size: 18px;
+            cursor: pointer;
+            color: #94a3b8;
+            padding: 6px;
+            border-radius: 7px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            background: transparent;
+        }
+        .msg-actions span:hover {
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.08);
+            transform: translateY(-1px) scale(1.05);
+        }
+        .msg-actions span:active {
+            transform: scale(0.95);
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            background: transparent;
+        }
+        .icon-btn:hover {
+            background: #ffffff;
+            color: #0f172a;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            transform: scale(1.05);
+        }
+        .icon-btn:active {
+            transform: scale(0.95);
+        }
+
+        .chat-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px 4px;
+            font-size: 16px;
+            color: #0f172a;
+            outline: none;
+        }
+        
+        .chat-input::placeholder {
+            color: #64748b;
+        }
+
+        /* Image Preview Area */
+        .image-preview-container {
+            display: none;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            background: #f8fafc;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            width: max-content;
+        }
+        .image-preview-container img {
+            height: 60px;
+            border-radius: 7px;
+        }
+        .close-preview {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #475569;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        /* Recording Animation */
+        .recording .mic-icon {
+            color: #ef4444;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .send-btn-css {
+            display: none !important;
+            background-color: #a8c7fa !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .send-btn-css:hover {
+            background-color: #92b8f8 !important;
+            transform: scale(1.05);
+        }
+        .send-btn-css:active {
+            transform: scale(0.95);
+        }
+        .chat-input:not(:placeholder-shown) ~ div .send-btn-css {
+            display: flex !important;
+        }
+        .chat-input:not(:placeholder-shown) ~ div #mic-btn {
+            display: none !important;
+        }
+    </style>
+
+    <style id="custom-global-scrollbar">
+  /* Smooth, native-feeling scrollbar */
+  ::-webkit-scrollbar { width: 7px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.25); border-radius: 7px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.4); }
+
+  /* Perfectly aligned scrollbar buttons (Gray Triangles) */
+  ::-webkit-scrollbar-button:single-button {
+    background-color: transparent;
+    display: block;
+    height: 14px;
+    width: 7px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 7px 7px;
+  }
+  
+  /* Top Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:decrement {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDE3IDE5LDE3IDEwLDUnIGZpbGw9JyM2NDZlNzgnLz48L3N2Zz4=");
+  }
+  
+  /* Bottom Gray Triangle */
+  ::-webkit-scrollbar-button:single-button:vertical:increment {
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyMCAyMCc+PHBvbHlnb24gcG9pbnRzPScxLDMgMTksMyAxMCwxNScgZmlsbD0nIzY0NmU3OCcvPjwvc3ZnPg==");
+  }
+</style>
+</head>
+<body class="relative overflow-x-hidden text-slate-800" style="background-color: #ffffff !important; overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch;">
+
+    <!-- Back Button (Static) -->
+    <div class="mb-1 -ml-2 mt-2 flex-none relative z-50" style="padding-left: 1.25rem;">
+        <button class="text-slate-500 hover:text-slate-900 bg-white/70 hover:bg-white/95 backdrop-blur-xl rounded-full shadow-[0_4px_15px_rgba(0,0,0,0.08)] border border-white/80 flex items-center p-2 transition-all duration-300 hover:scale-110 active:scale-95" onclick="window.parent.loadPage('user_profile_premium_glass/code.html', null)">
+            <span class="material-symbols-outlined text-[20px] ml-[-2px]">arrow_back_ios_new</span>
+        </button>
+    </div>
+
+    <!-- Chat Area -->
+    <div class="chat-container" id="chat-box">
+        <div class="flex flex-col gap-6" id="messages-wrapper">
+            <!-- Initial AI Greeting -->
+            <div class="flex items-start gap-4">
+                <div class="ai-avatar-img">
+                    <img src="/assets/tpr-ai-logo.jpg" alt="TPR AI">
+                </div>
+                <div class="msg-bubble msg-ai pt-1">
+                    <div>Welcome to TPR AI! How can I help?</div>
+                    <div class="msg-actions mt-3">
+                        <span class="material-symbols-outlined" onclick="handleFeedback(this, 'up')">thumb_up</span>
+                        <span class="material-symbols-outlined" onclick="handleFeedback(this, 'down')">thumb_down</span>
+                        <span class="material-symbols-outlined" onclick="copyText(this, 'Welcome to TPR AI! How can I help?')">content_copy</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="input-area-wrapper relative">
+        <div class="image-preview-container" id="img-preview-box">
+            <img id="img-preview" src="">
+            <div class="close-preview" onclick="clearImage()">
+                <span class="material-symbols-outlined text-[14px]">close</span>
+            </div>
+        </div>
+        
+        <div class="input-box" id="input-box-container">
+            <div class="icon-btn" onclick="document.getElementById('file-upload').click()">
+                <span class="material-symbols-outlined text-[22px]">add</span>
+            </div>
+            <input type="file" id="file-upload" class="hidden" accept="image/*" onchange="handleImageUpload(event)">
+            
+            <input type="text" id="chat-input" class="chat-input peer" placeholder="Any questions?" autocomplete="off" onkeypress="handleKeyPress(event)">
+            
+            <div class="flex items-center shrink-0">
+                <div class="icon-btn" id="mic-btn" onclick="toggleVoice()">
+                    <span class="material-symbols-outlined mic-icon text-[22px]">mic</span>
+                </div>
+                <!-- This button is hidden by default via CSS when placeholder is shown, and shown when user types -->
+                <div class="icon-btn send-btn-css" id="send-btn" onclick="sendMessage()">
+                    <span class="material-symbols-outlined text-[20px]" style="color: #000000; font-weight: 500;">arrow_upward</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatBox = document.getElementById('chat-box');
+        const messagesWrapper = document.getElementById('messages-wrapper');
+        const chatInput = document.getElementById('chat-input');
+        const micBtn = document.getElementById('mic-btn');
+        const sendBtn = document.getElementById('send-btn');
+        const imgPreviewBox = document.getElementById('img-preview-box');
+        const imgPreview = document.getElementById('img-preview');
+        
+        let currentBase64Image = null;
+        let recognition = null;
+        let isRecording = false;
+
+        // Load Avatar
+        const savedPic = localStorage.getItem('userProfilePic');
+        if (savedPic) {
+            const userAvatar = document.getElementById('user-avatar');
+            const defaultAvatar = document.getElementById('default-avatar');
+            if (userAvatar) {
+                userAvatar.src = savedPic;
+                userAvatar.classList.remove('hidden');
+            }
+            if (defaultAvatar) {
+                defaultAvatar.classList.add('hidden');
+            }
+        }
+
+        // Web Speech API Setup
+        try {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'bn-BD'; // Bengali default
+                
+                recognition.onstart = function() {
+                    isRecording = true;
+                    micBtn.classList.add('recording');
+                    chatInput.placeholder = "Listening...";
+                };
+                
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    chatInput.value += (chatInput.value ? ' ' : '') + transcript;
+                    // Trigger input event to update UI
+                    chatInput.dispatchEvent(new Event('input'));
+                };
+                
+                recognition.onerror = function(event) {
+                    console.error("Speech error", event);
+                    stopRecording();
+                };
+                
+                recognition.onend = function() {
+                    stopRecording();
+                };
+            }
+        } catch(e) {
+            console.error("SpeechRecognition initialization failed:", e);
+        }
+
+        function toggleVoice() {
+            if (!recognition) {
+                alert("Voice recognition is not supported in this browser.");
+                return;
+            }
+            if (isRecording) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        }
+
+        function stopRecording() {
+            isRecording = false;
+            micBtn.classList.remove('recording');
+            chatInput.placeholder = "Ask Gemini";
+        }
+
+        function toggleSendIcon() {
+            if (currentBase64Image) {
+                sendBtn.style.setProperty('display', 'flex', 'important');
+            } else {
+                sendBtn.style.display = '';
+            }
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentBase64Image = e.target.result;
+                    imgPreview.src = currentBase64Image;
+                    imgPreviewBox.style.display = 'block';
+                    toggleSendIcon();
+                };
+                reader.readAsDataURL(file);
+            }
+            event.target.value = '';
+        }
+
+        function clearImage() {
+            currentBase64Image = null;
+            imgPreview.src = '';
+            imgPreviewBox.style.display = 'none';
+            toggleSendIcon();
+        }
+
+        function scrollToBottom() {
+            setTimeout(() => {
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 50);
+        }
+
+                let chatHistory = [];
+        try {
+            const saved = localStorage.getItem('tpr_ai_chat_history');
+            if (saved) {
+                chatHistory = JSON.parse(saved) || [];
+            }
+        } catch (e) {
+            console.error('Failed to parse chat history:', e);
+            localStorage.removeItem('tpr_ai_chat_history');
+        }
+
+        function saveChatHistory() {
+            localStorage.setItem('tpr_ai_chat_history', JSON.stringify(chatHistory));
+        }
+
+        function appendMessage(text, isUser, imgData = null, isRestoring = false) {
+            const msgDiv = document.createElement('div');
+            
+            if (isUser) {
+                msgDiv.className = 'flex justify-end';
+                let imgHtml = imgData ? `<img src="${imgData}" class="w-full max-w-[200px] rounded-lg mb-2 border border-slate-200">` : '';
+                msgDiv.innerHTML = `
+                <div class="msg-bubble msg-user">
+                    ${imgHtml}
+                    ${text}
+                </div>`;
+            } else {
+                msgDiv.className = 'flex items-start gap-4';
+                msgDiv.innerHTML = `
+                <div class="ai-avatar-img">
+                    <img src="/assets/tpr-ai-logo.jpg" alt="TPR AI">
+                </div>
+                <div class="msg-bubble msg-ai pt-1">
+                    <div class="formatted-text">${formatText(text)}</div>
+                    <div class="msg-actions mt-3">
+                        <span class="material-symbols-outlined" onclick="handleFeedback(this, 'up')">thumb_up</span>
+                        <span class="material-symbols-outlined" onclick="handleFeedback(this, 'down')">thumb_down</span>
+                        <span class="material-symbols-outlined" onclick="copyText(this, '${text.replace(/'/g, "\\'").replace(/\n/g, "\\\\n")}')">content_copy</span>
+                    </div>
+                </div>`;
+            }
+            
+            messagesWrapper.appendChild(msgDiv);
+            scrollToBottom();
+
+            if (!isRestoring) {
+                chatHistory.push({text, isUser, imgData});
+                saveChatHistory();
+            }
+        }
+
+        function formatText(text) {
+            if (!text) return "";
+            return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                       .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                       .replace(/\n/g, '<br>');
+        }
+
+        function copyText(el, text) {
+            try {
+                navigator.clipboard.writeText(text);
+                const icon = el;
+                icon.innerText = 'check';
+                icon.style.color = '#10b981'; // Green
+                setTimeout(() => {
+                    icon.innerText = 'content_copy';
+                    icon.style.color = '';
+                }, 2000);
+            } catch(e) {
+                showToast("Copy failed");
+            }
+        }
+
+        function showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'flex items-start gap-4';
+            typingDiv.id = 'typing-indicator-wrapper';
+            typingDiv.innerHTML = `
+                <div class="ai-avatar-img">
+                    <img src="/assets/tpr-ai-logo.jpg" alt="TPR AI">
+                </div>
+                <div class="msg-bubble msg-ai pt-3">
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            messagesWrapper.appendChild(typingDiv);
+            scrollToBottom();
+        }
+
+        function removeTyping() {
+            const typingIndicator = document.getElementById('typing-indicator-wrapper');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+        
+        function handleFeedback(btn, type) {
+            const container = btn.parentElement;
+            const upBtn = container.querySelector('span:nth-child(1)');
+            const downBtn = container.querySelector('span:nth-child(2)');
+            
+            upBtn.style.color = '';
+            downBtn.style.color = '';
+            
+            if (type === 'up') {
+                btn.style.color = '#3b82f6';
+            } else {
+                btn.style.color = '#ef4444';
+            }
+            
+            btn.style.transform = 'scale(1.1)';
+            setTimeout(() => btn.style.transform = '', 200);
+            showToast('Thanks for your feedback!');
+        }
+
+        
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.style.position = 'fixed';
+            toast.style.bottom = '80px';
+            toast.style.left = '50%';
+            toast.style.transform = 'translateX(-50%)';
+            toast.style.background = 'rgba(0,0,0,0.8)';
+            toast.style.color = 'white';
+            toast.style.padding = '8px 16px';
+            toast.style.borderRadius = '20px';
+            toast.style.zIndex = '9999';
+            toast.style.fontSize = '12px';
+            toast.innerText = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        async function sendMessage() {
+            try {
+                const text = chatInput.value.trim();
+                const imgToSend = currentBase64Image;
+                
+                if (!text && !imgToSend) return;
+
+                // 1. Show user message
+                appendMessage(text, true, imgToSend);
+                
+                // Clear inputs
+                chatInput.value = '';
+                clearImage();
+                
+                // 2. Show typing indicator
+                showTyping();
+
+                // 3. Send to backend
+                const token = localStorage.getItem('userToken');
+                const payload = { message: text };
+                if (imgToSend) {
+                    payload.imageBase64 = imgToSend;
+                }
+
+                const response = await fetch('/api/support/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+                
+                removeTyping();
+                
+                if (response.ok && data.reply) {
+                    appendMessage(data.reply, false);
+                } else {
+                    appendMessage("I'm sorry, our AI service is currently down. Please try again later.", false);
+                }
+            } catch (err) {
+                removeTyping();
+                appendMessage("Network error. Please check your connection.", false);
+                showToast("Error: " + err.message);
+            }
+        }
+
+        // Attach event listeners directly in JS to guarantee execution
+        window.sendMessage = sendMessage;
+        window.copyText = copyText;
+        
+        sendBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            sendMessage();
+        });
+        
+        micBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleVoice();
+        });
+
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        // Restore chat history on load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (chatHistory && chatHistory.length > 0) {
+                chatHistory.forEach(msg => {
+                    appendMessage(msg.text, msg.isUser, msg.imgData, true);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
