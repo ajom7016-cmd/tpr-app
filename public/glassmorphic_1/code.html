@@ -187,14 +187,28 @@
         will-change: opacity, transform;
     }
 
-            /* Pure Hardware-Accelerated Marquee Track */
+    /* Pure Hardware-Accelerated Marquee Track */
+    @keyframes noticeMarquee {
+        0% { transform: translateX(0%); }
+        100% { transform: translateX(-50%); }
+    }
     .notice-marquee-track {
         display: inline-flex !important;
-        width: max-content !important;
+        align-items: center !important;
         white-space: nowrap !important;
         will-change: transform;
+        animation: noticeMarquee 25s linear infinite !important;
     }
-
+    .notice-marquee-track:hover {
+        animation-play-state: paused !important;
+    }
+    .notice-item {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        padding-right: 28px !important;
+        flex-shrink: 0 !important;
+    }
     .notice-glass-bar {
         border-radius: 18px;
         transform: translateZ(0);
@@ -763,8 +777,8 @@
             const modalText = document.getElementById('notice-modal-text');
             if (modalText) modalText.innerText = currentNoticeText;
             if (container && track) {
-                const itemHtml = `<div class="flex items-center gap-4 shrink-0"><span class="text-[13px] font-semibold text-slate-700">${currentNoticeText}</span><span class="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span></div>`;
-                track.innerHTML = itemHtml.repeat(4);
+                const itemHtml = `<div class="notice-item" style="display:inline-flex; align-items:center; gap:12px; padding-right:28px; flex-shrink:0;"><span style="font-size:13px; font-weight:600; color:#334155; white-space:nowrap;">${currentNoticeText}</span><span style="width:6px; height:6px; border-radius:50%; background-color:#f59e0b; display:inline-block; flex-shrink:0;"></span></div>`;
+                track.innerHTML = itemHtml.repeat(6);
                 container.classList.remove('hidden');
             }
         }

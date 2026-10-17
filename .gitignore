@@ -18,6 +18,15 @@ direct_*.png
 test_*.png
 mingit/
 
+# Whitelist public web assets
+!public/assets/**
+!public/*.png
+!public/*.jpg
+!public/*.jpeg
+!public/*.ico
+!public/*.svg
+public/assets/backup_originals/
+
 # Exclude scratch & testing scripts
 test*.js
 test_*.js
