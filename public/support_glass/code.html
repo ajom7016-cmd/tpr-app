@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <link rel="stylesheet" href="/assets/tailwind-compiled.css?v=3.1.0">
@@ -662,11 +662,11 @@
                 if (response.ok && data.reply) {
                     appendMessage(data.reply, false);
                 } else {
-                    appendMessage("I'm sorry, our AI service is currently down. Please try again later.", false);
+                    appendMessage("দুঃখিত, রোবটের সাথে সংযোগে সাময়িক সমস্যা হয়েছে। অনুগ্রহ করে আবার প্রশ্নটি পাঠান।", false);
                 }
             } catch (err) {
                 removeTyping();
-                appendMessage("Network error. Please check your connection.", false);
+                appendMessage("ইন্টারনেট সংযোগে সমস্যা হচ্ছে। আপনার কানেকশন চেক করুন।", false);
                 showToast("Error: " + err.message);
             }
         }

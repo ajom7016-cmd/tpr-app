@@ -8,6 +8,7 @@ const compression = require('compression');
 const db = require('./database');
 const nodemailer = require('nodemailer');
 const { GoogleGenAI } = require('@google/genai');
+const localAi = require('./ai_model');
 
 // High-Concurrency API Key Rotation System from Environment Variables
 const rawKeys = process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "AIzaSy_TPR_DEFAULT_SECURE_KEY";
@@ -915,65 +916,44 @@ app.post('/api/support/chat', authenticateToken, async (req, res) => {
     const { message, imageBase64 } = req.body;
     if (!message && !imageBase64) return res.status(400).json({ error: 'Message or image is required' });
 
-    let contents = [];
-    if (imageBase64) {
-        const match = imageBase64.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*?,(.*)/);
-        if (match && match.length === 3) {
-            contents.push({
-                inlineData: { mimeType: match[1], data: match[2] }
-            });
-        }
-    }
-    if (message) contents.push(message);
-
-    let success = false;
-    let retries = 3; // Try up to 3 times before giving up
-    
-    // Concurrent processing with retry mechanism
-    while(retries > 0 && !success) {
+    // 1. Try Gemini if available
+    const hasRealKey = process.env.GEMINI_API_KEYS || (process.env.GEMINI_API_KEY && !process.env.GEMINI_API_KEY.includes('DEFAULT'));
+    if (hasRealKey) {
         try {
+            let contents = [];
+            if (imageBase64) {
+                const match = imageBase64.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*?,(.*)/);
+                if (match && match.length === 3) {
+                    contents.push({
+                        inlineData: { mimeType: match[1], data: match[2] }
+                    });
+                }
+            }
+            if (message) contents.push(message);
+
             const ai = getAiClient();
-            
-            // Allow up to 15 seconds (Generative AI often takes 5-10s under load)
-            const createTimeout = () => new Promise((_, reject) => 
-                setTimeout(() => reject(new Error('Timeout_Exceeded')), 45000)
-            );
-            
-            let response;
-            try {
-                response = await Promise.race([
-                    ai.models.generateContent({
-                        model: 'gemini-flash-lite-latest',
-                        contents: contents,
-                        config: { systemInstruction: SYSTEM_PROMPT, temperature: 0.7 }
-                    }),
-                    createTimeout()
-                ]);
-            } catch (primaryErr) {
-                console.log("gemini-flash-latest failed, falling back to gemini-flash-lite-latest...", primaryErr.message);
-                response = await Promise.race([
-                    ai.models.generateContent({
-                        model: 'gemini-flash-latest',
-                        contents: contents,
-                        config: { systemInstruction: SYSTEM_PROMPT, temperature: 0.7 }
-                    }),
-                    createTimeout()
-                ]);
+            const createTimeout = () => new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout_Exceeded')), 8000));
+
+            const response = await Promise.race([
+                ai.models.generateContent({
+                    model: 'gemini-flash-lite-latest',
+                    contents: contents,
+                    config: { systemInstruction: SYSTEM_PROMPT, temperature: 0.7 }
+                }),
+                createTimeout()
+            ]);
+
+            if (response && response.text) {
+                return res.json({ reply: response.text });
             }
-            
-            res.json({ reply: response.text });
-            success = true;
         } catch (error) {
-            console.error(`Gemini API Error (Retries left: ${retries - 1}):`, error.message);
-            retries--;
-            if (retries === 0) {
-                res.json({ reply: "I am sorry, our AI assistant is experiencing high traffic right now. Please try again in 1-2 minutes." });
-            } else {
-                // Wait for a random short delay (1-3 seconds) before retrying to prevent hammering the API
-                await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
-            }
+            console.log("Gemini API unavailable or timed out, seamlessly using 24/7 offline TPR AI engine...", error.message);
         }
     }
+
+    // 2. Guaranteed 24/7 Zero-Downtime Offline AI Robot Engine (Instant Bengali response)
+    const reply = localAi.getReply(message || '');
+    return res.json({ reply });
 });
 
 // Start Server
@@ -1220,4 +1200,15 @@ app.delete('/api/admin/users/:id', authenticateToken, (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
+
+    // 24/7 Keep-Alive Self-Ping Engine (Keeps Render cloud instance alive without sleeping)
+    const APP_URL = process.env.RENDER_EXTERNAL_URL || 'https://thepetroyal.com';
+    setInterval(() => {
+        try {
+            const https = require('https');
+            https.get(`${APP_URL}/api/settings`, (res) => {
+                // Heartbeat ping successful
+            }).on('error', () => {});
+        } catch(e) {}
+    }, 10 * 60 * 1000); // Ping every 10 minutes
 });
