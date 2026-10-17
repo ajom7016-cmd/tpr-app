@@ -167,9 +167,7 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    
-    
-
+        }
 
     /* === ULTRA-FAST 0.15s NO-LAG GPU NATIVE ENTRANCE === */
     @keyframes fastNativeEntrance {
@@ -431,8 +429,8 @@
                 <div class="flex items-center justify-center w-7 h-7 rounded-[11px] bg-gradient-to-tr from-amber-500 to-orange-500 text-white shrink-0 shadow-[0_3px_10px_rgba(245,158,11,0.35)]">
                     <span class="material-symbols-outlined text-[17px]">campaign</span>
                 </div>
-                <div class="relative overflow-hidden w-full select-none">
-                    <div id="notice-marquee-track" class="notice-marquee-track whitespace-nowrap">
+                <div class="relative overflow-hidden w-full select-none" style="overflow: hidden !important; width: 100% !important;">
+                    <div id="notice-marquee-track" class="notice-marquee-track" style="display: flex !important; flex-direction: row !important; flex-wrap: nowrap !important; width: max-content !important; align-items: center !important; white-space: nowrap !important;">
                         <!-- Populated dynamically -->
                     </div>
                 </div>
@@ -776,7 +774,7 @@
             const modalText = document.getElementById('notice-modal-text');
             if (modalText) modalText.innerText = currentNoticeText;
             if (container && track) {
-                const itemHtml = `<div class="notice-item"><span style="font-size:13px; font-weight:600; color:#334155; white-space:nowrap;">${currentNoticeText}</span><span style="width:6px; height:6px; border-radius:50%; background-color:#f59e0b; display:inline-block; flex-shrink:0;"></span></div>`;
+                const itemHtml = `<div class="notice-item" style="display: inline-flex !important; flex-direction: row !important; align-items: center !important; gap: 12px !important; padding-right: 36px !important; flex-shrink: 0 !important; white-space: nowrap !important;"><span style="font-size: 13px; font-weight: 600; color: #334155; white-space: nowrap !important;">${currentNoticeText}</span><span style="width: 6px; height: 6px; border-radius: 50%; background-color: #f59e0b; display: inline-block !important; flex-shrink: 0 !important;"></span></div>`;
                 track.innerHTML = itemHtml.repeat(8);
                 container.classList.remove('hidden');
             }
