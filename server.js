@@ -1057,6 +1057,11 @@ app.get('/api/settings', (req, res) => {
         if (err) return res.status(500).json({ error: 'Database error' });
         const settings = {};
         if (rows) rows.forEach(r => settings[r.key] = r.value);
+        if (!settings.notice_text) {
+            settings.notice_text = "স্বাগতম TPR App এ! বেশি ইনকামের জন্য আজই VIP আপগ্রেড করুন।";
+        } else {
+            settings.notice_text = settings.notice_text.replace(/JMJ/gi, 'TPR');
+        }
         res.json(settings);
     });
 });

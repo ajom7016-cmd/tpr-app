@@ -181,26 +181,31 @@
         will-change: opacity, transform;
     }
 
-    /* Pure Hardware-Accelerated Marquee Track */
-    @keyframes noticeMarquee {
-        0% { transform: translateX(0%); }
-        100% { transform: translateX(-50%); }
+    /* Pure Hardware-Accelerated Infinite Marquee Track */
+    @keyframes marqueeScroll {
+        0% { transform: translate3d(0, 0, 0); }
+        100% { transform: translate3d(-50%, 0, 0); }
+    }
+    @-webkit-keyframes marqueeScroll {
+        0% { -webkit-transform: translate3d(0, 0, 0); }
+        100% { -webkit-transform: translate3d(-50%, 0, 0); }
     }
     .notice-marquee-track {
-        display: inline-flex !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        width: max-content !important;
         align-items: center !important;
         white-space: nowrap !important;
         will-change: transform;
-        animation: noticeMarquee 25s linear infinite !important;
-    }
-    .notice-marquee-track:hover {
-        animation-play-state: paused !important;
+        animation: marqueeScroll 22s linear infinite !important;
+        -webkit-animation: marqueeScroll 22s linear infinite !important;
     }
     .notice-item {
         display: inline-flex !important;
         align-items: center !important;
         gap: 12px !important;
-        padding-right: 28px !important;
+        padding-right: 36px !important;
         flex-shrink: 0 !important;
     }
     .notice-glass-bar {
@@ -739,8 +744,8 @@
                         <span class="material-symbols-outlined text-[24px]">campaign</span>
                     </div>
                     <div>
-                        <h3 class="text-[17px] font-black text-slate-900 tracking-tight">à¦œà¦°à§à¦°à¦¿ à¦¨à§‹à¦Ÿà¦¿à¦¶</h3>
-                        <p class="text-[11px] text-slate-500 font-bold">à¦…à¦«à¦¿à¦¸à¦¿à¦¯à¦¼à¦¾à¦² à¦¬à¦¾à¦°à§à¦¤à¦¾</p>
+                        <h3 class="text-[17px] font-black text-slate-900 tracking-tight">জরুরি নোটিশ</h3>
+                        <p class="text-[11px] text-slate-500 font-bold">অফিসিয়াল বার্তা</p>
                     </div>
                 </div>
                 <button onclick="closeNoticeModal()" class="w-8 h-8 rounded-full bg-white/70 hover:bg-white border border-white shadow-sm flex items-center justify-center text-slate-600 transition-colors">
@@ -751,7 +756,7 @@
                 <p id="notice-modal-text" class="text-slate-800 text-[14px] leading-relaxed whitespace-pre-wrap font-bold"></p>
             </div>
             <button onclick="closeNoticeModal()" class="mt-2 w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#ff4d4d] to-[#ff8a3d] text-white font-bold text-[14px] shadow-lg shadow-orange-500/30 active:scale-[0.98] transition-transform">
-                à¦¬à§à¦à§‡à¦›à¦¿
+                বুঝেছি
             </button>
         </div>
     </div>
@@ -765,14 +770,14 @@
                 if (container) container.classList.add('hidden');
                 return;
             }
-            currentNoticeText = text.trim();
+            currentNoticeText = text.replace(/JMJ/gi, 'TPR').trim();
             const container = document.getElementById('notice-container');
             const track = document.getElementById('notice-marquee-track');
             const modalText = document.getElementById('notice-modal-text');
             if (modalText) modalText.innerText = currentNoticeText;
             if (container && track) {
-                const itemHtml = `<div class="notice-item" style="display:inline-flex; align-items:center; gap:12px; padding-right:28px; flex-shrink:0;"><span style="font-size:13px; font-weight:600; color:#334155; white-space:nowrap;">${currentNoticeText}</span><span style="width:6px; height:6px; border-radius:50%; background-color:#f59e0b; display:inline-block; flex-shrink:0;"></span></div>`;
-                track.innerHTML = itemHtml.repeat(6);
+                const itemHtml = `<div class="notice-item"><span style="font-size:13px; font-weight:600; color:#334155; white-space:nowrap;">${currentNoticeText}</span><span style="width:6px; height:6px; border-radius:50%; background-color:#f59e0b; display:inline-block; flex-shrink:0;"></span></div>`;
+                track.innerHTML = itemHtml.repeat(8);
                 container.classList.remove('hidden');
             }
         }

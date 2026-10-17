@@ -49,10 +49,8 @@
 <!-- Added Libraries for Global Header -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL,GRAD,opsz@100..700,0..1,0,24&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet"/>
@@ -492,11 +490,7 @@
 <script>
     (function() {
         try {
-            var isLoggingIn = sessionStorage.getItem('tpr_just_logged_in') === 'true';
-            var ov = document.getElementById('login-welcome-overlay');
-            if (!isLoggingIn && ov) {
-                ov.style.display = 'none';
-            }
+            sessionStorage.removeItem('tpr_just_logged_in');
         } catch(e) {}
     })();
 </script>
@@ -733,7 +727,18 @@
     document.addEventListener('webkitfullscreenchange', updateFullscreenIcon);
     document.addEventListener('mozfullscreenchange', updateFullscreenIcon);
 
-    function dismissAppCurtain() {}
+    function dismissAppCurtain() {
+        var ov = document.getElementById('login-welcome-overlay');
+        if (ov && ov.style.display !== 'none' && ov.style.opacity !== '0') {
+            ov.style.transition = 'opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)';
+            ov.style.opacity = '0';
+            ov.style.pointerEvents = 'none';
+            setTimeout(function() {
+                ov.style.display = 'none';
+            }, 260);
+        }
+    }
+    setTimeout(dismissAppCurtain, 1200);
 
     function styleFrame(frame) {
         try {
