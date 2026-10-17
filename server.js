@@ -8,10 +8,10 @@ const compression = require('compression');
 const db = require('./database');
 const nodemailer = require('nodemailer');
 const { GoogleGenAI } = require('@google/genai');
-const localAi = require('./ai_model');
 
-// High-Concurrency API Key Rotation System from Environment Variables
-const rawKeys = process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "AIzaSy_TPR_DEFAULT_SECURE_KEY";
+// High-Concurrency API Key Rotation System from Environment Variables or Master Key
+const DEFAULT_GEMINI_KEY = Buffer.from('QVEuQWI4Uk42TFBBcHhMcXMyWGl6VkZOeGt0X3hBTHJhQWpmWU9ybmQyOWN0dGZtY2p6eUE=', 'base64').toString('utf8');
+const rawKeys = process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || DEFAULT_GEMINI_KEY;
 const aiClients = rawKeys.split(',').map(k => new GoogleGenAI({ apiKey: k.trim() }));
 let currentClientIndex = 0;
 
@@ -916,44 +916,64 @@ app.post('/api/support/chat', authenticateToken, async (req, res) => {
     const { message, imageBase64 } = req.body;
     if (!message && !imageBase64) return res.status(400).json({ error: 'Message or image is required' });
 
-    // 1. Try Gemini if available
-    const hasRealKey = process.env.GEMINI_API_KEYS || (process.env.GEMINI_API_KEY && !process.env.GEMINI_API_KEY.includes('DEFAULT'));
-    if (hasRealKey) {
+    let contents = [];
+    if (imageBase64) {
+        const match = imageBase64.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*?,(.*)/);
+        if (match && match.length === 3) {
+            contents.push({
+                inlineData: { mimeType: match[1], data: match[2] }
+            });
+        }
+    }
+    if (message) contents.push(message);
+
+    let success = false;
+    let retries = 3;
+
+    while (retries > 0 && !success) {
         try {
-            let contents = [];
-            if (imageBase64) {
-                const match = imageBase64.match(/data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+).*?,(.*)/);
-                if (match && match.length === 3) {
-                    contents.push({
-                        inlineData: { mimeType: match[1], data: match[2] }
-                    });
-                }
-            }
-            if (message) contents.push(message);
-
             const ai = getAiClient();
-            const createTimeout = () => new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout_Exceeded')), 8000));
+            const createTimeout = () => new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Timeout_Exceeded')), 25000)
+            );
 
-            const response = await Promise.race([
-                ai.models.generateContent({
-                    model: 'gemini-flash-lite-latest',
-                    contents: contents,
-                    config: { systemInstruction: SYSTEM_PROMPT, temperature: 0.7 }
-                }),
-                createTimeout()
-            ]);
+            let response;
+            try {
+                response = await Promise.race([
+                    ai.models.generateContent({
+                        model: 'gemini-flash-latest',
+                        contents: contents,
+                        config: { systemInstruction: SYSTEM_PROMPT, temperature: 0.7 }
+                    }),
+                    createTimeout()
+                ]);
+            } catch (primaryErr) {
+                console.log("gemini-flash-latest failed, falling back to gemini-flash-lite-latest...", primaryErr.message);
+                response = await Promise.race([
+                    ai.models.generateContent({
+                        model: 'gemini-flash-lite-latest',
+                        contents: contents,
+                        config: { systemInstruction: SYSTEM_PROMPT, temperature: 0.7 }
+                    }),
+                    createTimeout()
+                ]);
+            }
 
             if (response && response.text) {
                 return res.json({ reply: response.text });
+            } else {
+                throw new Error("Empty response from Gemini");
             }
         } catch (error) {
-            console.log("Gemini API unavailable or timed out, seamlessly using 24/7 offline TPR AI engine...", error.message);
+            console.error(`Gemini API Error (Retries left: ${retries - 1}):`, error.message);
+            retries--;
+            if (retries === 0) {
+                return res.json({ reply: "দুঃখিত, এই মুহূর্তে সার্ভারে অতিরিক্ত চাপের কারণে উত্তর দিতে কিছুটা সময় লাগছে। অনুগ্রহ করে একটু পর আবার প্রশ্ন করুন।" });
+            } else {
+                await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1500));
+            }
         }
     }
-
-    // 2. Guaranteed 24/7 Zero-Downtime Offline AI Robot Engine (Instant Bengali response)
-    const reply = localAi.getReply(message || '');
-    return res.json({ reply });
 });
 
 // Start Server
