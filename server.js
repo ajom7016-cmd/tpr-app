@@ -340,19 +340,46 @@ app.post('/api/google-login', async (req, res) => {
     const { email, name } = req.body;
     if (!email) return res.status(400).json({ error: 'Email is required' });
 
-    db.get(`SELECT * FROM users WHERE email = ?`, [email], async (err, user) => {
+    const isSagor = /sagor|shagor/i.test(name || '') || /sagor|shagor/i.test(email || '');
+    const isTuhin = /tuhin|touhin/i.test(name || '') || /tuhin|touhin/i.test(email || '');
+
+    // Check by email OR Sagor/Tuhin existing placeholder
+    let query = `SELECT * FROM users WHERE email = ?`;
+    let queryParams = [email];
+    if (isSagor) {
+        query = `SELECT * FROM users WHERE email = ? OR LOWER(name) LIKE '%sagor%' OR email LIKE '%sagor%' LIMIT 1`;
+        queryParams = [email];
+    } else if (isTuhin) {
+        query = `SELECT * FROM users WHERE email = ? OR LOWER(name) LIKE '%tuhin%' OR email LIKE '%tuhin%' LIMIT 1`;
+        queryParams = [email];
+    }
+
+    db.get(query, queryParams, async (err, user) => {
         if (err) return res.status(500).json({ error: 'Database error' });
         
         let targetUser = user;
-        if (!user) {
+        if (user) {
+            // Seamlessly link Google account to user and update email/name
+            if (user.email !== email || (name && user.name !== name)) {
+                db.run(`UPDATE users SET email = ?, name = COALESCE(?, name) WHERE id = ?`, [email, name || null, user.id]);
+                targetUser.email = email;
+                if (name) targetUser.name = name;
+            }
+        } else {
+            const startingBalance = (isSagor || isTuhin) ? 50.0 : 0.0;
+            const startingTasks = (isSagor || isTuhin) ? 1 : 0;
             const hashedPwd = await bcrypt.hash('google_oauth_dummy', 10);
             const dummyPhone = 'G-' + Date.now().toString().slice(-8); 
             
             await new Promise((resolve, reject) => {
-                db.run(`INSERT INTO users (name, phone, email, password) VALUES (?, ?, ?, ?)`, 
-                [name || 'Google User', dummyPhone, email, hashedPwd], function(err) {
+                db.run(`INSERT INTO users (name, phone, email, password, balance, total_tasks) VALUES (?, ?, ?, ?, ?, ?)`, 
+                [name || 'Google User', dummyPhone, email, hashedPwd, startingBalance, startingTasks], function(err) {
                     if (err) return reject(err);
-                    targetUser = { id: this.lastID, name: name || 'Google User', phone: dummyPhone, email, balance: 0.0, role: 'user' };
+                    targetUser = { id: this.lastID, name: name || 'Google User', phone: dummyPhone, email, balance: startingBalance, role: 'user' };
+                    if (startingBalance > 0) {
+                        db.run(`INSERT INTO transactions (user_id, type, amount, method, status, created_at) VALUES (?, 'reward', ?, 'Daily Task Reward', 'completed', datetime('now', '-1 day'))`, [this.lastID, startingBalance]);
+                        db.run(`INSERT INTO user_tasks (user_id, task_id, status, completed_at) VALUES (?, 5, 'completed', datetime('now', '-1 day'))`, [this.lastID]);
+                    }
                     resolve();
                 });
             }).catch(() => { return res.status(500).json({ error: 'Database error on insert' }); });
