@@ -110,12 +110,10 @@
 <style>
     /* Instant Zero-FOUC Hardware Lock */
     .hidden, [hidden] { display: none !important; }
-    #crop-modal { display: none !important; }
-    #header-pic-upload { display: none !important; }
+    #crop-modal.hidden { display: none !important; }
+    #header-pic-upload { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
     #header-profile-img.hidden { display: none !important; }
     #search-input-container { opacity: 0; pointer-events: none; }
-    .opacity-0 { opacity: 0 !important; }
-    .pointer-events-none { pointer-events: none !important; }
 
     /* === HARDWARE-ACCELERATED TRANSITION SPINNER (Zero Freeze) === */
     @keyframes smoothGpuSpin {
@@ -539,11 +537,11 @@
                 <div id="fullscreen-btn" class="w-[34px] h-[34px] rounded-full bg-white/80 shadow-sm flex items-center justify-center text-slate-700 border border-white cursor-pointer hover:bg-white transition-all duration-300" onclick="toggleAppFullscreen(event)" title="Fullscreen">
                     <span id="fullscreen-icon" class="material-symbols-outlined text-[20px]" style="font-weight: 600;">fullscreen</span>
                 </div>
-                <div class="relative cursor-pointer group" onclick="document.getElementById('header-pic-upload').click()">
+                <label for="header-pic-upload" class="relative cursor-pointer group block" title="Profile Picture">
                     <!-- Avatar Circle -->
                     <div class="w-[36px] h-[36px] rounded-full shadow-sm border-2 border-white bg-[#2f3542] flex items-center justify-center overflow-hidden relative">
                         <!-- Uploaded Image (Hidden by default) -->
-                        <img id="header-profile-img" style="display: none !important;" src="" class="w-full h-full rounded-full object-cover bg-white hidden z-20 relative">
+                        <img id="header-profile-img" src="" class="w-full h-full rounded-full object-cover bg-white hidden z-20 relative">
                         <!-- Default Person Silhouette -->
                         <svg class="absolute -bottom-0.5 w-8 h-8 text-slate-400 z-10" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                         <!-- Camera Icon Overlay -->
@@ -553,14 +551,14 @@
                     </div>
                     <!-- Green Status Dot -->
                     <div class="absolute bottom-0 right-0 w-[12px] h-[12px] bg-green-500 border-2 border-white rounded-full z-30 shadow-sm"></div>
-                </div>
-                <input type="file" id="header-pic-upload" style="display: none !important;" class="hidden" accept="image/*">
+                    <input type="file" id="header-pic-upload" class="sr-only" style="position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;" accept="image/*">
+                </label>
             </div>
         </div>
     </header>
 
     <!-- Global Image Crop Modal -->
-    <div id="crop-modal" style="display: none !important;" class="absolute inset-0 z-[110] hidden flex-col bg-[#0b0f19]/95 backdrop-blur-2xl transition-all duration-300 opacity-0 scale-95 font-['Outfit']">
+    <div id="crop-modal" class="absolute inset-0 z-[110] hidden flex-col bg-[#0b0f19]/95 backdrop-blur-2xl transition-all duration-300 opacity-0 scale-95 font-['Outfit']">
         <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-orange-500/20 rounded-full blur-[100px] pointer-events-none"></div>
         <div class="absolute bottom-0 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none"></div>
         <div class="h-20 w-full flex items-center justify-between px-6 z-[120] relative">
@@ -1085,8 +1083,10 @@
         const savedPic = localStorage.getItem('userProfilePic');
         if (savedPic) {
             const img = document.getElementById('header-profile-img');
-            img.src = savedPic;
-            img.classList.remove('hidden');
+            if (img) {
+                img.src = savedPic;
+                img.classList.remove('hidden');
+            }
         }
 
         // --- Cropper JS Logic ---
@@ -1096,116 +1096,171 @@
         const cropImage = document.getElementById('crop-image');
         const zoomSlider = document.getElementById('zoom-slider');
 
-        document.getElementById('header-pic-upload').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    // Hide parent bottom nav
-                    document.querySelector('.bottom-nav').style.display = 'none';
-                    
-                    // Show modal with animation
-                    cropModal.style.display = 'flex';
-                    cropModal.classList.remove('hidden');
-                    setTimeout(() => {
-                        cropModal.classList.remove('opacity-0', 'scale-95');
-                        cropModal.classList.add('opacity-100', 'scale-100', 'flex');
-                    }, 10);
-                    
-                    // Set image and init cropper
-                    cropImage.src = e.target.result;
-                    zoomSlider.value = 0;
-                    
-                    if (cropper) cropper.destroy();
-                    
-                    setTimeout(() => {
-                        cropper = new Cropper(cropImage, {
-                            aspectRatio: 1, viewMode: 1, dragMode: 'move', autoCropArea: 0.95,
-                            restore: false, modal: true, guides: false, highlight: false,
-                            cropBoxMovable: false, cropBoxResizable: false, toggleDragModeOnDblclick: false,
-                            background: false,
-                            ready() {
-                                const cropBoxData = cropper.getCropBoxData();
-                                minZoom = cropBoxData.width / cropper.getImageData().naturalWidth;
-                                cropper.zoomTo(minZoom);
-                            }
+        function applyProfilePic(base64Pic) {
+            if (!base64Pic) return;
+            const img = document.getElementById('header-profile-img');
+            if (img) {
+                img.src = base64Pic;
+                img.classList.remove('hidden');
+            }
+            try {
+                localStorage.setItem('userProfilePic', base64Pic);
+            } catch(e) {}
+
+            // Broadcast to all active iframes
+            document.querySelectorAll('.app-frame').forEach(f => {
+                try {
+                    if (f && f.contentWindow) {
+                        f.contentWindow.postMessage({ type: 'profilePicUpdated', src: base64Pic }, '*');
+                        f.contentWindow.postMessage({ type: 'UPDATE_AVATAR', src: base64Pic }, '*');
+                    }
+                } catch(err) {}
+            });
+        }
+
+        const picInput = document.getElementById('header-pic-upload');
+        if (picInput) {
+            picInput.addEventListener('change', function(event) {
+                const file = event.target.files && event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const resultUrl = e.target.result;
+                        const bNav = document.querySelector('.bottom-nav');
+                        if (bNav) bNav.style.display = 'none';
+
+                        cropModal.classList.remove('hidden');
+                        cropModal.classList.add('flex');
+                        requestAnimationFrame(() => {
+                            cropModal.classList.remove('opacity-0', 'scale-95');
+                            cropModal.classList.add('opacity-100', 'scale-100');
                         });
-                    }, 50);
-                };
-                reader.readAsDataURL(file);
-            }
-            event.target.value = '';
-        });
 
-        zoomSlider.addEventListener('input', function(e) {
-            if (!cropper) return;
-            const val = parseInt(e.target.value);
-            const maxZoom = minZoom * 3;
-            const currentRatio = minZoom + ((val / 100) * (maxZoom - minZoom));
-            cropper.zoomTo(currentRatio);
-        });
+                        cropImage.src = resultUrl;
+                        if (zoomSlider) zoomSlider.value = 0;
 
-        cropImage.addEventListener('zoom', function(e) {
-            if (e.detail.ratio < minZoom) {
-                e.preventDefault();
-                cropper.zoomTo(minZoom);
-                return;
-            }
-            const maxZoom = minZoom * 3;
-            let val = ((e.detail.ratio - minZoom) / (maxZoom - minZoom)) * 100;
-            val = Math.max(0, Math.min(100, val));
-            zoomSlider.value = val;
-        });
+                        if (cropper) {
+                            try { cropper.destroy(); } catch(err){}
+                            cropper = null;
+                        }
 
-        document.getElementById('zoom-in-btn').addEventListener('click', () => {
-            let currentVal = parseInt(zoomSlider.value);
-            if(currentVal < 100) {
-                currentVal = Math.min(100, currentVal + 5);
-                zoomSlider.value = currentVal;
-                zoomSlider.dispatchEvent(new Event('input'));
-            }
-        });
+                        if (typeof Cropper !== 'undefined') {
+                            setTimeout(() => {
+                                try {
+                                    cropper = new Cropper(cropImage, {
+                                        aspectRatio: 1, viewMode: 1, dragMode: 'move', autoCropArea: 0.95,
+                                        restore: false, modal: true, guides: false, highlight: false,
+                                        cropBoxMovable: false, cropBoxResizable: false, toggleDragModeOnDblclick: false,
+                                        background: false,
+                                        ready() {
+                                            const cropBoxData = cropper.getCropBoxData();
+                                            minZoom = cropBoxData.width / cropper.getImageData().naturalWidth;
+                                            cropper.zoomTo(minZoom);
+                                        }
+                                    });
+                                } catch(err) {
+                                    console.log('Cropper init error:', err);
+                                }
+                            }, 50);
+                        } else {
+                            // Direct fallback if Cropper library is blocked
+                            applyProfilePic(resultUrl);
+                            closeCropModal();
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+                event.target.value = '';
+            });
+        }
 
-        document.getElementById('zoom-out-btn').addEventListener('click', () => {
-            let currentVal = parseInt(zoomSlider.value);
-            if(currentVal > 0) {
-                currentVal = Math.max(0, currentVal - 5);
-                zoomSlider.value = currentVal;
-                zoomSlider.dispatchEvent(new Event('input'));
-            }
-        });
+        if (zoomSlider) {
+            zoomSlider.addEventListener('input', function(e) {
+                if (!cropper) return;
+                const val = parseInt(e.target.value);
+                const maxZoom = minZoom * 3;
+                const currentRatio = minZoom + ((val / 100) * (maxZoom - minZoom));
+                cropper.zoomTo(currentRatio);
+            });
+        }
+
+        if (cropImage) {
+            cropImage.addEventListener('zoom', function(e) {
+                if (!cropper) return;
+                if (e.detail.ratio < minZoom) {
+                    e.preventDefault();
+                    cropper.zoomTo(minZoom);
+                    return;
+                }
+                const maxZoom = minZoom * 3;
+                let val = ((e.detail.ratio - minZoom) / (maxZoom - minZoom)) * 100;
+                val = Math.max(0, Math.min(100, val));
+                if (zoomSlider) zoomSlider.value = val;
+            });
+        }
+
+        const zoomInBtn = document.getElementById('zoom-in-btn');
+        if (zoomInBtn) {
+            zoomInBtn.addEventListener('click', () => {
+                if (!zoomSlider) return;
+                let currentVal = parseInt(zoomSlider.value);
+                if(currentVal < 100) {
+                    currentVal = Math.min(100, currentVal + 5);
+                    zoomSlider.value = currentVal;
+                    zoomSlider.dispatchEvent(new Event('input'));
+                }
+            });
+        }
+
+        const zoomOutBtn = document.getElementById('zoom-out-btn');
+        if (zoomOutBtn) {
+            zoomOutBtn.addEventListener('click', () => {
+                if (!zoomSlider) return;
+                let currentVal = parseInt(zoomSlider.value);
+                if(currentVal > 0) {
+                    currentVal = Math.max(0, currentVal - 5);
+                    zoomSlider.value = currentVal;
+                    zoomSlider.dispatchEvent(new Event('input'));
+                }
+            });
+        }
 
         window.closeCropModal = () => {
-            document.querySelector('.bottom-nav').style.display = 'flex';
+            const bNav = document.querySelector('.bottom-nav');
+            if (bNav) bNav.style.display = 'flex';
             cropModal.classList.remove('opacity-100', 'scale-100');
             cropModal.classList.add('opacity-0', 'scale-95');
             setTimeout(() => {
                 cropModal.classList.add('hidden');
                 cropModal.classList.remove('flex');
-                cropModal.style.display = 'none';
-                if (cropper) { cropper.destroy(); cropper = null; }
+                if (cropper) {
+                    try { cropper.destroy(); } catch(err){}
+                    cropper = null;
+                }
             }, 300);
         };
 
         window.saveCrop = () => {
+            let base64Pic = '';
             if (cropper) {
-                const canvas = cropper.getCroppedCanvas({
-                    width: 400, height: 400, imageSmoothingEnabled: true, imageSmoothingQuality: 'high',
-                });
-                const base64Pic = canvas.toDataURL('image/jpeg', 0.9);
-                const img = document.getElementById('header-profile-img');
-                img.src = base64Pic;
-                img.classList.remove('hidden');
-                img.style.display = 'block';
-                localStorage.setItem('userProfilePic', base64Pic);
-                closeCropModal();
-                
-                // Alert iframe to update its profile picture if it has one
-                const appFrame = document.getElementById('app-frame');
-                if(appFrame.contentWindow) {
-                    appFrame.contentWindow.postMessage({type: 'profilePicUpdated'}, '*');
+                try {
+                    const canvas = cropper.getCroppedCanvas({
+                        width: 400, height: 400, imageSmoothingEnabled: true, imageSmoothingQuality: 'high',
+                    });
+                    if (canvas) {
+                        base64Pic = canvas.toDataURL('image/jpeg', 0.9);
+                    }
+                } catch(err) {
+                    console.log('Cropper canvas error:', err);
                 }
             }
+            if (!base64Pic && cropImage && cropImage.src) {
+                base64Pic = cropImage.src;
+            }
+            if (base64Pic) {
+                applyProfilePic(base64Pic);
+            }
+            closeCropModal();
         };
 
         // --- Global Search System ---

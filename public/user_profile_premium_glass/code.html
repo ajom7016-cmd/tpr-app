@@ -352,7 +352,7 @@
                 <div class="absolute inset-[-8px] border border-orange-200/50 rounded-full opacity-40 z-0"></div>
                 
                 <!-- Clear Avatar Frame -->
-                <div class="avatar-frame">
+                <div class="avatar-frame cursor-pointer" onclick="try{if(window.parent&&window.parent.document.getElementById('header-pic-upload'))window.parent.document.getElementById('header-pic-upload').click();}catch(e){}" title="Change Profile Photo">
                     <img src="https://i.pravatar.cc/300?u=a042581f4e29026704d" alt="User" id="prof-avatar" width="112" height="112" onerror="this.onerror=null; this.src='https://i.pravatar.cc/300?u=a042581f4e29026704d'; localStorage.removeItem('userProfilePic');">
                 </div>
 
