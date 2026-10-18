@@ -377,8 +377,8 @@ app.post('/api/google-login', async (req, res) => {
                     if (err) return reject(err);
                     targetUser = { id: this.lastID, name: name || 'Google User', phone: dummyPhone, email, balance: startingBalance, role: 'user' };
                     if (startingBalance > 0) {
-                        db.run(`INSERT INTO transactions (user_id, type, amount, method, status, created_at) VALUES (?, 'reward', ?, 'Daily Task Reward', 'completed', datetime('now', '-1 day'))`, [this.lastID, startingBalance]);
-                        db.run(`INSERT INTO user_tasks (user_id, task_id, status, completed_at) VALUES (?, 5, 'completed', datetime('now', '-1 day'))`, [this.lastID]);
+                        db.run(`INSERT INTO transactions (user_id, type, amount, method, status, created_at) VALUES (?, 'reward', ?, 'Daily Task Reward', 'completed', datetime('now', 'localtime'))`, [this.lastID, startingBalance]);
+                        db.run(`INSERT INTO user_tasks (user_id, task_id, status, completed_at) VALUES (?, 5, 'completed', datetime('now', 'localtime'))`, [this.lastID]);
                     }
                     resolve();
                 });
