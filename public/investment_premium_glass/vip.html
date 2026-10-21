@@ -927,8 +927,8 @@
                 currentLevel = parseInt(data.vip_plan.replace(/[^0-9]/g, '')) || 0;
             }
 
-            // Free Plan (VIP 0) is expired if user has VIP 1 or higher
-            if (currentLevel > 0) {
+            // Free Plan (VIP 0) is expired if user has VIP 1 or higher, or Free 2-day limit is reached
+            if (currentLevel > 0 || data.is_free_locked) {
                 const freeBtn = document.querySelector('button[onclick*="Free Plan"]');
                 if (freeBtn) {
                     freeBtn.innerHTML = '<span class="text-[15px] font-black tracking-wide text-white">Expired</span>';

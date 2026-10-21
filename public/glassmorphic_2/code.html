@@ -302,6 +302,7 @@
                               if (localPic) vipInfo.userPic = localPic;
                           } catch (e) {}
                           window.completedTasks = p.today_tasks || 0;
+                          window.isFreeLocked = !!p.is_free_locked;
                         if(p && p.vip_plan && p.vip_plan !== 'Free') {
                             const match = p.vip_plan.match(/\d+/);
                             vipInfo.level = match ? parseInt(match[0]) : 1;

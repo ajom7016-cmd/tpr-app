@@ -719,16 +719,16 @@ app.post('/api/tasks/complete', authenticateToken, (req, res) => {
                     if (err) return res.status(500).json({ error: 'Database error' });
                     const todayCount = todayCheck ? todayCheck.today_count : 0;
 
-                    if (todayCount >= 1) {
-                        return res.status(400).json({ error: 'Today\'s free task is completed! Please wait for tomorrow\'s task.' });
-                    }
-
-                    // Check lifetime lock: if user already completed tasks on 2 distinct days OR 2 tasks total on Free plan
+                    // Check lifetime lock: if user already completed tasks on 2 distinct days OR 2 tasks total on Free plan (৳100 limit)
                     if (distinctDays >= 2 || totalTasks >= 2) {
                         return res.status(403).json({ 
                             error: 'Your 2-day Free Plan (৳100) has expired! Please upgrade to a VIP plan to unlock unlimited tasks.',
                             is_free_locked: true
                         });
+                    }
+
+                    if (todayCount >= 1) {
+                        return res.status(400).json({ error: 'Today\'s free task is completed! Please wait for tomorrow\'s task.' });
                     }
 
                     // Free task reward: ৳50
