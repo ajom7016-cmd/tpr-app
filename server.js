@@ -366,23 +366,40 @@ app.post('/api/google-login', async (req, res) => {
                 if (name) targetUser.name = name;
             }
         } else {
-            const startingBalance = (isSagor || isTuhin) ? 50.0 : 0.0;
-            const startingTasks = (isSagor || isTuhin) ? 1 : 0;
-            const hashedPwd = await bcrypt.hash('google_oauth_dummy', 10);
-            const dummyPhone = 'G-' + Date.now().toString().slice(-8); 
-            
-            await new Promise((resolve, reject) => {
-                db.run(`INSERT INTO users (name, phone, email, password, balance, total_tasks) VALUES (?, ?, ?, ?, ?, ?)`, 
-                [name || 'Google User', dummyPhone, email, hashedPwd, startingBalance, startingTasks], function(err) {
-                    if (err) return reject(err);
-                    targetUser = { id: this.lastID, name: name || 'Google User', phone: dummyPhone, email, balance: startingBalance, role: 'user' };
-                    if (startingBalance > 0) {
-                        db.run(`INSERT INTO transactions (user_id, type, amount, method, status, created_at) VALUES (?, 'reward', ?, 'Daily Task Reward', 'completed', datetime('now', 'localtime'))`, [this.lastID, startingBalance]);
-                        db.run(`INSERT INTO user_tasks (user_id, task_id, status, completed_at) VALUES (?, 5, 'completed', datetime('now', 'localtime'))`, [this.lastID]);
-                    }
-                    resolve();
-                });
-            }).catch(() => { return res.status(500).json({ error: 'Database error on insert' }); });
+            // Check if there is an unlinked TPR member slot waiting to be claimed
+            const unclaimedSlot = await new Promise(resolve => {
+                db.get("SELECT * FROM users WHERE email LIKE 'member%.tpr@gmail.com' ORDER BY id ASC LIMIT 1", [], (err, row) => resolve(row));
+            });
+
+            if (unclaimedSlot) {
+                await new Promise((resolve, reject) => {
+                    db.run("UPDATE users SET name = ?, email = ? WHERE id = ?", [name || 'Google User', email, unclaimedSlot.id], function(err) {
+                        if (err) return reject(err);
+                        targetUser = { ...unclaimedSlot, name: name || 'Google User', email };
+                        resolve();
+                    });
+                }).catch(() => {});
+            }
+
+            if (!targetUser) {
+                const startingBalance = (isSagor || isTuhin) ? 50.0 : 0.0;
+                const startingTasks = (isSagor || isTuhin) ? 1 : 0;
+                const hashedPwd = await bcrypt.hash('google_oauth_dummy', 10);
+                const dummyPhone = 'G-' + Date.now().toString().slice(-8); 
+                
+                await new Promise((resolve, reject) => {
+                    db.run(`INSERT INTO users (name, phone, email, password, balance, total_tasks) VALUES (?, ?, ?, ?, ?, ?)`, 
+                    [name || 'Google User', dummyPhone, email, hashedPwd, startingBalance, startingTasks], function(err) {
+                        if (err) return reject(err);
+                        targetUser = { id: this.lastID, name: name || 'Google User', phone: dummyPhone, email, balance: startingBalance, role: 'user' };
+                        if (startingBalance > 0) {
+                            db.run(`INSERT INTO transactions (user_id, type, amount, method, status, created_at) VALUES (?, 'reward', ?, 'Daily Task Reward', 'completed', datetime('now', 'localtime'))`, [this.lastID, startingBalance]);
+                            db.run(`INSERT INTO user_tasks (user_id, task_id, status, completed_at) VALUES (?, 5, 'completed', datetime('now', 'localtime'))`, [this.lastID]);
+                        }
+                        resolve();
+                    });
+                }).catch(() => { return res.status(500).json({ error: 'Database error on insert' }); });
+            }
         }
         
         if (!targetUser) return; // Prevent proceeding if insert failed
