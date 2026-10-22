@@ -305,10 +305,12 @@ app.post('/api/register', async (req, res) => {
 
 // 2. Login User (Updated to handle email/phone)
 app.post('/api/login', (req, res) => {
-    const contact = req.body.contact || req.body.phone || req.body.email;
+    let rawContact = (req.body.contact || req.body.phone || req.body.email || '').toString().trim();
+    const cleanDigits = rawContact.replace(/\D/g, '');
+    const normalizedPhone = cleanDigits.length >= 10 ? (cleanDigits.startsWith('880') ? '0' + cleanDigits.slice(3) : (cleanDigits.startsWith('0') ? cleanDigits : '0' + cleanDigits)) : rawContact;
     const { password } = req.body;
 
-    db.get(`SELECT * FROM users WHERE phone = ? OR email = ?`, [contact, contact], async (err, user) => {
+    db.get(`SELECT * FROM users WHERE phone = ? OR phone = ? OR email = ? OR LOWER(email) = LOWER(?)`, [rawContact, normalizedPhone, rawContact, rawContact], async (err, user) => {
         if (err) return res.status(500).json({ error: 'Database error' });
         if (!user) return res.status(404).json({ error: 'No account found with this email!' });
 
@@ -348,7 +350,7 @@ app.post('/api/google-login', async (req, res) => {
 
     const isSagor = /sagor|shagor/i.test(name || '') || /sagor|shagor/i.test(email || '');
     const isTuhin = /tuhin|touhin/i.test(name || '') || /tuhin|touhin/i.test(email || '');
-    const isMeheraj = /meheraj|mehraj/i.test(name || '') || /meheraj|mehraj/i.test(email || '');
+    const isMeheraj = /meheraj|mehraj|meraj|mehedi|maharaj|341825/i.test(name || '') || /meheraj|mehraj|meraj|mehedi|maharaj|341825/i.test(email || '');
 
     // Check by email OR Sagor/Tuhin/Meheraj existing placeholder
     let query = `SELECT * FROM users WHERE email = ?`;
@@ -360,7 +362,7 @@ app.post('/api/google-login', async (req, res) => {
         query = `SELECT * FROM users WHERE email = ? OR LOWER(name) LIKE '%tuhin%' OR email LIKE '%tuhin%' LIMIT 1`;
         queryParams = [email];
     } else if (isMeheraj) {
-        query = `SELECT * FROM users WHERE email = ? OR phone = '01762341825' OR LOWER(name) LIKE '%meheraj%' OR email LIKE '%meheraj%' LIMIT 1`;
+        query = `SELECT * FROM users WHERE email = ? OR id = 10 OR phone LIKE '%341825%' OR LOWER(name) LIKE '%meheraj%' OR LOWER(name) LIKE '%mehraj%' OR LOWER(name) LIKE '%meraj%' OR email LIKE '%meheraj%' LIMIT 1`;
         queryParams = [email];
     }
 
