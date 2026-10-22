@@ -176,7 +176,7 @@ function initDb() {
             { id: 7, name: 'Mr Ajom', phone: 'G-82014220', email: 'ajom7016@gmail.com', balance: 0.0, vip: 'Free', ref: 'TPR1007AJM' },
             { id: 8, name: 'Sagor', phone: 'G-sagor-user', email: 'sagor.tpr.user@gmail.com', balance: 50.0, vip: 'Free', ref: 'TPR1008SGR' },
             { id: 9, name: 'Tuhin', phone: 'G-tuhin-user', email: 'tuhin.tpr.user@gmail.com', balance: 50.0, vip: 'Free', ref: 'TPR1009THN' },
-            { id: 10, name: 'User 1', phone: 'G-user-1001', email: 'member1.tpr@gmail.com', balance: 50.0, vip: 'Free', ref: 'TPR1010M01' },
+            { id: 10, name: 'Meheraj', phone: '01762341825', email: 'meheraj.tpr.user@gmail.com', balance: 100.0, vip: 'Free', ref: 'TPR1010MHJ' },
             { id: 11, name: 'User 2', phone: 'G-user-1002', email: 'member2.tpr@gmail.com', balance: 50.0, vip: 'Free', ref: 'TPR1011M02' },
             { id: 12, name: 'User 3', phone: 'G-user-1003', email: 'member3.tpr@gmail.com', balance: 50.0, vip: 'Free', ref: 'TPR1012M03' }
         ];
